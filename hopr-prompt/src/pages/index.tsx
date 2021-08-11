@@ -21,9 +21,10 @@ import Cookies from "js-cookie";
 
 const Index = () => {
   const [online, setOnline] = useState<boolean>(false);
+  const [connected, setConnected] = useState<boolean>(false);
   const [serverURL, setServerURL] = useState<string>("");
   const [maybeServerURL, setMaybeServerURL] = useState<string>("");
-  const [apiToken, setApiToken] = useState<string>();
+  const [apiToken, setApiToken] = useState<string>("");
   const [isLoadingServer, setLoadingServer] = useState<boolean>(false);
   const [ws, setWs] = useState<any>();
   const toast = useToast();
@@ -37,7 +38,7 @@ const Index = () => {
     if (!serverURL || serverURL.length == 0 || serverURL == "") {
       return;
     }
-    console.log("Connecting to", serverURL)
+    console.log("Connecting to", serverURL);
     const ws = w3cwebsocket(serverURL);
 
     ws.onopen = () => {
@@ -56,13 +57,13 @@ const Index = () => {
     return () => {
       console.log("Clearing out state changes.");
       //TODO: Ensure this doesn't get called twice
-      handleDisconnect();
+      //handleDisconnect();
     };
   }, [serverURL]);
 
   const handleKeyPress = (event) => {
     if (event.charCode === 13 && online) {
-      ws.send(event.target.value);
+      ws.send(`sign ${event.target.value}`);
     }
   };
 
@@ -76,21 +77,58 @@ const Index = () => {
     console.log(`Online timeout ${onlineTimeout} was updated`);
   };
 
+  const handleConnect = () => {
+    try {
+      const url = new URL(maybeServerURL);
+      console.log("maybeServerURL", maybeServerURL);
+      console.log("API TOKEN", apiToken);
+      console.log("Cookies from", Cookies.get("X-Auth-Token"));
+      setLoadingServer(true);
+      setServerURL(`${maybeServerURL}?apiToken=${apiToken}`);
+      setInterval(() => {
+        setLoadingServer(false);
+        setServerURL('')
+      }, SERVER_TIMEOUT_IN_MS);
+    } catch {
+      console.log("Invalid URL");
+      toast({
+        title: "Invalid URL",
+        description: `The URL provided is invalid`,
+        status: "error",
+        duration: 6000,
+        isClosable: true,
+      });
+    }
+  };
+
   const handleDisconnect = () => {
     console.log("Handle Disconnect has been called");
     ws && ws.close();
     console.log("Timeout", onlineTimeout);
+    console.log("Connected", connected);
+    // Connected will only be true if we received a message at
+    // least once. If this isn’t the case, the server is offline.
+    // if (!connected) {
+    //   toast({
+    //     title: "Offline node",
+    //     description: `We were unable to connect to node, please verify URL or node status.`,
+    //     status: "warning",
+    //     duration: 6000,
+    //     isClosable: true,
+    //   });
+    // }
     if (onlineTimeout) {
       console.log("Timeout was found in disconnect, clearing out");
       clearTimeout(onlineTimeout);
     }
-    setServerURL("");
-    setMaybeServerURL("");
     setOnline(false);
+    setConnected(false);
   };
 
   const handleMessages = (message) => {
-    console.log("MESSAGE RECIEVED", message);
+    setConnected(true);
+    console.log("CONNECTED", connected);
+    console.log("Connection established", message);
     if (!message) {
       return;
     }
@@ -132,11 +170,11 @@ const Index = () => {
         {online ? (
           <Box>
             <InputGroup size="md">
-              <FormLabel>Send command</FormLabel>
+              <FormLabel>Sign message</FormLabel>
               <Input
                 pr="4.5rem"
                 type="text"
-                placeholder="Send a command to your node."
+                placeholder="Describe the message you will sign."
                 onKeyPress={handleKeyPress}
               />
               <InputRightElement width="5rem">
@@ -166,6 +204,7 @@ const Index = () => {
               isDisabled={isLoadingServer}
               mx="2"
               name="url"
+              value={maybeServerURL}
               onChange={(event) => setMaybeServerURL(event.target.value)}
               type="text"
               placeholder="Your node web socket URL"
@@ -175,6 +214,7 @@ const Index = () => {
               isDisabled={isLoadingServer}
               mx="2"
               name="apiToken"
+              value={apiToken}
               onChange={(event) => setApiToken(event.target.value)}
               type="password"
               placeholder="Your API token (if any)"
@@ -185,16 +225,7 @@ const Index = () => {
               minWidth="100px"
               colorScheme="green"
               isLoading={isLoadingServer}
-              onClick={() => {
-                console.log("API TOKEN", apiToken);
-                Cookies.set("X-Auth-Token", apiToken);
-                console.log("Cookies from", Cookies.get("X-Auth-Token"));
-                setLoadingServer(true);
-                setServerURL(maybeServerURL);
-                setInterval(() => {
-                  setLoadingServer(false);
-                }, SERVER_TIMEOUT_IN_MS);
-              }}
+              onClick={handleConnect}
             >
               Connect
             </Button>
