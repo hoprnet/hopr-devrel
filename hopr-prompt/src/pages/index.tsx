@@ -84,7 +84,7 @@ const Index = () => {
       console.log("API TOKEN", apiToken);
       console.log("Cookies from", Cookies.get("X-Auth-Token"));
       setLoadingServer(true);
-      setServerURL(`${maybeServerURL}?apiToken=${apiToken}`);
+      setServerURL(`${maybeServerURL}?apiToken=${encodeURIComponent(apiToken)}`);
       setInterval(() => {
         setLoadingServer(false);
         setServerURL('')
