@@ -39,9 +39,11 @@ jobs:
           yarn build-contract
       - name: Generate the config for a particular network
         env:
-          NETWORK: ${{ matrix.label }}
+          NETWORK: ${{ matrix.network }}
+          LABEL: ${{ matrix.label }}
         run: |
           NETWORK=${{ env.NETWORK }} yarn build-config
+          sed -i "s/${{ env.NETWORK }}/${{ env.LABEL }}/" config/${{ env.NETWORK }}.json
       - name: Define the subgraph based on the previous config
         env:
           NETWORK: ${{ matrix.network }}
