@@ -2,10 +2,9 @@ name: Subgraph Deploy
 
 on:
   push:
-    branches: ['main', 'jjperezaguinaga/subgraph'] # @TODO: Modify before merge
+    branches: ['main']
     paths:
       - 'subgraph/**'
-      - '.github/workflows/deploy-subgraph.yaml'
 
 defaults:
   run:
