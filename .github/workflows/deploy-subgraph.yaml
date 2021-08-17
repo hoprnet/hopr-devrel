@@ -53,4 +53,4 @@ jobs:
         env:
           NETWORK: ${{ matrix.network }}
         run: |
-          npm run deploy -- hoprnet/hopr-channels-${{ env.NETWORK }} --accessToken ${{ secrets.THEGRAPH_LEGACY_ACCESS_TOKEN }}
+          yarn deploy -- hoprnet/hopr-channels-${{ env.NETWORK }} --accessToken ${{ secrets.THEGRAPH_LEGACY_ACCESS_TOKEN }}
