@@ -68,3 +68,7 @@ config/*.json
 
 # Schema will be defined per network
 subgraph.yaml
+
+# Remove all generated stuff
+build
+generated
