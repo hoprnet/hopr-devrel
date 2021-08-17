@@ -18,6 +18,9 @@ jobs:
     strategy:
       matrix:
         network: ['polygon']
+        include:
+          - network: polygon
+            label: matic
 
     steps:
       - uses: actions/checkout@v2
@@ -35,7 +38,7 @@ jobs:
           yarn build-contract
       - name: Generate the config for a particular network
         env:
-          NETWORK: ${{ matrix.network }}
+          NETWORK: ${{ matrix.label }}
         run: |
           NETWORK=${{ env.NETWORK }} yarn build-config
       - name: Define the subgraph based on the previous config
