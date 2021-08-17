@@ -1,0 +1,61 @@
+name: Subgraph Deploy
+
+on:
+  push:
+    branches: ['main']
+    paths:
+      - 'subgraph/**'
+
+defaults:
+  run:
+    working-directory: ./subgraph/packages/subgraph-code
+
+jobs:
+  build:
+    name: Build subgraph code
+    runs-on: 'ubuntu-latest'
+
+    strategy:
+      matrix:
+        network: ['polygon']
+        include:
+          - network: polygon
+            label: matic
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies
+        run: |
+          yarn
+      - name: Obtain ABI from our latest HOPRnet npm package
+        run: |
+          yarn build-contract
+      - name: Generate the config for a particular network
+        env:
+          NETWORK: ${{ matrix.network }}
+          LABEL: ${{ matrix.label }}
+        run: |
+          NETWORK=${{ env.NETWORK }} yarn build-config
+          sed -i "s/${{ env.NETWORK }}/${{ env.LABEL }}/" config/${{ env.NETWORK }}.json
+      - name: Define the subgraph based on the previous config
+        env:
+          NETWORK: ${{ matrix.network }}
+        run: |
+          NETWORK=${{ env.NETWORK }} yarn define
+      - name: Generate assembly script types 
+        run: |
+          yarn codegen
+      - name: Build wasm build for IPFS via graph-cli
+        run: |
+          yarn build
+      - name: Deploy subgraph to legacy explorer
+        env:
+          NETWORK: ${{ matrix.network }}
+        run: |
+          yarn deploy -- hoprnet/hopr-channels-${{ env.NETWORK }} --accessToken ${{ secrets.THEGRAPH_LEGACY_ACCESS_TOKEN }}

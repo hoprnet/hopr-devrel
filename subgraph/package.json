@@ -1,0 +1,10 @@
+{
+  "name": "subgraph",
+  "version": "1.0.0",
+  "description": "Subgraph for HOPR channels",
+  "main": "index.js",
+  "repository": "https://github.com/hoprnet/hopr-devrel",
+  "author": "Jose Aguinaga <me@jjperezaguinaga.com>",
+  "license": "GPLv3",
+  "private": true
+}
