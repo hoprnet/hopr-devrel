@@ -5,6 +5,7 @@ on:
     branches: ['main', 'jjperezaguinaga/subgraph'] # @TODO: Modify before merge
     paths:
       - 'subgraph/**'
+      - '.github/workflows/deploy-subgraph.yaml'
 
 defaults:
   run:
@@ -38,9 +39,9 @@ jobs:
           yarn build-contract
       - name: Generate the config for a particular network
         env:
-          LABEL: ${{ matrix.label }}
+          NETWORK: ${{ matrix.label }}
         run: |
-          NETWORK=${{ env.LABEL }} yarn build-config
+          NETWORK=${{ env.NETWORK }} yarn build-config
       - name: Define the subgraph based on the previous config
         env:
           NETWORK: ${{ matrix.network }}
