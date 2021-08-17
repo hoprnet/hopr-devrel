@@ -9,7 +9,7 @@
     "create-local": "graph create hoprnet/hopr-channels-polygon --node http://127.0.0.1:8020",
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/",
     "deploy-local": "graph deploy hoprnet/hopr-channels-polygon --ipfs http://localhost:5001 --node http://127.0.0.1:8020"
   },
   "devDependencies": {
