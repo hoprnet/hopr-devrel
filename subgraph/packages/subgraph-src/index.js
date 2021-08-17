@@ -1,0 +1,1 @@
+console.log(`${require(`@hoprnet/hopr-ethereum/deployments/default/${process.env.NETWORK}/HoprToken.json`).address}`)

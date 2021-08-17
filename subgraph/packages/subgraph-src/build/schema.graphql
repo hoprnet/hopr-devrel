@@ -1,0 +1,31 @@
+type Account @entity {
+  # account's address
+  id: ID!
+  multiaddr: Bytes
+  # the channels which the Account is part of"
+  channels: [Channel]!
+  # has the Account set a multiaddr?"
+  hasAnnounced: Boolean!
+}
+
+enum ChannelStatus @entity {
+  CLOSED
+  WAITING_FOR_COMMITMENT
+  OPEN
+  PENDING_TO_CLOSE
+}
+
+type Channel @entity {
+  id: ID!
+  source: Account!
+  destination: Account!
+  balance: BigInt!
+  commitment: Bytes!
+  ticketEpoch: BigInt!
+  ticketIndex: BigInt!
+  status: ChannelStatus!
+  # timestamp when it was opened
+  openedAt: BigInt
+  # timestamp when it was closed
+  closedAt: BigInt
+}

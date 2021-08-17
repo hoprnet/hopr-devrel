@@ -1,0 +1,28 @@
+{
+  "name": "hopr-channels-polygon",
+  "version": "0.1.0",
+  "scripts": {
+    "build-contract": "node -e 'console.log(JSON.stringify(require(\"@hoprnet/hopr-ethereum/deployments/default/polygon/HoprChannels.json\").abi))' > abis/HoprChannels.json",
+    "build-config": "node -e 'console.log(`{\"network\": \"${process.env.NETWORK}\",\"channelAddress\": ${JSON.stringify(require(`@hoprnet/hopr-ethereum/deployments/default/${process.env.NETWORK}/HoprChannels.json`).address)}, \"startBlock\": ${JSON.stringify(require(`@hoprnet/hopr-ethereum/deployments/default/${process.env.NETWORK}/HoprChannels.json`).blockNumber)}}`)' > config/$NETWORK.json",
+    "define": "mustache config/$NETWORK.json subgraph.template.yaml > subgraph.yaml",
+    "create": "graph create hoprnet/hopr-channels-polygon --node https://api.thegraph.com/deploy/",
+    "create-local": "graph create hoprnet/hopr-channels-polygon --node http://127.0.0.1:8020",
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy hoprnet/hopr-channels-polygon --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy-local": "graph deploy hoprnet/hopr-channels-polygon --ipfs http://localhost:5001 --node http://127.0.0.1:8020"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.20.1",
+    "@graphprotocol/graph-ts": "^0.20.0",
+    "mustache": "^4.2.0"
+  },
+  "dependencies": {
+    "@hoprnet/hopr-ethereum": "^1.76.0-next.9",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "truffle": "^5.0.4",
+    "truffle-contract": "^4.0.5",
+    "truffle-hdwallet-provider": "^1.0.4"
+  }
+}
