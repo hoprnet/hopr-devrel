@@ -22,6 +22,7 @@ export function handleChannelUpdate(event: ChannelUpdate): void {
         channel = new Channel(channelId);
     }
 
+    log.info(`[ info ] New State: {}`, [event.params.newState.toString() as string]);
     log.info(`[ info ] Status: {}`, [event.params.newState.status as string]);
     channel.source = event.params.source.toHexString();
     channel.destination = event.params.destination.toHexString();
