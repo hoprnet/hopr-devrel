@@ -46,7 +46,7 @@ jobs:
         run: |
           NETWORK=${{ env.NETWORK }} yarn build-config
           sed -i "s/${{ env.NETWORK }}/${{ env.LABEL }}/" config/${{ env.NETWORK }}.json
-          sed -i "s/\([0-9]\+\)/${{ env.STARTBLOCK }}/" config/${{ env.NETWORK }}.json
+          sed -i "s/\ \([0-9]\+\)/${{ env.STARTBLOCK }}/" config/${{ env.NETWORK }}.json
       - name: Define the subgraph based on the previous config
         env:
           NETWORK: ${{ matrix.network }}
