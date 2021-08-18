@@ -5,6 +5,7 @@ on:
     branches: ['main']
     paths:
       - 'subgraph/**'
+      - '.github/workflows/deploy-subgraph.yaml'
 
 defaults:
   run:
