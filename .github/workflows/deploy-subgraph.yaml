@@ -22,7 +22,7 @@ jobs:
         include:
           - network: polygon
             label: matic
-            startBlock: 18040747
+            # startBlock: 18040747 # Removing start block to retrigger logging/fetching
 
     steps:
       - uses: actions/checkout@v2
