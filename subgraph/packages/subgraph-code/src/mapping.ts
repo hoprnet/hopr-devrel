@@ -46,7 +46,6 @@ export function handleChannelUpdate(event: ChannelUpdate): void {
     let account = Account.load(channel.source)
     log.info(`[ info ] Account: {}`, [account.id]);
     let channels = account.channels;
-    log.info(`[ info ] Channels: {}`, [channels.length.toString()]);
     channels.push(channelId);
     account.channels = channels;
     account.save()
