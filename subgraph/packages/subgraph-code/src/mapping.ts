@@ -22,22 +22,31 @@ export function handleChannelUpdate(event: ChannelUpdate): void {
         channel = new Channel(channelId);
     }
 
-    log.info(`[ info ] New State: {}`, [event.params.newState.toString() as string]);
     log.info(`[ info ] Status: {}`, [event.params.newState.status as string]);
     channel.source = event.params.source.toHexString();
+    log.info(`[ info ] Source: {}`, [channel.source]);
     channel.destination = event.params.destination.toHexString();
+    log.info(`[ info ] Destination: {}`, [channel.destination]);
     channel.balance = event.params.newState.balance;
+    log.info(`[ info ] Balance: {}`, [channel.balance.toString()]);
     channel.commitment = event.params.newState.commitment;
+    log.info(`[ info ] Commitment: {}`, [channel.destination]);
     channel.ticketEpoch = event.params.newState.ticketEpoch;
+    log.info(`[ info ] ticketEpoch: {}`, [channel.ticketEpoch.toString()]);
     channel.ticketIndex = event.params.newState.ticketIndex;
+    log.info(`[ info ] ticketEpoch: {}`, [channel.ticketIndex.toString()]);
     if (event.params.newState.status as string == '') {
         channel.status = 'WAITING_FOR_COMMITMENT'
+        log.info(`[ info ] New Status: {}`, [channel.status]);
     } else {
         channel.status = event.params.newState.status as string
+        log.info(`[ info ] New Status: {}`, [channel.status]);
     }
 
-    let account = Account.load(event.params.source.toHexString())
+    let account = Account.load(channel.source)
+    log.info(`[ info ] Account: {}`, [account.id]);
     let channels = account.channels;
+    log.info(`[ info ] Channels: {}`, [channels.length.toString()]);
     channels.push(channelId);
     account.channels = channels;
     account.save()
