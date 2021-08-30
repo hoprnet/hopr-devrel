@@ -1,31 +1,40 @@
+type Transaction @entity {
+  id: ID!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+  from: Account!
+  channelUpdates: [Channel!]! @derivedFrom(field: "tx")
+}
+
 type Account @entity {
   # account's address
   id: ID!
+  # account's multiaddrs
   multiaddr: Bytes
-  # the channels which the Account is part of"
-  channels: [Channel]!
+  # the channel transactions this account has done"
+  transactions: [Transaction!]! @derivedFrom(field: "from")
   # has the Account set a multiaddr?"
-  hasAnnounced: Boolean!
-}
-
-enum ChannelStatus @entity {
-  CLOSED
-  WAITING_FOR_COMMITMENT
-  OPEN
-  PENDING_TO_CLOSE
+  hasAnnounced: Boolean
 }
 
 type Channel @entity {
+  # the channel's id, source.address-destination.address
   id: ID!
+  # the origin direction of the channel
   source: Account!
+  # the destination direction of the channel
   destination: Account!
+  # the balance the channel has
   balance: BigInt!
+  # the secret hash inside the channel
   commitment: Bytes!
   ticketEpoch: BigInt!
   ticketIndex: BigInt!
-  status: ChannelStatus!
+  status: String
   # timestamp when it was opened
   openedAt: BigInt
   # timestamp when it was closed
   closedAt: BigInt
+  # blockchain transaction of update
+  tx: Transaction!
 }
