@@ -30,7 +30,7 @@ type Channel @entity {
   commitment: Bytes!
   ticketEpoch: BigInt!
   ticketIndex: BigInt!
-  status: String
+  status: Int
   # timestamp when it was opened
   openedAt: BigInt
   # timestamp when it was closed

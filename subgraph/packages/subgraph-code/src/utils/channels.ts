@@ -18,7 +18,7 @@ export namespace channels {
     channel.commitment = event.params.newState.commitment;
     channel.ticketEpoch = event.params.newState.ticketEpoch;
     channel.ticketIndex = event.params.newState.ticketIndex;
-    channel.status = event.params.newState.status as string;
+    channel.status = event.params.newState.status;
     channel.tx = tx.id;
 
     return channel as Channel
