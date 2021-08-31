@@ -9,6 +9,7 @@ export namespace channels {
 
   export function create(event: ChannelUpdate, tx: Transaction): Channel {
     let channelId = crypto.keccak256(concat(event.params.source, event.params.destination)).toHexString()
+        .concat("-").concat(event.transactionLogIndex.toHexString())
     let channel = new Channel(channelId);
 
     channel.source = accounts.getAccount(event.params.source as Address).id;
