@@ -1,17 +1,26 @@
+import { BigInt, log } from '@graphprotocol/graph-ts';
 import { Announcement, ChannelUpdate } from '../generated/HoprChannels/HoprChannels'
-import { Account, Channel, Transaction } from '../generated/schema'
+import { Account, Channel } from '../generated/schema'
 import { accounts, channels } from './utils';
-import { transactions } from './utils/transactions';
 
 export function handleAnnouncement(event: Announcement): void {
-    let account = accounts.getAccount(event.transaction.from) as Account
-    account.multiaddr = event.params.multiaddr;
-    account.hasAnnounced = true;
-    account.save()
+  let account = accounts.getAccount(event.transaction.from) as Account
+  account.multiaddr = event.params.multiaddr;
+  account.hasAnnounced = true;
+  account.save()
 }
 
 export function handleChannelUpdate(event: ChannelUpdate): void {
-    let tx = transactions.log(event) as Transaction
-    let channel = channels.create(event, tx) as Channel
-    channel.save()
+  let account = accounts.getAccount(event.transaction.from) as Account;
+  let channel = channels.create(event) as Channel
+  switch (channel.status) {
+    case 2:
+      account.openedChannels = account.openedChannels + 1
+      account.totalStaked = account.totalStaked.plus(event.params.newState.balance)
+      break;
+    case 3:
+      account.closedChannels = account.closedChannels + 1
+      break
+  }
+  account.save()
 }

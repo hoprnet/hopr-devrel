@@ -1,4 +1,4 @@
-import { Address } from "@graphprotocol/graph-ts";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { Account } from "../../generated/schema";
 
 export namespace accounts {
@@ -8,6 +8,9 @@ export namespace accounts {
   
       if (account == null) {
         account = new Account(address.toHexString());
+        account.openedChannels = 0
+        account.closedChannels = 0
+        account.totalStaked = BigInt.fromString('0')
         account.save();
       }
   

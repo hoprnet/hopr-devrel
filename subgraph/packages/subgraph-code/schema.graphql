@@ -1,18 +1,14 @@
-type Transaction @entity {
-  id: ID!
-  timestamp: BigInt!
-  blockNumber: BigInt!
-  from: Account!
-  channelUpdates: [Channel!]! @derivedFrom(field: "tx")
-}
-
 type Account @entity {
   # account's address
   id: ID!
   # account's multiaddrs
   multiaddr: Bytes
-  # the channel transactions this account has done"
-  transactions: [Transaction!]! @derivedFrom(field: "from")
+  # the channels this account has opened
+  openedChannels: Int!
+  # the channels this account has closed
+  closedChannels: Int!
+  # the initial balance used for channels
+  totalStaked: BigInt!
   # has the Account set a multiaddr?"
   hasAnnounced: Boolean
 }
@@ -30,11 +26,9 @@ type Channel @entity {
   commitment: Bytes!
   ticketEpoch: BigInt!
   ticketIndex: BigInt!
-  status: Int
+  status: Int!
   # timestamp when it was opened
   openedAt: BigInt
   # timestamp when it was closed
   closedAt: BigInt
-  # blockchain transaction of update
-  tx: Transaction!
 }
