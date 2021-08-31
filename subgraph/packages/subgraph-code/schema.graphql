@@ -1,3 +1,10 @@
+type Testnet @entity {
+  # General testnet
+  id: ID!
+  # Aggregator of every single node registered
+  nodes: [Account!]! @derivedFrom(field: "testnet")
+}
+
 type Account @entity {
   # account's address
   id: ID!
@@ -11,6 +18,8 @@ type Account @entity {
   totalStaked: BigInt!
   # has the Account set a multiaddr?"
   hasAnnounced: Boolean
+  # testnet used for analytics
+  testnet: Testnet
 }
 
 type Channel @entity {
