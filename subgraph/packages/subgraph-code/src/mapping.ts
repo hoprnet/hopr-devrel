@@ -1,14 +1,12 @@
 import { BigInt, log } from '@graphprotocol/graph-ts';
 import { Announcement, ChannelUpdate } from '../generated/HoprChannels/HoprChannels'
-import { Account, Channel, Testnet } from '../generated/schema'
-import { accounts, channels, testnets } from './utils';
+import { Account, Channel } from '../generated/schema'
+import { accounts, channels } from './utils';
 
 export function handleAnnouncement(event: Announcement): void {
-  let testnet = testnets.loadTestnet('wildhorn') as Testnet
   let account = accounts.getAccount(event.transaction.from) as Account
   account.multiaddr = event.params.multiaddr;
   account.hasAnnounced = true;
-  account.testnet = testnet.id;
   account.save()
 }
 

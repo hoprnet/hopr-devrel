@@ -20,6 +20,8 @@ export namespace channels {
     channel.ticketIndex = event.params.newState.ticketIndex;
     channel.status = event.params.newState.status;
 
+    channel.save()
+
     return channel as Channel
   }
 }

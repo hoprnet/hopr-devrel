@@ -1,10 +1,3 @@
-type Testnet @entity {
-  # General testnet
-  id: ID!
-  # Aggregator of every single node registered
-  nodes: [Account!]! @derivedFrom(field: "testnet")
-}
-
 type Account @entity {
   # account's address
   id: ID!
@@ -14,12 +7,14 @@ type Account @entity {
   openedChannels: Int!
   # the channels this account has closed
   closedChannels: Int!
+  # channels this account openned
+  incomingChannels: [Channel!]! @derivedFrom(field: "source")
+  # channels opened against this account
+  outgoingChannels: [Channel!]! @derivedFrom(field: "destination")
   # the initial balance used for channels
   totalStaked: BigInt!
   # has the Account set a multiaddr?"
   hasAnnounced: Boolean
-  # testnet used for analytics
-  testnet: Testnet
 }
 
 type Channel @entity {
