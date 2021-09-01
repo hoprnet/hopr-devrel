@@ -1,57 +1,42 @@
-import { log, crypto, Value } from '@graphprotocol/graph-ts'
-import { concat } from '@graphprotocol/graph-ts/helper-functions'
 import { Announcement, ChannelUpdate } from '../generated/HoprChannels/HoprChannels'
 import { Account, Channel } from '../generated/schema'
+import { accounts, channels } from './utils';
 
 export function handleAnnouncement(event: Announcement): void {
-    log.info(`[ info ] Address of the account announcing itself: {}`, [event.params.account.toHexString()]);
-    let account = new Account(event.params.account.toHexString())
-    account.multiaddr = event.params.multiaddr;
-    account.channels = [];
-    account.hasAnnounced = true;
-    account.save()
+  let account = accounts.getAccount(event.transaction.from) as Account
+  account.multiaddr = event.params.multiaddr;
+  account.hasAnnounced = true;
+  account.save()
 }
 
 export function handleChannelUpdate(event: ChannelUpdate): void {
-    log.info(`[ info ] Address of the account updating the channel: {}`, [event.params.source.toHexString()]);
-    let channelId = crypto.keccak256(concat(event.params.source, event.params.destination)).toHexString()
-    let channel = Channel.load(channelId);
-    log.info(`[ info ] Channel ID: {}`, [channelId]);
+  let account = accounts.getAccount(event.transaction.from) as Account;
+  let channel = channels.getChannel(event) as Channel
 
-    if (channel == null) {
-        channel = new Channel(channelId);
-    }
+  let newStatus = event.params.newState.status;
 
-    log.info(`[ info ] Status: {}`, [event.params.newState.status as string]);
-    channel.source = event.params.source.toHexString();
-    channel.destination = event.params.destination.toHexString();
-    channel.balance = event.params.newState.balance;
-    channel.commitment = event.params.newState.commitment;
-    channel.ticketEpoch = event.params.newState.ticketEpoch;
-    channel.ticketIndex = event.params.newState.ticketIndex;
-    if (event.params.newState.status as string == '') {
-        channel.status = 'WAITING_FOR_COMMITMENT'
-    } else {
-        channel.status = event.params.newState.status as string
-    }
-
-    let account = Account.load(event.params.source.toHexString())
-    let channels = account.channels;
-    channels.push(channelId);
-    account.channels = channels;
-    account.save()
-
-    /*
-     * See https://github.com/hoprnet/hoprnet/blob/215d406a07f43078df9d517953d3789036668705/packages/utils/src/types/channelEntry.ts#L7-L12
-     * Closed = 0,
-     * WaitingForCommitment = 1,
-     * Open = 2,
-     * PendingToClose = 3
-     */
-    if (event.params.newState.status == 2) {
-        channel.openedAt = event.block.timestamp;
-    } else if (event.params.newState.status == 0) {
-        channel.closedAt = event.block.timestamp;
-    }
-    channel.save();
+  switch (channel.status) {
+    case 0:
+      // Transition from (0) Closed -> Open (2) = OPEN
+      if (newStatus == 2) {
+        account.openedChannels = account.openedChannels + 1
+        account.totalStaked = account.totalStaked.plus(event.params.newState.balance)
+      }
+      break;
+    case 1:
+      // Transition from (1) Waiting For Commitment -> Open (2) = OPEN
+      if (newStatus == 2) {
+        account.openedChannels = account.openedChannels + 1
+        account.totalStaked = account.totalStaked.plus(event.params.newState.balance)
+      }
+      break;
+    case 3:
+      // Transition from (3) Pending To Close -> Closed (0) = CLOSED
+      if (newStatus == 0) {
+        account.closedChannels = account.closedChannels + 1
+      }
+      break
+  }
+  channels.update(event)
+  account.save()
 }

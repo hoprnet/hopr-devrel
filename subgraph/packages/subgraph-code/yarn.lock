@@ -58,10 +58,10 @@
   dependencies:
     assemblyscript "https://github.com/AssemblyScript/assemblyscript#36040d5b5312f19a025782b5e36663823494c2f3"
 
-"@hoprnet/hopr-ethereum@^1.76.0-next.9":
-  version "1.76.0-next.9"
-  resolved "https://registry.yarnpkg.com/@hoprnet/hopr-ethereum/-/hopr-ethereum-1.76.0-next.9.tgz#be4ebbacd5baf7ab20b7b1a69de788e335d0eba4"
-  integrity sha512-GCPWgNt/cYMun4aVIg3o4Remk8Ha4JG/7mqp6oQQ9M4oi6uyBSsEncs1nPqUo8J3JdUrou0AfRdfhLwN4fzJGQ==
+"@hoprnet/hopr-ethereum@1.76.7":
+  version "1.76.7"
+  resolved "https://registry.yarnpkg.com/@hoprnet/hopr-ethereum/-/hopr-ethereum-1.76.7.tgz#4af4300781eb1bf4839a51f2f19d76bbe9dffb61"
+  integrity sha512-gSaUX2sc3reG1NYml1bTCnZe7MWsS8l61kH9Nt/YeE2zV5/c2/DYorD4EMJ4Yzo5oEXnudo6oWrfJIzYQA/5GA==
   dependencies:
     "@openzeppelin/contracts" "4.2.0"
     "@openzeppelin/contracts-v3-0-1" "npm:@openzeppelin/contracts@3.0.1"

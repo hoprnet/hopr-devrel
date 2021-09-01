@@ -1,29 +1,36 @@
 type Account @entity {
   # account's address
   id: ID!
+  # account's multiaddrs
   multiaddr: Bytes
-  # the channels which the Account is part of"
-  channels: [Channel]!
+  # the channels this account has opened
+  openedChannels: Int!
+  # the channels this account has closed
+  closedChannels: Int!
+  # channels this account openned
+  incomingChannels: [Channel!]! @derivedFrom(field: "source")
+  # channels opened against this account
+  outgoingChannels: [Channel!]! @derivedFrom(field: "destination")
+  # the initial balance used for channels
+  totalStaked: BigInt!
   # has the Account set a multiaddr?"
-  hasAnnounced: Boolean!
-}
-
-enum ChannelStatus @entity {
-  CLOSED
-  WAITING_FOR_COMMITMENT
-  OPEN
-  PENDING_TO_CLOSE
+  hasAnnounced: Boolean
 }
 
 type Channel @entity {
+  # the channel's id, source.address-destination.address
   id: ID!
+  # the origin direction of the channel
   source: Account!
+  # the destination direction of the channel
   destination: Account!
+  # the balance the channel has
   balance: BigInt!
+  # the secret hash inside the channel
   commitment: Bytes!
   ticketEpoch: BigInt!
   ticketIndex: BigInt!
-  status: ChannelStatus!
+  status: Int!
   # timestamp when it was opened
   openedAt: BigInt
   # timestamp when it was closed

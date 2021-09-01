@@ -72,3 +72,4 @@ subgraph.yaml
 # Remove all generated stuff
 build
 generated
+data
