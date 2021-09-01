@@ -1,4 +1,3 @@
-import { BigInt, log } from '@graphprotocol/graph-ts';
 import { Announcement, ChannelUpdate } from '../generated/HoprChannels/HoprChannels'
 import { Account, Channel } from '../generated/schema'
 import { accounts, channels } from './utils';
@@ -12,7 +11,7 @@ export function handleAnnouncement(event: Announcement): void {
 
 export function handleChannelUpdate(event: ChannelUpdate): void {
   let account = accounts.getAccount(event.transaction.from) as Account;
-  let channel = channels.create(event) as Channel
+  let channel = channels.getChannel(event) as Channel
 
   let newStatus = event.params.newState.status;
 
@@ -31,5 +30,6 @@ export function handleChannelUpdate(event: ChannelUpdate): void {
       }
       break
   }
+  channels.update(event)
   account.save()
 }
