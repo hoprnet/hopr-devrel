@@ -2,7 +2,7 @@ name: Subgraph Deploy
 
 on:
   push:
-    branches: ['main']
+    branches: ['release/subgraph']
     paths:
       - 'subgraph/**'
       - '.github/workflows/deploy-subgraph.yaml'
