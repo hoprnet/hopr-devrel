@@ -16,15 +16,22 @@ export function handleChannelUpdate(event: ChannelUpdate): void {
   let newStatus = event.params.newState.status;
 
   switch (channel.status) {
+    case 0:
+      // Transition from (0) Closed -> Open (2) = OPEN
+      if (newStatus == 2) {
+        account.openedChannels = account.openedChannels + 1
+        account.totalStaked = account.totalStaked.plus(event.params.newState.balance)
+      }
+      break;
     case 1:
-      // Transition from Waiting For Commitment -> Open
+      // Transition from (1) Waiting For Commitment -> Open (2) = OPEN
       if (newStatus == 2) {
         account.openedChannels = account.openedChannels + 1
         account.totalStaked = account.totalStaked.plus(event.params.newState.balance)
       }
       break;
     case 3:
-      // Transition from Pending To Close -> Closed
+      // Transition from (3) Pending To Close -> Closed (0) = CLOSED
       if (newStatus == 0) {
         account.closedChannels = account.closedChannels + 1
       }
