@@ -2,7 +2,7 @@ name: Subgraph Deploy
 
 on:
   push:
-    branches: ['main', 'jjperezaguinaga/mapping-bug-5'] # @TODO: Remove before pushing to prod
+    branches: ['main']
     paths:
       - 'subgraph/**'
       - '.github/workflows/deploy-subgraph.yaml'
