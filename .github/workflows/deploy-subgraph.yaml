@@ -2,7 +2,7 @@ name: Subgraph Deploy
 
 on:
   push:
-    branches: ['main']
+    branches: ['release/subgraph']
     paths:
       - 'subgraph/**'
       - '.github/workflows/deploy-subgraph.yaml'
@@ -22,7 +22,6 @@ jobs:
         include:
           - network: polygon
             label: matic
-            startBlock: 18040747
 
     steps:
       - uses: actions/checkout@v2
@@ -46,7 +45,6 @@ jobs:
         run: |
           NETWORK=${{ env.NETWORK }} yarn build-config
           sed -i "s/${{ env.NETWORK }}/${{ env.LABEL }}/" config/${{ env.NETWORK }}.json
-          sed -i "s/\ \([0-9]\+\)/${{ env.STARTBLOCK }}/" config/${{ env.NETWORK }}.json
       - name: Define the subgraph based on the previous config
         env:
           NETWORK: ${{ matrix.network }}
