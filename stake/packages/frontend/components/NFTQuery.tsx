@@ -153,17 +153,29 @@ const NFTContainer = ({
                   </Tag>
                 )}
               </Text>
-              <Box >
-                <Text>
-                  <b>Boost Factor</b> -{' '}
-                  <code>{(nft.factor / 317).toFixed(2)}%</code>
-                </Text>
-                <b>APR</b>
-                <Box d="flex" alignItems="baseline">
-                  <Text mr="2px">
-                     <code>{(nft.factor / 1e12).toFixed(12)}</code>
+              <Box w="100%">
+                <Box
+                  d="flex"
+                  alignItems="baseline"
+                  justifyContent="space-between"
+                >
+                  <b>Boost Factor</b>
+                  <Text>
+                    <code>{(nft.factor / 317).toFixed(2)}%</code>
                   </Text>
-                  <CurrencyTag tag="wxHOPR/sec" />
+                </Box>
+                <Box
+                  d="flex"
+                  alignItems="baseline"
+                  justifyContent="space-between"
+                >
+                  <b>APR</b>
+                  <Box d="flex" alignItems="baseline">
+                    <Text mr="2px">
+                      <code>{(nft.factor / 100).toFixed(2)}</code>
+                    </Text>
+                    <CurrencyTag tag="wxHOPRli/sec" />
+                  </Box>
                 </Box>
               </Box>
               <Box isTruncated mt="5px">
@@ -315,7 +327,7 @@ export const NFTQuery = ({
           },
           {
             title: 'Locked HOPR NFTs',
-            subtitle: `Your locked NFTs will show up here. The combined NFT boost (one per NFT type) will be added to your base APR`,
+            subtitle: `Your locked NFTs will show up here. The combined NFT boost (one per NFT type) will be added to your base APR in HOPRli (1 HOPR = 1e10 HOPRli).`,
             items: redeemedNFTs,
           },
         ].map((nftDataContainer) => {
