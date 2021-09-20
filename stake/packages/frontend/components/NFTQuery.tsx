@@ -135,31 +135,34 @@ const NFTContainer = ({
           <Image src={nft.image} width="250px" m="auto" />
           <Box py="6" px="6">
             <Box d="flex" alignItems="baseline" flexDirection="column">
-              <Text fontWeight="bold" as="h3" fontSize="large">
-                <code>{nft.typeName}</code>{' '}
-                <Tag
-                  bg={NFT_TYPE_COLOURS[nft.typeOfBoostName]}
-                  textTransform="capitalize"
-                >
-                  {nft.typeOfBoostName}
-                </Tag>
-                {nft.factor === state.totalAPRBoost ? (
-                  <Tag ml="2px" colorScheme="green">
-                    In Use
-                  </Tag>
-                ) : (
-                  <Tag ml="2px" colorScheme="red">
-                    Ignored
-                  </Tag>
-                )}
-              </Text>
               <Box w="100%">
                 <Box
                   d="flex"
                   alignItems="baseline"
                   justifyContent="space-between"
                 >
-                  <b>Boost Factor</b>
+                  <b>Name</b>
+                  <code>{nft.typeName}</code>{' '}
+                </Box>
+                <Box
+                  d="flex"
+                  alignItems="baseline"
+                  justifyContent="space-between"
+                >
+                  <b>Type</b>
+                  <Tag
+                    bg={NFT_TYPE_COLOURS[nft.typeOfBoostName]}
+                    textTransform="capitalize"
+                  >
+                    {nft.typeOfBoostName}
+                  </Tag>
+                </Box>
+                <Box
+                  d="flex"
+                  alignItems="baseline"
+                  justifyContent="space-between"
+                >
+                  <b>Boost</b>
                   <Text>
                     <code>{(nft.factor / 317).toFixed(2)}%</code>
                   </Text>
@@ -178,7 +181,7 @@ const NFTContainer = ({
                   </Box>
                 </Box>
               </Box>
-              <Box isTruncated mt="5px">
+              <Box isTruncated mt="20px">
                 Redeem Deadline
               </Box>
               <Text fontSize="xs" fontFamily="mono">
@@ -276,7 +279,8 @@ export const NFTQuery = ({
         setRedeeemedNFTS(redemeedNfts)
         // We propagate the total APR boost to the rest of the application.
         const maxFactorNFT = redeemedNFTs.reduce(
-          (prev, curr) => (Object.assign({}, prev, { factor: curr.factor + prev.factor })),
+          (prev, curr) =>
+            Object.assign({}, prev, { factor: curr.factor + prev.factor }),
           { factor: 0 }
         )
         dispatch({
