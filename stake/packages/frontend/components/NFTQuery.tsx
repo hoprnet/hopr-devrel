@@ -135,38 +135,53 @@ const NFTContainer = ({
           <Image src={nft.image} width="250px" m="auto" />
           <Box py="6" px="6">
             <Box d="flex" alignItems="baseline" flexDirection="column">
-              <Text fontWeight="bold" as="h3" fontSize="large">
-                <code>{nft.typeName}</code>{' '}
-                <Tag
-                  bg={NFT_TYPE_COLOURS[nft.typeOfBoostName]}
-                  textTransform="capitalize"
+              <Box w="100%">
+                <Box
+                  d="flex"
+                  alignItems="baseline"
+                  justifyContent="space-between"
                 >
-                  {nft.typeOfBoostName}
-                </Tag>
-                {nft.factor === state.totalAPRBoost ? (
-                  <Tag ml="2px" colorScheme="green">
-                    In Use
+                  <b>Name</b>
+                  <code>{nft.typeName}</code>{' '}
+                </Box>
+                <Box
+                  d="flex"
+                  alignItems="baseline"
+                  justifyContent="space-between"
+                >
+                  <b>Type</b>
+                  <Tag
+                    bg={NFT_TYPE_COLOURS[nft.typeOfBoostName]}
+                    textTransform="capitalize"
+                  >
+                    {nft.typeOfBoostName}
                   </Tag>
-                ) : (
-                  <Tag ml="2px" colorScheme="red">
-                    Ignored
-                  </Tag>
-                )}
-              </Text>
-              <Box >
-                <Text>
-                  <b>Boost Factor</b> -{' '}
-                  <code>{(nft.factor / 317).toFixed(2)}%</code>
-                </Text>
-                <b>APR</b>
-                <Box d="flex" alignItems="baseline">
-                  <Text mr="2px">
-                     <code>{(nft.factor / 1e12).toFixed(12)}</code>
+                </Box>
+                <Box
+                  d="flex"
+                  alignItems="baseline"
+                  justifyContent="space-between"
+                >
+                  <b>Boost</b>
+                  <Text>
+                    <code>{(nft.factor / 317).toFixed(2)}%</code>
                   </Text>
-                  <CurrencyTag tag="wxHOPR/sec" />
+                </Box>
+                <Box
+                  d="flex"
+                  alignItems="baseline"
+                  justifyContent="space-between"
+                >
+                  <b>APR</b>
+                  <Box d="flex" alignItems="baseline">
+                    <Text mr="2px">
+                      <code>{(nft.factor / 100).toFixed(2)}</code>
+                    </Text>
+                    <CurrencyTag tag="wxHOPRli/sec" />
+                  </Box>
                 </Box>
               </Box>
-              <Box isTruncated mt="5px">
+              <Box isTruncated mt="20px">
                 Redeem Deadline
               </Box>
               <Text fontSize="xs" fontFamily="mono">
@@ -264,7 +279,8 @@ export const NFTQuery = ({
         setRedeeemedNFTS(redemeedNfts)
         // We propagate the total APR boost to the rest of the application.
         const maxFactorNFT = redeemedNFTs.reduce(
-          (prev, curr) => (prev.factor > curr.factor ? prev : curr),
+          (prev, curr) =>
+            Object.assign({}, prev, { factor: curr.factor + prev.factor }),
           { factor: 0 }
         )
         dispatch({
@@ -315,7 +331,7 @@ export const NFTQuery = ({
           },
           {
             title: 'Locked HOPR NFTs',
-            subtitle: `Your locked NFTs will show up here. The combined NFT boost (one per NFT type) will be added to your base APR`,
+            subtitle: `Your locked NFTs will show up here. The combined NFT boost (one per NFT type) will be added to your base APR in HOPRli (1 HOPR = 1e10 HOPRli).`,
             items: redeemedNFTs,
           },
         ].map((nftDataContainer) => {
