@@ -276,7 +276,7 @@ export const NFTQuery = ({
         setRedeeemedNFTS(redemeedNfts)
         // We propagate the total APR boost to the rest of the application.
         const maxFactorNFT = redeemedNFTs.reduce(
-          (prev, curr) => (prev.factor > curr.factor ? prev : curr),
+          (prev, curr) => (Object.assign({}, prev, { factor: curr.factor + prev.factor })),
           { factor: 0 }
         )
         dispatch({
