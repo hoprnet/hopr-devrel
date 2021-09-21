@@ -26,6 +26,7 @@ import {
   StartProgramDate,
 } from '../components/atoms/ProgramDate'
 import { BoldText } from '../components/atoms/BoldText'
+import { TotalStakedBalance } from '../components/atoms/TotalStakedBalance'
 
 function HomeIndex(): JSX.Element {
   const { chainId } = useEthers()
@@ -68,11 +69,7 @@ function HomeIndex(): JSX.Element {
             <Text fontWeight="600" mr="10px">
               Total Staked{'  '}
             </Text>
-            <TokenBalance
-              tokenContract={contractAddresses.xHOPR}
-              givenAccount={contractAddresses.HoprStake}
-              colorScheme="blue"
-            />
+            <TotalStakedBalance />
             <CurrencyTag tag="xHOPR" />
           </Box>
         </Box>
