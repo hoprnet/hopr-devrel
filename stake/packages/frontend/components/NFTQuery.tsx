@@ -205,6 +205,10 @@ const NFTContainer = ({
   </>
 )
 
+type ReducedNFTs = {
+  [key: string]: NFT
+}
+
 export const NFTQuery = ({
   HoprBoostContractAddress,
   HoprStakeContractAddress,
@@ -275,10 +279,23 @@ export const NFTQuery = ({
         const nfts = (await Promise.all(nftsPromises)) || []
         const redemeedNfts = (await Promise.all(redeemedNFTSPromises)) || []
         // We update our current component state accordingly
+        const actuallyConsideredRedemeedNfts: ReducedNFTs = redemeedNfts.reduce(
+          (acc, val) =>
+            Object.assign(
+              {},
+              acc,
+              acc[val.typeName]
+                ? acc[val.typeName].factor < val.factor
+                  ? { [val.typeName]: val }
+                  : acc
+                : { [val.typeName]: val }
+            ),
+          {}
+        )
         setNFTS(nfts)
         setRedeeemedNFTS(redemeedNfts)
         // We propagate the total APR boost to the rest of the application.
-        const maxFactorNFT = redeemedNFTs.reduce(
+        const maxFactorNFT = Object.values(actuallyConsideredRedemeedNfts).reduce(
           (prev, curr) =>
             Object.assign({}, prev, { factor: curr.factor + prev.factor }),
           { factor: 0 }
