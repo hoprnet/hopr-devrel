@@ -136,6 +136,14 @@ const NFTContainer = ({
           <Box py="6" px="6">
             <Box d="flex" alignItems="baseline" flexDirection="column">
               <Box w="100%">
+              <Box
+                  d="flex"
+                  alignItems="baseline"
+                  justifyContent="space-between"
+                >
+                  <b>Token Id</b>
+                  <code>{nft.tokenId}</code>{' '}
+                </Box>
                 <Box
                   d="flex"
                   alignItems="baseline"
