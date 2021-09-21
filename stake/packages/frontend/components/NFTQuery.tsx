@@ -287,6 +287,11 @@ export const NFTQuery = ({
           type: 'SET_TOTAL_APR_BOOST',
           totalAPRBoost: maxFactorNFT.factor,
         })
+      } else {
+        dispatch({
+          type: 'SET_TOTAL_APR_BOOST',
+          totalAPRBoost: 0,
+        })
       }
     }
     loadNFTBalance()
