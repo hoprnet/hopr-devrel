@@ -37,7 +37,6 @@ export const HOPRChannelsDeployedSmartContractAddress = {
 }
 
 export const getExplorerUrl = (address: string, chainId?: ChainId): string => {
-    console.log("CHAIND ID", chainId)
     switch (chainId) {
       case ChainId.Mainnet:
         return `https://etherscan.io/address/${address}`
