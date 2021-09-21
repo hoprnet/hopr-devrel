@@ -18,7 +18,7 @@ import {
   Tag,
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { useEthers, useNotifications } from '@usedapp/core'
+import { getExplorerAddressLink, useEthers, useNotifications } from '@usedapp/core'
 import blockies from 'blockies-ts'
 import React from 'react'
 import { useEffect, useState } from 'react'
@@ -108,7 +108,7 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
               <Link
                 px="4"
                 py="1"
-                href={`https://blockscout.com/xdai/mainnet/address/${contractAddresses.HoprStake}/transactions`}
+                href={getExplorerAddressLink(contractAddresses.HoprStake, chainId)}
                 isExternal
               >
                 Contract Address <ExternalLinkIcon />
