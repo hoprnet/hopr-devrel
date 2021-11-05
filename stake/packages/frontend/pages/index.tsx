@@ -1,6 +1,6 @@
 import { Box, Heading, Text, Link, useColorMode } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { useEthers } from '@usedapp/core'
+import { getExplorerAddressLink, useEthers } from '@usedapp/core'
 import React, { useEffect, useReducer, useState } from 'react'
 import { DarkModeSwitch } from '../components/atoms/DarkModeSwitch'
 
@@ -26,6 +26,7 @@ import {
   StartProgramDate,
 } from '../components/atoms/ProgramDate'
 import { BoldText } from '../components/atoms/BoldText'
+import { TotalStakedBalance } from '../components/atoms/TotalStakedBalance'
 
 function HomeIndex(): JSX.Element {
   const { chainId } = useEthers()
@@ -68,11 +69,7 @@ function HomeIndex(): JSX.Element {
             <Text fontWeight="600" mr="10px">
               Total Staked{'  '}
             </Text>
-            <TokenBalance
-              tokenContract={contractAddresses.xHOPR}
-              givenAccount={contractAddresses.HoprStake}
-              colorScheme="blue"
-            />
+            <TotalStakedBalance />
             <CurrencyTag tag="xHOPR" />
           </Box>
         </Box>
@@ -81,7 +78,7 @@ function HomeIndex(): JSX.Element {
         Stake{' '}
         <Link
           px="1"
-          href={`https://blockscout.com/xdai/mainnet/address/${contractAddresses.xHOPR}/transactions`}
+          href={getExplorerAddressLink(contractAddresses.xHOPR, chainId)}
           isExternal
         >
           xHOPR <ExternalLinkIcon />
@@ -101,7 +98,7 @@ function HomeIndex(): JSX.Element {
         , rewards can be claimed on each block. All rewards will be returned as{' '}
         <Link
           px="1"
-          href={`https://blockscout.com/xdai/mainnet/address/${contractAddresses.wxHOPR}/transactions`}
+          href={getExplorerAddressLink(contractAddresses.wxHOPR, chainId)}
           isExternal
         >
           wxHOPR <ExternalLinkIcon />

@@ -111,15 +111,20 @@ const NFTContainer = ({
   HoprStakeContractAddress,
   state,
   dispatch,
+  consideredNFTs,
+  isRedeemedNFTs,
 }: {
   nfts: NFT[]
   HoprBoostContractAddress: string
   HoprStakeContractAddress: string
   state: StateType
   dispatch: Dispatch<ActionType>
+  consideredNFTs: ReducedNFTs
+  isRedeemedNFTs: boolean
 }) => (
   <>
     {nfts.map((nft) => {
+      const isRelevantNFT = consideredNFTs[nft.typeName] && consideredNFTs[nft.typeName].factor == nft.factor
       return (
         <Box
           key={nft.tokenId}
@@ -136,6 +141,14 @@ const NFTContainer = ({
           <Box py="6" px="6">
             <Box d="flex" alignItems="baseline" flexDirection="column">
               <Box w="100%">
+                <Box
+                  d="flex"
+                  alignItems="baseline"
+                  justifyContent="space-between"
+                >
+                  <b>Token Id</b>
+                  <code>{nft.tokenId}</code>{' '}
+                </Box>
                 <Box
                   d="flex"
                   alignItems="baseline"
@@ -180,8 +193,15 @@ const NFTContainer = ({
                     <CurrencyTag tag="wxHOPRli/sec" />
                   </Box>
                 </Box>
+                {isRedeemedNFTs && (
+                  <Box d="flex" justifyContent="center" mt="10px">
+                    <Tag colorScheme={isRelevantNFT ? 'green' : 'red'}>
+                      {isRelevantNFT ? 'In use' : 'Ignored'}
+                    </Tag>
+                  </Box>
+                )}
               </Box>
-              <Box isTruncated mt="20px">
+              <Box isTruncated mt="10px">
                 Redeem Deadline
               </Box>
               <Text fontSize="xs" fontFamily="mono">
@@ -205,6 +225,10 @@ const NFTContainer = ({
   </>
 )
 
+type ReducedNFTs = {
+  [key: string]: NFT
+}
+
 export const NFTQuery = ({
   HoprBoostContractAddress,
   HoprStakeContractAddress,
@@ -220,6 +244,8 @@ export const NFTQuery = ({
   const { library, account } = useEthers()
   const [nfts, setNFTS] = useState<NFT[]>([])
   const [redeemedNFTs, setRedeeemedNFTS] = useState<NFT[]>([])
+  const [consideredRedeemedNFTs, setConsideredRedeeemedNFTS] =
+    useState<ReducedNFTs>({})
   const startingBlock = useBlockNumber()
   const [blocks, setBlockCounter] = useState<number>(0)
   const { colorMode } = useColorMode()
@@ -275,10 +301,26 @@ export const NFTQuery = ({
         const nfts = (await Promise.all(nftsPromises)) || []
         const redemeedNfts = (await Promise.all(redeemedNFTSPromises)) || []
         // We update our current component state accordingly
+        const actuallyConsideredRedemeedNfts: ReducedNFTs = redemeedNfts.reduce(
+          (acc, val) =>
+            Object.assign(
+              {},
+              acc,
+              acc[val.typeName]
+                ? acc[val.typeName].factor < val.factor
+                  ? { [val.typeName]: val }
+                  : acc
+                : { [val.typeName]: val }
+            ),
+          {}
+        )
+        setConsideredRedeeemedNFTS(actuallyConsideredRedemeedNfts)
         setNFTS(nfts)
         setRedeeemedNFTS(redemeedNfts)
         // We propagate the total APR boost to the rest of the application.
-        const maxFactorNFT = redeemedNFTs.reduce(
+        const maxFactorNFT = Object.values(
+          actuallyConsideredRedemeedNfts
+        ).reduce(
           (prev, curr) =>
             Object.assign({}, prev, { factor: curr.factor + prev.factor }),
           { factor: 0 }
@@ -286,6 +328,11 @@ export const NFTQuery = ({
         dispatch({
           type: 'SET_TOTAL_APR_BOOST',
           totalAPRBoost: maxFactorNFT.factor,
+        })
+      } else {
+        dispatch({
+          type: 'SET_TOTAL_APR_BOOST',
+          totalAPRBoost: 0,
         })
       }
     }
@@ -333,6 +380,7 @@ export const NFTQuery = ({
             title: 'Locked HOPR NFTs',
             subtitle: `Your locked NFTs will show up here. The combined NFT boost (one per NFT type) will be added to your base APR in HOPRli (1 HOPR = 1e10 HOPRli).`,
             items: redeemedNFTs,
+            isRedeemedNFTs: true,
           },
         ].map((nftDataContainer) => {
           return (
@@ -349,11 +397,13 @@ export const NFTQuery = ({
                 <Box d="flex" alignItems="center" mb="10px">
                   {nftDataContainer.items.length > 0 ? (
                     <NFTContainer
+                      consideredNFTs={consideredRedeemedNFTs}
                       nfts={nftDataContainer.items}
                       HoprBoostContractAddress={HoprBoostContractAddress}
                       HoprStakeContractAddress={HoprStakeContractAddress}
                       state={state}
                       dispatch={dispatch}
+                      isRedeemedNFTs={nftDataContainer.isRedeemedNFTs}
                     />
                   ) : (
                     <Box
