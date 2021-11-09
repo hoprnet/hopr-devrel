@@ -2,8 +2,8 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
 const POLLING_INTERVAL = 12000
 const RPC_URLS: { [chainId: number]: string } = {
-  5: 'https://goerli-light.eth.linkpool.io/',
-  100: 'https://rpc.xdaichain.com/',
+  5: 'https://provider-proxy.hoprnet.workers.dev/eth_goerli',
+  100: 'https://provider-proxy.hoprnet.workers.dev/xdai_mainnet',
 }
 
 export const RPC_COLOURS: { [chainId: number]: { bg: string, color: string, scheme: string } } = {

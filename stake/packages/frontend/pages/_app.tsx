@@ -12,8 +12,8 @@ import Multicall from '@hoprnet/hopr-stake/deployments/localhost/Multicall.json'
 const config: Config = {
   readOnlyChainId: ChainId.xDai,
   readOnlyUrls: {
-    [ChainId.Goerli]: `https://goerli.infura.io/v3/de898745bd39430f9cf6e359b911257a`,
-    [ChainId.xDai]: `https://rpc.xdaichain.com/`,
+    [ChainId.Goerli]: `https://provider-proxy.hoprnet.workers.dev/eth_goerli`,
+    [ChainId.xDai]: `https://provider-proxy.hoprnet.workers.dev/xdai_mainnet`,
     [ChainId.Hardhat]: 'http://localhost:8545',
     [ChainId.Localhost]: 'http://localhost:8545',
   },
