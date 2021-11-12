@@ -1,0 +1,466 @@
+{
+  "0x0051437667689b36f9cfec31e4f007f1497c0f98": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 2400000
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 1800000
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 1200000
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 600000
+    }
+  ],
+  "0x0ddae82c2080aae8e57814e5636dbbfa775be929": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 785875.044678333
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 589406.2835087498
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 392937.5223391665
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 196468.76116958325
+    }
+  ],
+  "0x1d216b8706be76f7906eb5872835ce5567fd2ef5": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 2947429.10866667
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 2210571.8315000026
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 1473714.554333335
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 736857.2771666675
+    }
+  ],
+  "0x2869daeb6298e2df78f7a19535d24ecc5c6f85a2": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 395416.9544
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 296562.7158
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 197708.4772
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 98854.2386
+    }
+  ],
+  "0x35a79017da727fcb29060dd5901f90b027eaca23": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 445407.34325
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 334055.5074375
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 222703.671625
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 111351.8358125
+    }
+  ],
+  "0x387c50f4767b04e7a41f0c365b9d563ae787ec40": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 883222.3969
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 662416.797675
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 441611.19845
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 220805.599225
+    }
+  ],
+  "0x46fae3c5553ed70dabdee1aae917faf64250e806": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 1195728.8036
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 896796.6027
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 597864.4018
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 298932.2009
+    }
+  ],
+  "0x50ce06ab2404c72fbd57620ea8aa0e282065a831": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 1052279.1356
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 789209.3517
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 526139.5678
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 263069.7839
+    }
+  ],
+  "0x7c28a20a66d687107dfa810566f237fb3810cbf4": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 741391.551583333
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 556043.6636874997
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 370695.7757916665
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 185347.88789583326
+    }
+  ],
+  "0x7f9034f39bb32494f0e77de0a29803ff675d835a": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 1642525.26661667
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 1231893.9499625026
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 821262.633308335
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 410631.3166541675
+    }
+  ],
+  "0x83f097475c0d5feaaea43cd42781d4313611a0d9": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 3827594.36772222
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 2870695.775791665
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 1913797.18386111
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 956898.591930555
+    }
+  ],
+  "0x871f8894f148e8e1a73e1d4cba25bda88005296b": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 982492.508888889
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 736869.3816666667
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 491246.2544444445
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 245623.12722222225
+    }
+  ],
+  "0x8b90b067d02132fc7c5cdf64b8cac04d55abc2b2": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 654643.1429775
+    }
+  ],
+  "0x923d0061cd480644c9019e3aa6cec3bc8b312ecb": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 1924714.1702
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 1443535.62765
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 962357.0851
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 481178.54255
+    }
+  ],
+  "0xa8059754bc0337408b376851f4ee7a3ca9be3ffd": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 1494660.02616667
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 1120995.0196250025
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 747330.013083335
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 373665.0065416675
+    }
+  ],
+  "0xae8ce6bb2b95684f57c097b407f4e9b55d9ca432": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 4146073.2388575
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 3109554.929143125
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 2073036.61942875
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 1036518.309714375
+    }
+  ],
+  "0xc08de9d8834b3ee012d684db239bf7868c818327": [
+    {
+      "lowerBlock": 13543917,
+      "upperBlock": 29445117,
+      "unreleased": 1963929.42893
+    },
+    {
+      "lowerBlock": 29445117,
+      "upperBlock": 45079917,
+      "unreleased": 1309286.9405964762
+    },
+    {
+      "lowerBlock": 45079917,
+      "upperBlock": 60981117,
+      "unreleased": 654644.4522629526
+    }
+  ],
+  "0xc1efc49285eb5deda2ac887d613242475ed15048": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 1473822.6085
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 1105366.956375
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 736911.30425
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 368455.652125
+    }
+  ],
+  "0xe3db7b04c5b761a38a5d46adf68f5c213048c1ae": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 1052279
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 789209.25
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 526139.5
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 263069.75
+    }
+  ],
+  "0xe5827d6d7169a87b4c241a5973722f1dda6b5c0d": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 1635531.19436667
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 1226648.3957750024
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 817765.597183335
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 408882.7985916675
+    }
+  ],
+  "0xe5da485b501c22a827fdc5589ef061c11055c16d": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 1485880.5075
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 1114410.380625
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 742940.25375
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 371470.126875
+    }
+  ],
+  "0xe7521950426479d525381940604d27aec12fe97a": [
+    {
+      "lowerBlock": 13102715,
+      "upperBlock": 13102716,
+      "unreleased": 1666666.66666667
+    },
+    {
+      "lowerBlock": 13102716,
+      "upperBlock": 29003915,
+      "unreleased": 1250000.0000000026
+    },
+    {
+      "lowerBlock": 29003915,
+      "upperBlock": 44638715,
+      "unreleased": 833333.333333335
+    },
+    {
+      "lowerBlock": 44638715,
+      "upperBlock": 60539915,
+      "unreleased": 416666.6666666675
+    }
+  ]
+}
