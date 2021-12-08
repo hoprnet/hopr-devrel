@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 from .color import *
 from .io import *
+import plotly.express as px
+import plotly.io as pio
 # from matplotlib.ticker import FuncFormatter
 
 def plot_bar(df, col1, col2, file_name, color_name):
@@ -14,3 +16,19 @@ def plot_bar(df, col1, col2, file_name, color_name):
     #ax.xaxis.set_major_formatter(xfmt)
     plt.savefig(give_file_path('../plot/', file_name))
     plt.show()
+
+
+def restart_time(df):
+    # subdataframe for plotting "restart" and "passive" status
+    restart = pd.DataFrame(df['time_diff2'][0::2]).reset_index(drop=True)
+    passive = pd.DataFrame(df['time_diff2'][1::2]).reset_index(drop=True)
+    node_time = pd.DataFrame(df['new_node_time'][1::2]).reset_index(drop=True)
+    restart_t = pd.concat([restart, passive, node_time], axis=1)
+    restart_t.columns = ['restart', 'passive', 'node_time']
+    
+    return restart_t
+
+def restart_time_plot(df, col1, col2, title_plt, file_name):
+    fig = px.scatter(df, x=df[col1], y=df[col2], title=title_plt)
+    pio.write_image(fig, give_file_path('../plot/', file_name + '.png'))
+    fig.show()

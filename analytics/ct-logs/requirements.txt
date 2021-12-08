@@ -4,3 +4,5 @@ matplotlib
 colour
 numpy
 mpmath
+plotly.express
+kaleido
