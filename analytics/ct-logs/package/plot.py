@@ -1,8 +1,9 @@
 import matplotlib.pyplot as plt
 from .color import *
 from .io import *
-import plotly.express as px
 import plotly.io as pio
+import plotly.express as px
+
 # from matplotlib.ticker import FuncFormatter
 
 def plot_bar(df, col1, col2, file_name, color_name):
@@ -16,6 +17,7 @@ def plot_bar(df, col1, col2, file_name, color_name):
     #ax.xaxis.set_major_formatter(xfmt)
     plt.savefig(give_file_path('../plot/', file_name))
     plt.show()
+    plt.show()
 
 
 def restart_time(df):
@@ -28,7 +30,7 @@ def restart_time(df):
     
     return restart_t
 
-def restart_time_plot(df, col1, col2, title_plt, file_name):
+def restart_time_plot(df, col1, col2, title_plt, file_name): 
     fig = px.scatter(df, x=df[col1], y=df[col2], title=title_plt)
     pio.write_image(fig, give_file_path('../plot/', file_name + '.png'))
     fig.show()
