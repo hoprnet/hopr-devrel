@@ -35,7 +35,8 @@ def parse_strategy_tick(df, keep_active_logs_only=True):
     print(expanded)
     return expanded
 
-def parse_restart(df, keep_active_logs_only=True):
+
+def parse_restart(df):
     # regular expression to parse extracted logs (df['message']) into expanded columns
     parse_regex = 'from (?P<from>\w*) to (?P<to>\w*)'
     expanded = df['message'].str.extract(parse_regex, expand=True).convert_dtypes()
@@ -53,3 +54,30 @@ def parse_restart(df, keep_active_logs_only=True):
 
     print(expanded)
     return expanded
+
+def parse_send_complete(df):
+    # regular expression to parse extracted logs (df['message']) into expanded columns
+    parse_regex = 'message send phase (?P<send_complete>\w*)'
+    expanded = df['message'].str.extract(parse_regex, expand=True).convert_dtypes()
+
+    # parse timestamps into 
+    expanded['g_time'] = df['g_time'].astype('datetime64[ns]')
+    expanded['node_time'] = df['node_time'].astype('datetime64[ns]')
+
+    print(expanded)
+    return expanded
+
+def parse_send(df):
+    # regular expression to parse extracted logs (df['message']) into expanded columns
+    parse_regex = 'SEND (?P<send_to>[\w\d,]*)'
+    expanded = df['message'].str.extract(parse_regex, expand=True).convert_dtypes()
+
+    # parse timestamps into 
+    expanded['g_time'] = df['g_time'].astype('datetime64[ns]')
+    expanded['node_time'] = df['node_time'].astype('datetime64[ns]')
+    expanded = pd.concat([expanded[['g_time']], expanded['send'].str.split(',', expand=True)], axis=1)
+
+    print(expanded)
+    return expanded
+
+

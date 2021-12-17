@@ -8,8 +8,8 @@ Parameters
 # Have tried nstance 7872204418567022049 with from 10-01 till 11-07
 # Have tried nstance 8212280380033896655 with from 11-13 till 11-16
 instance_id = '725902373045850715'
-start_date = '2021-12-10'
-end_date = '2021-12-14'
+start_date = '2021-12-08'
+end_date = '2021-12-09'
 db_directory = '../db/'
 # Key value pair for extraction. 
 # Key: RegEx expression to extract raw logs from GCP
@@ -17,6 +17,7 @@ db_directory = '../db/'
 extraction_dict = {
     #'restart': 'setting channel strategy from',
     'tick': 'strategy tick: ',
+    #'send': 'send packet'
 }
 input_name = 'tick'
 
@@ -47,7 +48,7 @@ This may take loooonnng...
 
 #for key, value in extraction_dict.items():
 #   print('---------------------\nFilter for **%s** file \n' %key)
-#   get_logs_and_save(instance_id, start_date, end_date, value, key, None)
+#  get_logs_and_save(instance_id, start_date, end_date, value, key, None)
 
 
 
@@ -56,7 +57,7 @@ df = read_csv(db_directory, instance_id + '_' + start_date + '_' + end_date + '_
 print(df.head(10))
 
 # parse logs
-parsed = parse_strategy_tick(df, True)
+#parsed = parse_strategy_tick(df, True)
 
 # plot to files
 #plot_bar(parsed, 'tick_timestamp', 'balance_wo_decimal', 'balance_wo_decimal.png', 'hopr_bright_blue')
@@ -66,6 +67,8 @@ parsed = parse_strategy_tick(df, True)
 # parsed = parse_restart(df, True)
 #rightbeforeplot = restart_time(parsed)
 #print(rightbeforeplot)
+
+parsed = parse_send(df)
 
 #plot restart
 #restart_time_plot(rightbeforeplot, "node_time", "restart", "restart_time", "restart_in_sec")
