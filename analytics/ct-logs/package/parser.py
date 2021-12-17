@@ -75,7 +75,10 @@ def parse_send(df):
     # parse timestamps into 
     expanded['g_time'] = df['g_time'].astype('datetime64[ns]')
     expanded['node_time'] = df['node_time'].astype('datetime64[ns]')
-    expanded = pd.concat([expanded[['g_time']], expanded['send'].str.split(',', expand=True)], axis=1)
+    #number of addresses the 
+    expanded['number_of_add'] = expanded['send'].apply(lambda x: (len(str(x)))/53)
+    #if needed, the code extracts the addresses 
+    #expanded = pd.concat([expanded[['node_time']], expanded['send'].str.split(',', expand=True)], axis=1)
 
     print(expanded)
     return expanded

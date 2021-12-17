@@ -34,3 +34,11 @@ def restart_time_plot(df, col1, col2, title_plt, file_name):
     fig = px.scatter(df, x=df[col1], y=df[col2], title=title_plt)
     pio.write_image(fig, give_file_path('../plot/', file_name + '.png'))
     fig.show()
+
+
+def data_by_hour(df):
+    p = pd.to_datetime(df['node_time'])
+    df4 = p.groupby(p.dt.floor('h')).size().reset_index(name='count')
+    
+    fig = px.bar(df4, x='node_time', y='count')
+    fig.show()
