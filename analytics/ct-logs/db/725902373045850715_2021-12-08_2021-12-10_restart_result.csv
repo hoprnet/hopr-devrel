@@ -1,0 +1,13 @@
+g_time,message,node_time
+2021-12-08 07:43:07.631996+00:00,"2021-12-08T07:43:05.483Z hopr-core setting channel strategy from undefined to passive
+",2021-12-08T07:43:05.483Z
+2021-12-08 07:43:07.631996+00:00,"2021-12-08T07:43:05.676Z hopr-core setting channel strategy from passive to covertraffic
+",2021-12-08T07:43:05.676Z
+2021-12-08 07:59:38.329009+00:00,"2021-12-08T07:59:36.155Z hopr-core setting channel strategy from undefined to passive
+",2021-12-08T07:59:36.155Z
+2021-12-08 07:59:38.329009+00:00,"2021-12-08T07:59:36.667Z hopr-core setting channel strategy from passive to covertraffic
+",2021-12-08T07:59:36.667Z
+2021-12-08 16:47:15.097302+00:00,"2021-12-08T16:47:12.493Z hopr-core setting channel strategy from undefined to passive
+",2021-12-08T16:47:12.493Z
+2021-12-08 16:47:15.097302+00:00,"2021-12-08T16:47:12.701Z hopr-core setting channel strategy from passive to covertraffic
+",2021-12-08T16:47:12.701Z
