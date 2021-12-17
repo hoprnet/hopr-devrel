@@ -12,5 +12,5 @@ def plot_bar(df, col1, col2, file_name, color_name):
 
     #xfmt = DateFormatter('%Y-%m-%d %H:%M:%S')
     #ax.xaxis.set_major_formatter(xfmt)
-    plt.savefig(give_file_path('../plot/', file_name))
+    plt.savefig(get_file_path('../plot/', file_name))
     plt.show()
