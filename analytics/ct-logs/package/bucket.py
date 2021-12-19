@@ -127,7 +127,7 @@ def parse_logs_of_release_from_blob(blob, filter_console_log=True):
         filtered_console_log = logs_content_df
     
     # parse message and route to different dataframes
-    route_to_dfs(filtered_console_log)
+    route_to_dfs(filtered_console_log, blob.name)
     return filtered_console_log
 
 
@@ -146,7 +146,7 @@ def filter_message_timestamp(log):
     else: 
         return {**returned, 'instance_id': np.nan}
 
-def route_to_dfs(df):
+def route_to_dfs(df, df_name):
     """
     Take the parsed dataframe and route entries to multiple dataframes
     """
@@ -189,5 +189,4 @@ def route_to_dfs(df):
                 else:
                     # write to csv with header
                     save_csv(df, folder_name, result_file_name, True, True)
-    print(extracts)
-
+    print("\n Logs {} of shape {} has been processed.\n".format(df_name, extracts.shape))

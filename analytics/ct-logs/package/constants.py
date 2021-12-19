@@ -14,8 +14,9 @@ class Constants:
     REGEX_DICTIONARY = {
         'tick': r'strategy tick: (?P<tick_timestamp>\d*) balance:(?P<balance>\d*) open:(?P<open>[\w\d,]*) close: (?P<close>[\w\d,]*)',
         'restart': r'setting channel strategy from (?P<from>\w*) to (?P<to>\w*)',
-        'about_to_send_packet': r'SEND (?P<path>[\w\d,]*)',
-        'success_sent': r'message send phase (?P<complete>\w*)',
+        'about_to_send_packet': r'SEND (?P<path_to_send>[\w\d,]*)',
+        'completed_send_phase': r'message send phase (?P<complete>\w*)',
+        'success_sent': r'success (?P<complete>sending)',
         'success_received': r'Received message (?P<received_message>.*)',
         'close_with_low_network_quality': r'closing channel (?P<close_low_quality>[\w\d]*) with quality',
         'close_with_low_stake': r'closing channel with balance too low (?P<close_low_stake>[\w\d]*)',
@@ -24,7 +25,7 @@ class Constants:
         'fail_to_send_with_unknown_error': r'Unknown error in sending traffic. Channel is (?P<fail_with_unknown_state>\w*); openChannel is (?P<fail_with_unknown_channel>.*)',
         'fail_to_send_with_less_channel': r'aborting send messages - (?P<fail_less>\w*) channels in network than hops required',
         'fail_to_send_in_channel': r'hopr:cover-traffic failed to send to (?P<fail_to_send>[\w\d]*) fails: (?P<fail_to_send_times>\d*)',
-        'about_to_open_channel': r'hopr:cover-traffic opening (?P<path>[\w\d]*)',
+        'about_to_open_channel': r'hopr:cover-traffic opening (?P<path_to_open>[\w\d]*)',
         'winning_ticket': r'cover traffic ignores winning (?P<winning_ticket>\w*).'
     }
 

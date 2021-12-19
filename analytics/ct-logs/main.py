@@ -39,9 +39,7 @@ get_all_logs_of_release(release_name)
 
 # # Alternative: to analyze only a subsets of logs
 # df = pd.concat([
-#     read_and_parse_logs_of_release('cos_containers/2021/12/19/00:00:00_00:59:59_S0.json', release_name, False),
-#     read_and_parse_logs_of_release('cos_containers/2021/12/19/01:00:00_01:59:59_S0.json', release_name, False),
-#     read_and_parse_logs_of_release('cos_containers/2021/12/19/02:00:00_02:59:59_S0.json', release_name, False)
+#     read_and_parse_logs_of_release('cos_containers/2021/12/19/18:00:00_18:59:59_S0.json', release_name, False)
 # ]).reset_index(drop=True)
 # print(df)
 
