@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from .constants import Constants
 
 def get_file_path(folder, file_name):
     """
@@ -9,11 +10,16 @@ def get_file_path(folder, file_name):
     :param file_name: File name to be appended to the file path
     :return: returns the path string
     """
-    file_dir = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(file_dir, folder + file_name)
-    return file_path
+    return os.path.join(Constants.FILE_DIRECTORY, folder + file_name)
 
-def save_csv(data_frame, folder, file_name):
+def if_file_exist(folder, file_name):
+    file_path = get_file_path(folder, file_name)
+    if_exist = os.path.isfile(file_path)
+    if not if_exist:
+        print('Files {} does not exist'.format(file_path))
+    return if_exist
+
+def save_csv(data_frame, folder, file_name, contains_header=True, is_append=False):
     """
     Save a data frame to the csv file
 
@@ -21,8 +27,15 @@ def save_csv(data_frame, folder, file_name):
     :param folder: The relevant file path
     :param file_name: File name to be appended to the file path
     """
+    folder_path = os.path.join(Constants.FILE_DIRECTORY, folder)
     file_path = get_file_path(folder, file_name)
-    data_frame.to_csv(file_path, header=True, index=False)
+    # check if folder exists, if not create one
+    if not os.path.exists(folder_path):
+        os.mkdir(folder_path)
+    if is_append:
+        data_frame.to_csv(file_path, mode='a', header=contains_header, index=False)
+    else:
+        data_frame.to_csv(file_path, header=contains_header, index=False)
 
 def read_csv(folder, file_name):
     """

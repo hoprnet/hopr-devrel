@@ -1,37 +1,51 @@
-from numpy import result_type
 from package import *
 
-"""
-Parameters
-"""
-# Have tried nstance 7872204418567022049 with from 10-01 till 11-07
-# Have tried nstance 8212280380033896655 with from 11-13 till 11-16
-instance_id = '8212280380033896655'
-start_date = '2021-11-16'
-end_date = '2021-11-17'
-db_directory = '../db/'
-# Key value pair for extraction. 
-# Key: RegEx expression to extract raw logs from GCP
-# Value: Name of the output csv file. E.g. # db/<instance_id>_<output_name>_result.csv
-extraction_dict = {
-    'restart': 'setting channel strategy from',
-    'tick': 'strategy tick: ',
-}
-input_name = 'tick'
-
 # """
-# Main process
-
-# A. Get logs from GCP Logging and save to ./db
+# ============================================================
+#             Preparation for a new CT node
+#     This script is only run once when CT node is created    
+# ============================================================
 # """
-# # Get logs from GCP Logger. This may take loooonnng...
-# get_and_save_logs_for_all_expressions(extraction_dict, instance_id, start_date, end_date, db_directory)
+# # Create a new bucket
+# new_release_name = 'budapest'
+# new_release_bucket = create_bucket_for_release(new_release_name)
+# # Spin up a CT node... and take the instance_id
+# new_instance_id = '8112381180178057866'
+# # Build filter used in sink
+# sink_filter = build_sink_filter(new_instance_id)
+# # Create sink for the new bucket
+# create_sink(new_release_name, new_release_bucket.name, sink_filter)
+
+"""
+======================
+    Main process
+======================
+"""
+
+"""
+A. Get logs from GCP Bucket and save to ./db by instance_id
+
+!! Please remove ./db/<instance_id> folder before running the command !!
+"""
+release_name = 'budapest'  # None for default bucket, if no specific bucket was created for the release
+get_all_logs_of_release(release_name)
+
+# # TEST
+# df = pd.concat([
+#     read_and_parse_logs_of_release('cos_containers/2021/12/12/00:00:00_00:59:59_S0.json', None, False)
+#     # read_and_parse_logs_of_release('cos_containers/2021/12/12/01:00:00_01:59:59_S0.json', None, False),
+#     # read_and_parse_logs_of_release('cos_containers/2021/12/12/02:00:00_02:59:59_S0.json', None, False)
+# ]).reset_index(drop=True)
+# print(df)
 
 # """
 # B. Read logs from /db and analyze
 # """
+# instance_id = '8212280380033896655'
+# input_name = 'tick'
+
 # # Read logs from db csv
-# df = read_csv(db_directory, instance_id + '_' + input_name + '_result.csv')
+# df = read_csv(Constants.DB_PATH, instance_id + '_' + input_name + '_result.csv')
 # print(df.head(10))
 
 # # parse logs
@@ -40,12 +54,3 @@ input_name = 'tick'
 # # plot to files
 # plot_bar(parsed, 'tick_timestamp', 'balance_wo_decimal', 'balance_wo_decimal.png', 'hopr_bright_blue')
 # plot_bar(parsed, 'tick_timestamp', 'diff_balance_wo_decimal', 'diff_balance_wo_decimal.png', 'hopr_bright_blue')
-
-
-# TEST
-# get_all_logs_of_release(None) #None for default bucket, if no specific bucket was created for the release
-
-df = pd.concat([
-    read_and_parse_logs_of_release('cos_containers/2021/10/20/11:00:00_11:59:59_S0.json', None)
-]).reset_index(drop=True)
-print(df)
