@@ -171,18 +171,15 @@ def fix_build_filters(instance_id, date, hours):
         result_dictionary.update({result_key: result_values})
     return result_dictionary
 
-def fix_get_logs(file_name, filter_string, **kwargs):
-    result = []
+def fix_get_logs(filter_string, **kwargs):
+    result = ''
     max_entries = kwargs.get('max_entries', None)
     nr_entries = 0
-    f = return_file_to_save('../tmp/', file_name, True)
     for entry in logging_client.list_entries(filter_=filter_string):
-        f.write("{}\n".format(json.dumps(entry.to_api_repr()))) # end in new line
-        result.append(entry.to_api_repr())
+        result += "{}\n".format(json.dumps(entry.to_api_repr()))
         nr_entries += 1
         if max_entries is not None and nr_entries >= max_entries:
             break
-    f.close()
     return result
 
 def fix_batch_get_logs_and_save(query_filter_dict):
@@ -193,7 +190,10 @@ def fix_batch_get_logs_and_save(query_filter_dict):
         query_nr = 0
         for built_filter in query_filter_dict[dict_key]:
             print("     Querying entry nr. {}".format(query_nr))
-            fix_get_logs(dict_key, built_filter)
+            result = fix_get_logs(built_filter)
+            f = return_file_to_save('../tmp/', dict_key, True)
+            f.write(result) # end in new line
+            f.close()
             query_nr += 1
     print("Complete batch getting logs.")
 
