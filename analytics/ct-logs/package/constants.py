@@ -16,7 +16,7 @@ class Constants:
         'restart': r'setting channel strategy from (?P<from>\w*) to (?P<to>\w*)',
         'about_to_send_packet': r'SEND (?P<path_to_send>[\w\d,]*)',
         'completed_send_phase': r'message send phase (?P<complete>\w*)',
-        'success_sent': r'success (?P<complete>sending)',
+        'success_sent': r'success (?P<success_sent>sending)',
         'success_received': r'Received message (?P<received_message>.*)',
         'close_with_low_network_quality': r'closing channel (?P<close_low_quality>[\w\d]*) with quality',
         'close_with_low_stake': r'closing channel with balance too low (?P<close_low_stake>[\w\d]*)',
