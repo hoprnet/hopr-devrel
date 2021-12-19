@@ -2,6 +2,8 @@ from google.cloud import logging
 from datetime import date
 from datetime import timedelta
 import pandas as pd
+import json
+from .io import return_file_to_save
 
 print('Connect to logging client...\n')
 logging_client = logging.Client()
@@ -151,3 +153,47 @@ def build_sink_filter(instance_id):
         + '") OR (resource.type="global" AND jsonPayload.instance.id="' 
         + instance_id 
         + '"))')
+
+
+# Get missing logs
+def fix_build_filters(instance_id, date, hours):
+    result_dictionary = {}
+    for hour in hours:
+        result_key = str(hour) + ':00:00_' + str(hour) + ':59:59_S0.json'
+        result_values = []
+        for minute_start in range(6):
+            # every 10 minutes
+            built_filter = ('(resource.type="gce_instance" AND resource.labels.instance_id="' + instance_id 
+                + '") OR (resource.type="global" AND jsonPayload.instance.id="' + instance_id + '") AND (timestamp >= "' 
+                + date + 'T' + hour + ':' + str(minute_start) + '0:00.000z" AND timestamp <= "' 
+                + date + 'T' + hour + ':' + str(minute_start) + '9:59.999z")')
+            result_values.append(built_filter)
+        result_dictionary.update({result_key: result_values})
+    return result_dictionary
+
+def fix_get_logs(filter_string, **kwargs):
+    result = ''
+    max_entries = kwargs.get('max_entries', None)
+    nr_entries = 0
+    for entry in logging_client.list_entries(filter_=filter_string):
+        result += "{}\n".format(json.dumps(entry.to_api_repr()))
+        nr_entries += 1
+        if max_entries is not None and nr_entries >= max_entries:
+            break
+    return result
+
+def fix_batch_get_logs_and_save(query_filter_dict):
+    dict_keys = list(query_filter_dict.keys())
+    for dict_key in dict_keys:
+        # dict_key is file_name
+        print("Collecting entries for file {}".format(dict_key))
+        query_nr = 0
+        for built_filter in query_filter_dict[dict_key]:
+            print("     Querying entry nr. {}".format(query_nr))
+            result = fix_get_logs(built_filter)
+            f = return_file_to_save('../tmp/', dict_key, True)
+            f.write(result) # end in new line
+            f.close()
+            query_nr += 1
+    print("Complete batch getting logs.")
+

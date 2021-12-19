@@ -16,6 +16,13 @@ from package import *
 # # Create sink for the new bucket
 # create_sink(new_release_name, new_release_bucket.name, sink_filter)
 
+# # Use the following code when a significant delay occured between instance and bucket creations.
+# missing_date = '2021-12-19'
+# missing_hours = ['04','05','06']
+# built_filters = fix_build_filters(new_instance_id, missing_date, missing_hours)
+# print('Creating {} queries\n'.format(len(built_filters)))
+# fix_batch_get_logs_and_save(built_filters)
+
 """
 ======================
     Main process
@@ -30,11 +37,11 @@ A. Get logs from GCP Bucket and save to ./db by instance_id
 release_name = 'budapest'  # None for default bucket, if no specific bucket was created for the release
 get_all_logs_of_release(release_name)
 
-# # TEST
+# # Alternative: to analyze only a subsets of logs
 # df = pd.concat([
-#     read_and_parse_logs_of_release('cos_containers/2021/12/12/00:00:00_00:59:59_S0.json', None, False)
-#     # read_and_parse_logs_of_release('cos_containers/2021/12/12/01:00:00_01:59:59_S0.json', None, False),
-#     # read_and_parse_logs_of_release('cos_containers/2021/12/12/02:00:00_02:59:59_S0.json', None, False)
+#     read_and_parse_logs_of_release('cos_containers/2021/12/19/00:00:00_00:59:59_S0.json', release_name, False),
+#     read_and_parse_logs_of_release('cos_containers/2021/12/19/01:00:00_01:59:59_S0.json', release_name, False),
+#     read_and_parse_logs_of_release('cos_containers/2021/12/19/02:00:00_02:59:59_S0.json', release_name, False)
 # ]).reset_index(drop=True)
 # print(df)
 

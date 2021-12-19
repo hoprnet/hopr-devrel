@@ -19,6 +19,18 @@ def if_file_exist(folder, file_name):
         print('Files {} does not exist'.format(file_path))
     return if_exist
 
+def return_file_to_save(folder, file_name, is_append=False):
+    folder_path = os.path.join(Constants.FILE_DIRECTORY, folder)
+    file_path = get_file_path(folder, file_name)
+    # check if folder exists, if not create one
+    if not os.path.exists(folder_path):
+        os.mkdir(folder_path)
+    if is_append:
+        f = open(file_path, "a")
+    else:
+        f = open(file_path, "w")
+    return f
+
 def save_csv(data_frame, folder, file_name, contains_header=True, is_append=False):
     """
     Save a data frame to the csv file
