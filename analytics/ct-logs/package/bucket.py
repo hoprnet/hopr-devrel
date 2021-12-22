@@ -78,9 +78,10 @@ def get_all_logs_of_release(release_name, filter_console_log=True):
     dfs = []
     all_blobs = list(storage_client.list_blobs(bucket, prefix=Constants.DEFAULT_BUCKET_BLOB_SUBFOLDER))
     for blob in all_blobs:
-        blob_names.append(blob.name)
-        read_content_df = parse_logs_of_release_from_blob(blob, filter_console_log)
-        dfs.append(read_content_df)
+        if blob.name.endswith('.json'):
+            blob_names.append(blob.name)
+            read_content_df = parse_logs_of_release_from_blob(blob, filter_console_log)
+            dfs.append(read_content_df)
     
     print(f"Blobs amount: {len(blob_names)}")
     results = pd.concat(dfs).reset_index(drop=True)
@@ -94,6 +95,7 @@ def read_and_parse_logs_of_release(blob_name, release_name, filter_console_log=T
 
     :param blob_name: A List of queries being passed to the GCP Logger
     :param release_name: Get the bucket name from release_name. None means the default bucket 'log_query_results'.
+    :param filter_console_log: Default True, filter out logs logged with `console.log` which does not contain node_time. False: keep logs without node_time
     :return: returns the dataframe with "g_time" (timestamp that the log is output to GCP Logger) and "message" (log content)
     """
     bucket = storage_client.get_bucket(get_bucket_name(release_name))
@@ -105,6 +107,7 @@ def parse_logs_of_release_from_blob(blob, filter_console_log=True):
     Extract only message and timestamp filed from cover-traffic logs blob
 
     :param blob: cover-traffic logs blob
+    :param filter_console_log: Default True, filter out logs logged with `console.log` which does not contain node_time. False: keep logs without node_time
     :return: returns the dataframe with "g_time" (timestamp that the log is output to GCP Logger) and "message" (log content)
     """
     with blob.open("rt") as f:
@@ -176,7 +179,7 @@ def route_to_dfs(df, df_name):
         for file_name in sub_df_dictionary.keys():
             df = extract_per_instance[sub_df_dictionary[file_name]]
             # drop rows where content rows are all NaNs
-            df = df.dropna(thresh=len(sub_df_dictionary[file_name]))
+            df = df.dropna(subset = list(sub_df_dictionary[file_name]))
             sub_df_of_instance.append(df)
             print('     > {} file of instance {} has size of {}'.format(file_name, instance_id, df.shape))
             if df.shape[0] > 0:

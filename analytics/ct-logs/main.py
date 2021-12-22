@@ -7,10 +7,10 @@ from package import *
 # ============================================================
 # """
 # # Create a new bucket
-# new_release_name = 'budapest'
+# new_release_name = 'budapest_dec20'
 # new_release_bucket = create_bucket_for_release(new_release_name)
 # # Spin up a CT node... and take the instance_id
-# new_instance_id = '8112381180178057866'
+# new_instance_id = '4538161417096644131'
 # # Build filter used in sink
 # sink_filter = build_sink_filter(new_instance_id)
 # # Create sink for the new bucket
@@ -34,12 +34,12 @@ A. Get logs from GCP Bucket and save to ./db by instance_id
 
 !! Please remove ./db/<instance_id> folder before running the command !!
 """
-release_name = 'budapest'  # None for default bucket, if no specific bucket was created for the release
-get_all_logs_of_release(release_name)
+release_name = 'budapest_dec20'  # None for default bucket, if no specific bucket was created for the release
+get_all_logs_of_release(release_name, False)
 
 # # Alternative: to analyze only a subsets of logs
 # df = pd.concat([
-#     read_and_parse_logs_of_release('cos_containers/2021/12/19/18:00:00_18:59:59_S0.json', release_name, False)
+#     read_and_parse_logs_of_release('cos_containers/2021/12/20/14:00:00_14:59:59_S0.json', release_name, False)
 # ]).reset_index(drop=True)
 # print(df)
 
