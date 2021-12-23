@@ -2,6 +2,8 @@ from google.cloud import logging
 from datetime import date
 from datetime import timedelta
 import pandas as pd
+import json
+from .io import return_file_to_save
 
 print('Connect to logging client...\n')
 logging_client = logging.Client()
@@ -86,3 +88,112 @@ def get_logs_from_queries_and_concat(queries, max_entry_per_query):
         query_result_df = get_logs(query, max_entries=max_entry_per_query)
         appended.append(query_result_df)
     return pd.concat(appended).reset_index(drop=True)
+
+# Sink
+def create_all_ct_logs_sink(release_name, filter):
+    sink = logging.Sink(name='ct_'+release_name, filter_=filter)
+    logging.Sink.create(logging_client)
+
+def create_sink(sink_name, destination_bucket, filter_):
+    """
+    Creates a sink to export logs to the given Cloud Storage bucket.
+
+    The filter determines which logs this sink matches and will be exported
+    to the destination. For example a filter of 'severity>=INFO' will send
+    all logs that have a severity of INFO or greater to the destination.
+    See https://cloud.google.com/logging/docs/view/advanced_filters for more
+    filter information.
+    """
+    logging_client = logging.Client()
+
+    # The destination can be a Cloud Storage bucket, a Cloud Pub/Sub topic,
+    # or a BigQuery dataset. In this case, it is a Cloud Storage Bucket.
+    # See https://cloud.google.com/logging/docs/api/tasks/exporting-logs for
+    # information on the destination format.
+    destination = "storage.googleapis.com/{bucket}".format(bucket=destination_bucket)
+
+    sink = logging_client.sink(sink_name, filter_=filter_, destination=destination)
+
+    if sink.exists():
+        print("Sink {} already exists.".format(sink.name))
+        return
+
+    sink.create()
+    print("Created sink {}".format(sink.name))
+
+def update_sink(sink_name, filter_):
+    """
+    Changes a sink's filter.
+
+    The filter determines which logs this sink matches and will be exported
+    to the destination. For example a filter of 'severity>=INFO' will send
+    all logs that have a severity of INFO or greater to the destination.
+    See https://cloud.google.com/logging/docs/view/advanced_filters for more
+    filter information.
+    """
+    logging_client = logging.Client()
+    sink = logging_client.sink(sink_name)
+
+    sink.reload()
+
+    sink.filter_ = filter_
+    print("Updated sink {}".format(sink.name))
+    sink.update()
+
+def build_sink_filter(instance_id):
+    """
+    Construct a filter for given instance id
+
+    :param instance_id: The instance id of cover traffic node
+    :param regex_expression: The Regex expression that applies on the output logs
+    :return: returns the filter string
+    """
+    return ('((resource.type="gce_instance" AND resource.labels.instance_id="' 
+        + instance_id 
+        + '") OR (resource.type="global" AND jsonPayload.instance.id="' 
+        + instance_id 
+        + '"))')
+
+
+# Get missing logs
+def fix_build_filters(instance_id, date, hours):
+    result_dictionary = {}
+    for hour in hours:
+        result_key = str(hour) + ':00:00_' + str(hour) + ':59:59_S0.json'
+        result_values = []
+        for minute_start in range(6):
+            # every 10 minutes
+            built_filter = ('(resource.type="gce_instance" AND resource.labels.instance_id="' + instance_id 
+                + '") OR (resource.type="global" AND jsonPayload.instance.id="' + instance_id + '") AND (timestamp >= "' 
+                + date + 'T' + hour + ':' + str(minute_start) + '0:00.000z" AND timestamp <= "' 
+                + date + 'T' + hour + ':' + str(minute_start) + '9:59.999z")')
+            result_values.append(built_filter)
+        result_dictionary.update({result_key: result_values})
+    return result_dictionary
+
+def fix_get_logs(filter_string, **kwargs):
+    result = ''
+    max_entries = kwargs.get('max_entries', None)
+    nr_entries = 0
+    for entry in logging_client.list_entries(filter_=filter_string):
+        result += "{}\n".format(json.dumps(entry.to_api_repr()))
+        nr_entries += 1
+        if max_entries is not None and nr_entries >= max_entries:
+            break
+    return result
+
+def fix_batch_get_logs_and_save(query_filter_dict):
+    dict_keys = list(query_filter_dict.keys())
+    for dict_key in dict_keys:
+        # dict_key is file_name
+        print("Collecting entries for file {}".format(dict_key))
+        query_nr = 0
+        for built_filter in query_filter_dict[dict_key]:
+            print("     Querying entry nr. {}".format(query_nr))
+            result = fix_get_logs(built_filter)
+            f = return_file_to_save('../tmp/', dict_key, True)
+            f.write(result) # end in new line
+            f.close()
+            query_nr += 1
+    print("Complete batch getting logs.")
+
