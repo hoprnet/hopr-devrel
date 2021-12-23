@@ -46,19 +46,19 @@ class Constants:
         # Check first if it's possible to send 2-hop messages - when not enough nodes exist in the topology, abort send attempts.
         'fail_to_send_in_sendctmessage_method': r'hopr:cover-traffic failed to send to (?P<fail_to_send>[\w\d]*) fails: (?P<fail_to_send_times>\d*)',
         # to breakdown errors
-        # > sucess in finding path
+        # > sucess in finding path. For each open CT channel, it tries to find a 
         'path_found': r'SEND (?P<path_to_send>[\w\d,]*)',
         # > failure in sending a message
         'error_sent': r'hopr:cover-traffic error (?P<error_sent>.*) sending to (?P<error_sent_to>.*)',
         # success in sending a message
-        'success_sent': r'success sending (?P<success_sent>.*)',
+        'success_sent': r'success sending (?P<success_sent>.*) message (?P<success_sent_message>.*)',
         # For channels with `WAITING_FOR_COMMITMENT` status, check if they've been in this status for long. If yes, close
         'close_with_long_stall': r'channel is stalled in WAITING_FOR_COMMITMENT, closing (?P<close_long_stall>[\w\d]*)',
         'still_wait_for_stall': r'channel is WAITING_FOR_COMMITMENT, waiting (?P<wait_for_stall>[\w\d]*)',
         # For channels that are `CLOSED` or `PENDING_TO_CLOSE`, they should not be in the process
-        'unknown_error_in_ct_channels': r'Unknown error in sending traffic. Channel is (?P<fail_with_unknown_state>\w*); openChannel is (?P<fail_with_unknown_channel>.*)',
+        'unknown_error_in_ct_channels': r'Unknown error with open CT channels. Channel is (?P<fail_with_unknown_state>\w*); openChannel is (?P<fail_with_unknown_channel_destination>.*) since (?P<fail_with_unknown_channel_open_since>\d*) with quality (?P<fail_with_unknown_channel_latest_quality>\d*)',
         # end of send phase
-        'completed_send_phase': r'message send phase (?P<complete>\w*)',
+        'completed_send_phase': r'message send phase complete for (?P<complete>\d*) ctChannels',
 
         # When sending messages, it logs the following messages
         # > checks the local outstanding balances
