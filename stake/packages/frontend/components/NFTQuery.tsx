@@ -124,7 +124,9 @@ const NFTContainer = ({
 }) => (
   <>
     {nfts.map((nft) => {
-      const isRelevantNFT = consideredNFTs[nft.typeName] && consideredNFTs[nft.typeName].factor == nft.factor
+      const isRelevantNFT =
+        consideredNFTs[nft.typeName] &&
+        consideredNFTs[nft.typeName].factor == nft.factor
       return (
         <Box
           key={nft.tokenId}
@@ -201,12 +203,12 @@ const NFTContainer = ({
                   </Box>
                 )}
               </Box>
-              <Box isTruncated mt="10px">
+              {/* <Box isTruncated mt="10px">
                 Redeem Deadline
               </Box>
               <Text fontSize="xs" fontFamily="mono">
                 {new Date(nft.deadline * 1000).toUTCString()}
-              </Text>
+              </Text> */}
 
               {!nft.redeemed && (
                 <NFTLockButton

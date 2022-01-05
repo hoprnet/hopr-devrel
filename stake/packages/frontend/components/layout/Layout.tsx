@@ -18,7 +18,11 @@ import {
   Tag,
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { getExplorerAddressLink, useEthers, useNotifications } from '@usedapp/core'
+import {
+  getExplorerAddressLink,
+  useEthers,
+  useNotifications,
+} from '@usedapp/core'
 import blockies from 'blockies-ts'
 import React from 'react'
 import { useEffect, useState } from 'react'
@@ -90,6 +94,17 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
     <>
       <Head customMeta={customMeta} />
       <header>
+        <Box
+          backgroundColor="yellow.100"
+          color="blue.500"
+          textAlign="center"
+          padding="10px"
+        >
+          <Link px="1" href="https://season1.stake.hoprnet.org" isExternal>
+            Unstake your season 1 stake by following this link
+            <ExternalLinkIcon />
+          </Link>
+        </Box>
         <Container maxWidth="container.xl">
           <SimpleGrid
             columns={[1, 1, 1, 3]}
@@ -108,7 +123,10 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
               <Link
                 px="4"
                 py="1"
-                href={getExplorerAddressLink(contractAddresses.HoprStake, chainId)}
+                href={getExplorerAddressLink(
+                  contractAddresses.HoprStake,
+                  chainId
+                )}
                 isExternal
               >
                 Contract Address <ExternalLinkIcon />
