@@ -19,6 +19,7 @@ import {
   setStaking,
   setSync,
   StateType,
+  setUnlock,
 } from '../lib/reducers'
 import { RPC_COLOURS } from '../lib/connectors'
 import { useBlockNumber, useEthers } from '@usedapp/core'
@@ -284,6 +285,9 @@ export const StakeXHoprTokens = ({
               bg="blackAlpha.900"
               color="whiteAlpha.900"
               isDisabled={true}
+              onClick={() => {
+                setUnlock(HoprStakeContractAddress, library, dispatch)
+              }}
             >
               Unlock (
               <EndProgramDateDays
