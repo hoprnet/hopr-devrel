@@ -19,8 +19,10 @@ import {
   setStaking,
   setSync,
   StateType,
+  setUnlock,
 } from '../lib/reducers'
 import { RPC_COLOURS } from '../lib/connectors'
+import { useEndProgramDate } from '../lib/hooks'
 import { useBlockNumber, useEthers } from '@usedapp/core'
 import { Dispatch, useState } from 'react'
 import { EndProgramDateDays } from './atoms/ProgramDate'
@@ -63,6 +65,7 @@ export const StakeXHoprTokens = ({
   const bonusBoost = state.totalAPRBoost / FACTOR_DENOMINATOR
   const totalBoost = bonusBoost + baseBoost
   const estimatedRewards = timeDiff * (+state.stakedHOPRTokens * totalBoost)
+  const canUnlock = useEndProgramDate(HoprStakeContractAddress)?.gte(new Date().getTime()) ?? false
 
   const hasLoaded = () => loadStatus === LOADED_STATUS.LOADED
 
@@ -283,7 +286,10 @@ export const StakeXHoprTokens = ({
               mx="10px"
               bg="blackAlpha.900"
               color="whiteAlpha.900"
-              isDisabled={true}
+              isDisabled={!canUnlock}
+              onClick={() => {
+                setUnlock(HoprStakeContractAddress, library, dispatch)
+              }}
             >
               Unlock (
               <EndProgramDateDays

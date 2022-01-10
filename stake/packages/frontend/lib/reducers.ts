@@ -24,6 +24,7 @@ export type StateType = {
   isLoadingRedeem: boolean
   isLoadingClaim: boolean
   totalAPRBoost: number
+  isLoadingUnlock: boolean
 }
 
 /**
@@ -41,6 +42,7 @@ export const initialState: StateType = {
   isLoadingRedeem: false,
   isLoadingClaim: false,
   totalAPRBoost: -1,
+  isLoadingUnlock: false,
 }
 
 type Accounts = {
@@ -87,6 +89,10 @@ export type ActionType =
     type: 'SET_TOTAL_APR_BOOST'
     totalAPRBoost: StateType['totalAPRBoost']
   }
+  | {
+    type: 'SET_LOADING_UNLOCK'
+    isLoadingUnlock: StateType['isLoadingUnlock']
+  }
 
 export function reducer(state: StateType, action: ActionType): StateType {
   switch (action.type) {
@@ -132,6 +138,11 @@ export function reducer(state: StateType, action: ActionType): StateType {
       return {
         ...state,
         totalAPRBoost: action.totalAPRBoost
+      }
+    case 'SET_LOADING_UNLOCK':
+      return {
+        ...state,
+        isLoadingUnlock: action.isLoadingUnlock
       }
     default:
       throw new Error()
@@ -320,6 +331,38 @@ export async function setStaking(
     dispatch({
       type: 'SET_LOADING_STAKING',
       isLoadingStaking: false,
+    })
+  }
+}
+
+export async function setUnlock(
+  HoprStakeContractAddress: string,
+  provider: Web3Provider,
+  dispatch: React.Dispatch<ActionType>
+): Promise<void> {
+  if (provider && HoprStakeContractAddress != '') {
+    dispatch({
+      type: 'SET_LOADING_UNLOCK',
+      isLoadingUnlock: true,
+    })
+    const signer = provider.getSigner()
+    const address = await signer.getAddress()
+    const contract = new ethers.Contract(
+      HoprStakeContractAddress,
+      HoprStakeABI,
+      signer
+    ) as unknown as HoprStakeType
+    const transaction = await contract.unlock(address)
+    await transaction.wait()
+    fetchAccountData(
+      HoprStakeContractAddress,
+      address,
+      provider,
+      dispatch
+    )
+    dispatch({
+      type: 'SET_LOADING_UNLOCK',
+      isLoadingUnlock: false,
     })
   }
 }
