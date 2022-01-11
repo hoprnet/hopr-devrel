@@ -352,7 +352,7 @@ export async function setUnlock(
       HoprStakeABI,
       signer
     ) as unknown as HoprStakeType
-    const transaction = await contract.unlock(address)
+    const transaction = await contract.unlockFor(address)
     await transaction.wait()
     fetchAccountData(
       HoprStakeContractAddress,

@@ -10,7 +10,7 @@ export function useStartProgramDate(stakeContractAddress: string | Falsy): BigNu
         stakeContractAddress && {
         abi: new Interface(HoprStakeABI),
         address: stakeContractAddress,
-        method: 'BASIC_START',
+        method: 'PROGRAM_START',
         args: [],
         }
       ) ?? []
