@@ -4,7 +4,7 @@ import React from 'react'
 import xHOPRTokenABI from '@hoprnet/hopr-stake/lib/chain/abis/ERC677Mock.json'
 import { ERC677Mock as xHOPRTokenType } from '@hoprnet/hopr-stake/lib/types/ERC677Mock'
 import HoprStakeABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprStake.json'
-import { HoprStake as HoprStakeType } from '@hoprnet/hopr-stake/lib/types/HoprStake'
+import { HoprStake2 as HoprStakeType } from '@hoprnet/hopr-stake/lib/types/HoprStake2'
 import HoprBoostABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprBoost.json'
 import { HoprBoost as HoprBoostType } from '@hoprnet/hopr-stake/lib/types/HoprBoost'
 import { round } from './helpers'
@@ -47,7 +47,6 @@ export const initialState: StateType = {
 
 type Accounts = {
   actualLockedTokenAmount: BigNumber
-  virtualLockedTokenAmount: BigNumber
   lastSyncTimestamp: BigNumber
   cumulatedRewards: BigNumber
   claimedRewards: BigNumber
