@@ -58,7 +58,7 @@ export const getBlockNumberFromDeploymentTransactionHashReceipt = async (chainId
       await import(`@hoprnet/hopr-stake/deployments/${network}/HoprBoost.json`)
     ).receipt.blockNumber,
     HoprStake: (
-      await import(`@hoprnet/hopr-stake/deployments/${network}/HoprStake.json`)
+      await import(`@hoprnet/hopr-stake/deployments/${network}/HoprStake2.json`)
     ).receipt.blockNumber
   }
 }
