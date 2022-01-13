@@ -65,8 +65,10 @@ export const StakeXHoprTokens = ({
   const bonusBoost = state.totalAPRBoost / FACTOR_DENOMINATOR
   const totalBoost = bonusBoost + baseBoost
   const estimatedRewards = timeDiff * (+state.stakedHOPRTokens * totalBoost)
-  const canUnlock = useEndProgramDate(HoprStakeContractAddress)?.gte(new Date().getTime()) ?? false
-
+  const canUnlock =
+    useEndProgramDate(HoprStakeContractAddress)?.lt(
+      Math.floor(new Date().getTime() / 1e3)
+    ) ?? false
   const hasLoaded = () => loadStatus === LOADED_STATUS.LOADED
 
   useEffect(() => {
@@ -291,11 +293,16 @@ export const StakeXHoprTokens = ({
                 setUnlock(HoprStakeContractAddress, library, dispatch)
               }}
             >
-              Unlock (
-              <EndProgramDateDays
-                HoprStakeContractAddress={HoprStakeContractAddress}
-              />{' '}
-              to go)
+              Unlock
+              {canUnlock ? null : (
+                <>
+                  (
+                  <EndProgramDateDays
+                    HoprStakeContractAddress={HoprStakeContractAddress}
+                  />{' '}
+                  to go)
+                </>
+              )}
             </Button>
             <CallButton
               isLoading={state.isLoadingClaim}
