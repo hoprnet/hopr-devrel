@@ -40,7 +40,7 @@ export const getContractAddresses = async (chainId: number): Promise<IContractAd
       await import(`@hoprnet/hopr-stake/deployments/${network}/HoprBoost.json`)
     ).address,
     HoprStake: (
-      await import(`@hoprnet/hopr-stake/deployments/${network}/HoprStake.json`)
+      await import(`@hoprnet/hopr-stake/deployments/${network}/HoprStake2.json`)
     ).address,
   }
 }
