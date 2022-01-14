@@ -243,7 +243,7 @@ export const StakeXHoprTokens = ({
                 {state.lastSync
                   ? state.lastSync == '0'
                     ? 'Never'
-                    : new Date(+state.lastSync * 1000).toUTCString()
+                    : new Date(+state.lastSync * 1000).toString()
                   : '--'}
                 {+state.lastSync > 0 && `(${format(+state.lastSync * 1000)})`}
               </Text>
