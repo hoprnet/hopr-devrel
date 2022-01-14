@@ -115,7 +115,7 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
             <Flex py={[4, null, null, 0]}>
               <Link
                 py="1"
-                href="https://medium.com/hoprnet/hopr-staking-program-full-details-d0a4eb12d2c"
+                href="https://medium.com/hoprnet/hopr-staking-2-0-6e79dbf66827"
                 isExternal
               >
                 Read about HOPR staking <ExternalLinkIcon />
