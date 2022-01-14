@@ -53,7 +53,7 @@ function HomeIndex(): JSX.Element {
   return (
     <Layout>
       <Box d="flex" mb="8" justifyContent="space-between" alignItems="center">
-        <Heading as="h1">HOPR Staking</Heading>
+        <Heading as="h1">HOPR Staking Season 2</Heading>
         <Box d="flex" alignItems="center">
           <Box d="flex" alignItems="baseline" mr="20px">
             <Text fontWeight="600" mr="10px">
@@ -86,6 +86,20 @@ function HomeIndex(): JSX.Element {
         tokens to earn a base APR of{' '}
       </Text>
       <APRBalance totalAPRBoost={state.totalAPRBoost} />.
+      <Text mt="8" fontSize="xl">
+        HOPR Staking Season 1 has finished, to recover your xHOPR stake, locked
+        NFTs and unclaimed wxHOPR rewards, visit{' '}
+        <Link px="1" href="https://stake-s1.hoprnet.org" isExternal>
+          stake S1 <ExternalLinkIcon />
+        </Link>
+        , connect your wallet and press “Unlock”. To restake, simply return to
+        this site.
+      </Text>
+      <Heading mt="8" as="h4" fontSize="large">
+        MAKE SURE TO STAKE FROM YOUR SEASON 1 ADDRESS TO BE ELIGIBLE FOR EXTRA
+        REWARDS
+      </Heading>
+      <br />
       <Text mt="8" fontSize="xl" d="inline">
         Starting{' '}
       </Text>
@@ -112,7 +126,15 @@ function HomeIndex(): JSX.Element {
       </BoldText>
       <Text mt="2" fontSize="xl">
         Increase your APR by redeeming NFTs to your account. HOPR NFTs can be
-        earned by participating in HOPR testnets and activities.
+        earned by participating in{' '}
+        <Link px="1" href="https://hoprnet.org/hop-on-board" isExternal>
+          Hop on Board <ExternalLinkIcon />
+        </Link>{' '}
+        events. Season 1 NFTs can be restaked for Season 2 with the same APR
+        boost. Staking in Season 2 is the only way to access the cover traffic
+        testing whitelist to earn extra rewards. Whitelist access will be based
+        on NFT ownership, and eligibility will expand as tech milestones are
+        reached.
       </Text>
       <ParagraphLinks />
       <Text mt="2" fontSize="xl"></Text>
