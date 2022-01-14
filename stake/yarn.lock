@@ -1699,10 +1699,10 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.2.0.tgz#f3933a44e365864f4dad5db94158106d511e8131"
   integrity sha512-sqKVVVOe5ivCaXDWivIJYVSaEgdQK9ul7a4Kity5Iw7u9+wBAPbX1RMSnLLmp7O4Vzj0WOWwMAJsTL00xwaNug==
 
-"@hoprnet/hopr-stake@^0.1.3":
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/@hoprnet/hopr-stake/-/hopr-stake-0.1.3.tgz#e507e6e1167e5293ced210bce25294b6ab6e09b0"
-  integrity sha512-efUVPhpAqT7QbonPqBbzUGDvK1b1ih31N2AYTF8LAcOU2lP8kjmZ90RGkApe4NiCILl03xuXj1Qx5CGiY2zseQ==
+"@hoprnet/hopr-stake@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@hoprnet/hopr-stake/-/hopr-stake-0.1.4.tgz#5fcec58d66581bc85c8ee9c1e8e4ca90b2a4afb2"
+  integrity sha512-/+W+TB9sEge/8/6CoGAdWb0dSjFYc7XRnUArHt9Civ+LPvLvFMkRZ3ZrUEQ+yi03jc8ty/dthvz17r1X/RUlGQ==
   dependencies:
     axios "^0.24.0"
     csv-parse "^4.16.3"

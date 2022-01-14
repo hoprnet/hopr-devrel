@@ -6,6 +6,11 @@ const RPC_URLS: { [chainId: number]: string } = {
   100: 'https://provider-proxy.hoprnet.workers.dev/xdai_mainnet',
 }
 
+export const SUBGRPAH_URLS: { [chainId: number]: string } = {
+  5: 'https://api.thegraph.com/subgraphs/name/hoprnet/staking-season2-development',
+  100: 'https://api.thegraph.com/subgraphs/name/hoprnet/staking-season2',
+}
+
 export const RPC_COLOURS: { [chainId: number]: { bg: string, color: string, scheme: string } } = {
   5: { bg: "lightblue", color: "#414141", scheme: "blue" },
   100: { bg: "yellow.500", color: "#414141", scheme: "yellow" },

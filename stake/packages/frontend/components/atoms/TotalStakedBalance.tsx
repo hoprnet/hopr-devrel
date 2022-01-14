@@ -1,14 +1,11 @@
-import { createClient } from '@urql/core'
+import { Client, createClient } from '@urql/core'
 import { useEffect, useState } from 'react'
 import { Skeleton, Tag, Tooltip } from '@chakra-ui/react'
 import { utils } from 'ethers'
+import { useEthers } from '@usedapp/core'
+import { SUBGRPAH_URLS } from '../../lib/connectors'
 
-const client = createClient({
-  url: 'https://api.thegraph.com/subgraphs/name/hoprnet/hopr-staking-program',
-  fetchOptions: {
-    mode: 'cors', // no-cors, cors, *same-origin
-  },
-})
+let client: Client
 
 const QUERY_STATS = `
 {
@@ -22,12 +19,19 @@ const QUERY_STATS = `
 `
 
 export const TotalStakedBalance = () => {
+  const { chainId } = useEthers()
   const [isLoaded, setLoaded] = useState(true)
   const [actualStake, setActualStake] = useState(0)
   const [totalStake, setTotalStake] = useState(0)
   useEffect(() => {
     const loadStakingStats = async () => {
       setLoaded(false)
+      client = createClient({
+        url: SUBGRPAH_URLS[chainId] || SUBGRPAH_URLS['100'],
+        fetchOptions: {
+          mode: 'cors', // no-cors, cors, *same-origin
+        },
+      })
       const { data } = await client.query(QUERY_STATS).toPromise()
       const totalActualStake = +utils.formatEther(
         data.programs[0].totalActualStake
