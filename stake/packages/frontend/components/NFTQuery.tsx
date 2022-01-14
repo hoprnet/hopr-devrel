@@ -207,7 +207,7 @@ const NFTContainer = ({
                 Redeem Deadline
               </Box>
               <Text fontSize="xs" fontFamily="mono">
-                {new Date(nft.deadline * 1000).toUTCString()}
+                {new Date(nft.deadline * 1000).toString()}
               </Text> */}
 
               {!nft.redeemed && (
