@@ -15,6 +15,7 @@ export const EndProgramDateDays = ({
 }: {
   HoprStakeContractAddress: string
 }): JSX.Element => {
+  console.log("HoprStakeContractAddress", HoprStakeContractAddress)
   const endProgramDateInSeconds =
     useEndProgramDate(HoprStakeContractAddress) || constants.Zero
   const endProgramDateInMs = +endProgramDateInSeconds.toString() * 1000

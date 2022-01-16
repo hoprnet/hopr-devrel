@@ -33,9 +33,9 @@ export const TotalStakedBalance = () => {
         },
       })
       const { data } = await client.query(QUERY_STATS).toPromise()
-      const totalActualStake = +utils.formatEther(
+      const totalActualStake = data.programs.length > 0 ? +utils.formatEther(
         data.programs[0].totalActualStake
-      )
+      ) : 0
       setActualStake(totalActualStake)
       setTotalStake(totalActualStake)
       setLoaded(true)
