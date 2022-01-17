@@ -304,14 +304,14 @@ export const StakeXHoprTokens = ({
                 </>
               )}
             </Button>
-            <CallButton
+            {/* <CallButton
               isLoading={state.isLoadingClaim}
               handler={() => {
                 setClaim(HoprStakeContractAddress, library, dispatch)
               }}
             >
               Claim rewards
-            </CallButton>
+            </CallButton> */}
           </Box>
         )}
       </Box>
