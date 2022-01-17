@@ -10,13 +10,11 @@ import {
   Skeleton,
 } from '@chakra-ui/react'
 import { CurrencyTag } from '../components/atoms/CurrencyTag'
-import { CallButton } from './atoms/CallButton'
 import { MaxXHOPRButton } from './atoms/MaxXHOPRButton'
 import {
   ActionType,
   fetchAccountData,
   setStaking,
-  setSync,
   StateType,
   setUnlock,
 } from '../lib/reducers'
@@ -274,14 +272,14 @@ export const StakeXHoprTokens = ({
         </Box>
         {account && (
           <Box textAlign="right">
-            <CallButton
+            {/* <CallButton
               isLoading={state.isLoadingSync}
               handler={() => {
                 setSync(HoprStakeContractAddress, library, dispatch)
               }}
             >
               Sync
-            </CallButton>
+            </CallButton> */}
             <Button
               size="md"
               mx="10px"
