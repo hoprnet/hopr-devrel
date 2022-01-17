@@ -74,48 +74,21 @@ function HomeIndex(): JSX.Element {
           </Box>
         </Box>
       </Box>
-      <Text mt="8" fontSize="xl" d="inline">
-        Stake{' '}
-        <Link
-          px="1"
-          href={getExplorerAddressLink(contractAddresses.xHOPR, chainId)}
-          isExternal
-        >
-          xHOPR <ExternalLinkIcon />
-        </Link>{' '}
-        tokens to earn a base APR of{' '}
+      <Text mt="8" fontSize="xl">
+        HOPR Staking Season 1 has ended. Press "Unlock" to recover your stake,
+        your HOPR Boost NFTs, and claim any unclaimed rewards.
       </Text>
-      <APRBalance totalAPRBoost={state.totalAPRBoost} />.
-      <Text mt="8" fontSize="xl" d="inline">
-        Starting{' '}
+      <Text fontSize="xl">
+        To restake in HOPR Staking Season 2, click{' '}
+        <Link px="1" href="https://stake.hoprnet.org" isExternal>
+          stake.hoprnet.org
+        </Link>
+        . Any questions, please ask on{' '}
+        <Link px="1" href="https://t.me/hoprnet" isExternal>
+          Telegram
+        </Link>
+        ."
       </Text>
-      <BoldText>
-        <StartProgramDate
-          HoprStakeContractAddress={contractAddresses.HoprStake}
-        />
-      </BoldText>
-      <Text mt="8" fontSize="xl" d="inline">
-        , rewards can be claimed on each block. All rewards will be returned as{' '}
-        <Link
-          px="1"
-          href={getExplorerAddressLink(contractAddresses.wxHOPR, chainId)}
-          isExternal
-        >
-          wxHOPR <ExternalLinkIcon />
-        </Link>{' '}
-        tokens. xHOPR staked today will be locked for{' '}
-      </Text>
-      <BoldText fullstop>
-        <EndProgramDateDays
-          HoprStakeContractAddress={contractAddresses.HoprStake}
-        />
-      </BoldText>
-      <Text mt="2" fontSize="xl">
-        Increase your APR by redeeming NFTs to your account. HOPR NFTs can be
-        earned by participating in HOPR testnets and activities.
-      </Text>
-      <ParagraphLinks />
-      <Text mt="2" fontSize="xl"></Text>
       <Box
         maxWidth="container.l"
         p="8"
