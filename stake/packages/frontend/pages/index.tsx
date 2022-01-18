@@ -1,9 +1,7 @@
 import { Box, Heading, Text, Link, useColorMode } from '@chakra-ui/react'
-import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { getExplorerAddressLink, useEthers } from '@usedapp/core'
+import { useEthers } from '@usedapp/core'
 import React, { useEffect, useReducer, useState } from 'react'
 import { DarkModeSwitch } from '../components/atoms/DarkModeSwitch'
-
 import Layout from '../components/layout/Layout'
 import { NFTQuery } from '../components/NFTQuery'
 import { StakeXHoprTokens } from '../components/StakeXHoprTokens'
@@ -16,16 +14,9 @@ import {
   IContractFromBlockNumbers,
 } from '../lib/addresses'
 import { bgColor, color } from '../lib/helpers'
-import { APRBalance } from '../components/atoms/APRBalance'
 import { reducer, initialState } from '../lib/reducers'
-import { ParagraphLinks } from '../components/atoms/ParagraphLinks'
 import { TokenBalance } from '../components/atoms/TokenBalance'
 import { CurrencyTag } from '../components/atoms/CurrencyTag'
-import {
-  EndProgramDateDays,
-  StartProgramDate,
-} from '../components/atoms/ProgramDate'
-import { BoldText } from '../components/atoms/BoldText'
 import { TotalStakedBalance } from '../components/atoms/TotalStakedBalance'
 
 function HomeIndex(): JSX.Element {
@@ -75,8 +66,8 @@ function HomeIndex(): JSX.Element {
         </Box>
       </Box>
       <Text mt="8" fontSize="xl">
-        HOPR Staking Season 1 has ended. Press "Unlock" to recover your stake,
-        your HOPR Boost NFTs, and claim any unclaimed rewards.
+        HOPR Staking Season 1 has ended. Press &quot;Unlock&quot; to recover
+        your stake, your HOPR Boost NFTs, and claim any unclaimed rewards.
       </Text>
       <Text fontSize="xl">
         To restake in HOPR Staking Season 2, click{' '}
@@ -87,7 +78,7 @@ function HomeIndex(): JSX.Element {
         <Link px="1" href="https://t.me/hoprnet" isExternal>
           Telegram
         </Link>
-        ."
+        .
       </Text>
       <Box
         maxWidth="container.l"
