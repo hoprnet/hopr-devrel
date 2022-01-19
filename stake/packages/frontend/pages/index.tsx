@@ -73,55 +73,55 @@ function HomeIndex(): JSX.Element {
           STEP ONE: PREPARATION
         </Heading>
       <Text mt="2" fontSize="xl">
-        Visit this contract: <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract" isExternal>
+        <b>Visit this contract:</b> <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract" isExternal>
         https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract <ExternalLinkIcon />
         </Link>
       </Text>
       <Text mt="2" fontSize="xl">
-        Find row: 1. setInterfaceImplementer
+        Find row: <b>1. setInterfaceImplementer</b>
       </Text>
       <UnorderedList mt="2" fontSize="xl">
         <ListItem>In the first field paste your staking address</ListItem>
-        <ListItem>In the second field paste: 0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b</ListItem>
-        <ListItem>In the third field, paste: 0x153Aa74a8588606f134B2d35eB6e707a7d550705</ListItem>
+        <ListItem>In the second field paste: <b>0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b</b></ListItem>
+        <ListItem>In the third field, paste: <b>0x153Aa74a8588606f134B2d35eB6e707a7d550705</b></ListItem>
       </UnorderedList>
       <Text mt="2" fontSize="xl">
-        Click &quot;Write&quot;. A Metamask popup will appear. Confirm the transaction.
+        Click <b>&quot;Write&quot;</b>. A Metamask popup will appear. Confirm the transaction.
       </Text>
         <Heading as="h5" mt="4">
           STEP TWO: PERFORM UNLOCK
         </Heading>
       <Text mt="2" fontSize="xl">
-        Go to the whitehat contract: <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x153Aa74a8588606f134B2d35eB6e707a7d550705/write-contract" isExternal>
+        <b>Go to the whitehat contract</b>: <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x153Aa74a8588606f134B2d35eB6e707a7d550705/write-contract" isExternal>
         https://blockscout.com/xdai/mainnet/address/0x153Aa74a8588606f134B2d35eB6e707a7d550705/write-contract <ExternalLinkIcon />
 
           </Link>
       </Text>
       <Text mt="2" fontSize="xl">
-        Find row: 3. gimmeToken
+        Find row: <b>3. gimmeToken</b>
       </Text>
       <Text mt="2" fontSize="xl">
-        Click &quot;Write&quot;. A Metamask popup will appear. Confirm the transaction.
+        Click <b>&quot;Write&quot;</b>. A Metamask popup will appear. Confirm the transaction.
       </Text>
         <Heading as="h5" mt="4">
           STEP THREE: REVERSE STEP ONE
         </Heading>
       <Text mt="2" fontSize="xl">
-        Go back to the first contract: <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract" isExternal>
+        <b>Go back to the first contract</b>: <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract" isExternal>
         https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract <ExternalLinkIcon />
 
         </Link>
       </Text>
       <Text mt="2" fontSize="xl">
-        Find row: 1. setInterfaceImplementer
+        Find row: <b>1. setInterfaceImplementer</b>
       </Text>
       <UnorderedList mt="2" fontSize="xl">
         <ListItem>In the first field paste your staking address</ListItem>
-        <ListItem>In the second field paste: 0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b</ListItem>
-        <ListItem>In the third field, paste: 0x0000000000000000000000000000000000000000</ListItem>
+        <ListItem>In the second field paste: <b>0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b</b></ListItem>
+        <ListItem>In the third field, paste: <b>0x0000000000000000000000000000000000000000</b></ListItem>
       </UnorderedList>
       <Text mt="2" fontSize="xl">
-        Click &quot;Write&quot;. A Metamask popup will appear. Confirm the transaction. This will reset the ERC777TokensRecipient implementation proxy for your wallet and this will conclude the recovery.
+        Click <b>&quot;Write&quot;</b>. A Metamask popup will appear. Confirm the transaction. This will reset the ERC777TokensRecipient implementation proxy for your wallet and this will conclude the recovery.
       </Text>
       <Text mt="8" fontSize="xl">
         To restake in HOPR Staking Season 2, click{' '}
