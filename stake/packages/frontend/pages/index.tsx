@@ -83,7 +83,7 @@ function HomeIndex(): JSX.Element {
         </Link>
       </Text>
       <Text mt="2" fontSize="xl">
-        Find row: %quot;1. setInterfaceImplementer&quot;
+        Find row: &quot;1. setInterfaceImplementer&quot;
       </Text>
       <Text mt="2" fontSize="xl">
         Insert these parameters:<br/>
@@ -103,7 +103,7 @@ function HomeIndex(): JSX.Element {
           </Link>
       </Text>
       <Text mt="2" fontSize="xl">
-        Find row: %quot;3. gimmeToken&quot;
+        Find row: &quot;3. gimmeToken&quot;
       </Text>
       <Text mt="2" fontSize="xl">
         Click the button &quot;Write&quot;, the Metamask popup will come out, you will need to confirm the transaction.
@@ -122,7 +122,7 @@ function HomeIndex(): JSX.Element {
       </Text>
 
       <Text mt="2" fontSize="xl">
-        Find row: %quot;1. setInterfaceImplementer&quot;
+        Find row: &quot;1. setInterfaceImplementer&quot;
       </Text>
 
       <Text mt="2" fontSize="xl">
