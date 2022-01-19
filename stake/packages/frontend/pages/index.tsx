@@ -1,9 +1,8 @@
-import { Box, Heading, Text, Link, useColorMode } from '@chakra-ui/react'
+import { Box, Heading, Text, Link, useColorMode, UnorderedList, ListItem } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { getExplorerAddressLink, useEthers } from '@usedapp/core'
+import { useEthers } from '@usedapp/core'
 import React, { useEffect, useReducer, useState } from 'react'
 import { DarkModeSwitch } from '../components/atoms/DarkModeSwitch'
-
 import Layout from '../components/layout/Layout'
 import { NFTQuery } from '../components/NFTQuery'
 import { StakeXHoprTokens } from '../components/StakeXHoprTokens'
@@ -16,16 +15,9 @@ import {
   IContractFromBlockNumbers,
 } from '../lib/addresses'
 import { bgColor, color } from '../lib/helpers'
-import { APRBalance } from '../components/atoms/APRBalance'
 import { reducer, initialState } from '../lib/reducers'
-import { ParagraphLinks } from '../components/atoms/ParagraphLinks'
 import { TokenBalance } from '../components/atoms/TokenBalance'
 import { CurrencyTag } from '../components/atoms/CurrencyTag'
-import {
-  EndProgramDateDays,
-  StartProgramDate,
-} from '../components/atoms/ProgramDate'
-import { BoldText } from '../components/atoms/BoldText'
 import { TotalStakedBalance } from '../components/atoms/TotalStakedBalance'
 
 function HomeIndex(): JSX.Element {
@@ -74,48 +66,74 @@ function HomeIndex(): JSX.Element {
           </Box>
         </Box>
       </Box>
-      <Text mt="8" fontSize="xl" d="inline">
-        Stake{' '}
-        <Link
-          px="1"
-          href={getExplorerAddressLink(contractAddresses.xHOPR, chainId)}
-          isExternal
-        >
-          xHOPR <ExternalLinkIcon />
-        </Link>{' '}
-        tokens to earn a base APR of{' '}
+      <Text mt="8" fontSize="xl">
+        HOPR Staking Season 1 has ended. To unlock your tokens, please follow these steps. If you have any questions, please ask on Telegram [<Link px="1" href="https://t.me/hoprnet">https://t.me/hoprnet <ExternalLinkIcon /></Link>]
       </Text>
-      <APRBalance totalAPRBoost={state.totalAPRBoost} />.
-      <Text mt="8" fontSize="xl" d="inline">
-        Starting{' '}
-      </Text>
-      <BoldText>
-        <StartProgramDate
-          HoprStakeContractAddress={contractAddresses.HoprStake}
-        />
-      </BoldText>
-      <Text mt="8" fontSize="xl" d="inline">
-        , rewards can be claimed on each block. All rewards will be returned as{' '}
-        <Link
-          px="1"
-          href={getExplorerAddressLink(contractAddresses.wxHOPR, chainId)}
-          isExternal
-        >
-          wxHOPR <ExternalLinkIcon />
-        </Link>{' '}
-        tokens. xHOPR staked today will be locked for{' '}
-      </Text>
-      <BoldText fullstop>
-        <EndProgramDateDays
-          HoprStakeContractAddress={contractAddresses.HoprStake}
-        />
-      </BoldText>
+        <Heading as="h5" mt="4">
+          STEP ONE: PREPARATION
+        </Heading>
       <Text mt="2" fontSize="xl">
-        Increase your APR by redeeming NFTs to your account. HOPR NFTs can be
-        earned by participating in HOPR testnets and activities.
+        Visit this contract: <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract" isExternal>
+        https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract <ExternalLinkIcon />
+        </Link>
       </Text>
-      <ParagraphLinks />
-      <Text mt="2" fontSize="xl"></Text>
+      <Text mt="2" fontSize="xl">
+        Find row: 1. setInterfaceImplementer
+      </Text>
+      <UnorderedList mt="2" fontSize="xl">
+        <ListItem>In the first field paste your staking address</ListItem>
+        <ListItem>In the second field paste: 0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b</ListItem>
+        <ListItem>In the third field, paste: 0x153Aa74a8588606f134B2d35eB6e707a7d550705</ListItem>
+      </UnorderedList>
+      <Text mt="2" fontSize="xl">
+        Click &quot;Write&quot;. A Metamask popup will appear. Confirm the transaction.
+      </Text>
+        <Heading as="h5" mt="4">
+          STEP TWO: PERFORM UNLOCK
+        </Heading>
+      <Text mt="2" fontSize="xl">
+        Go to the whitehat contract: <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x153Aa74a8588606f134B2d35eB6e707a7d550705/write-contract" isExternal>
+        https://blockscout.com/xdai/mainnet/address/0x153Aa74a8588606f134B2d35eB6e707a7d550705/write-contract <ExternalLinkIcon />
+
+          </Link>
+      </Text>
+      <Text mt="2" fontSize="xl">
+        Find row: 3. gimmeToken
+      </Text>
+      <Text mt="2" fontSize="xl">
+        Click &quot;Write&quot;. A Metamask popup will appear. Confirm the transaction.
+      </Text>
+        <Heading as="h5" mt="4">
+          STEP THREE: REVERSE STEP ONE
+        </Heading>
+      <Text mt="2" fontSize="xl">
+        Go back to the first contract: <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract" isExternal>
+        https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract <ExternalLinkIcon />
+
+        </Link>
+      </Text>
+      <Text mt="2" fontSize="xl">
+        Find row: 1. setInterfaceImplementer
+      </Text>
+      <UnorderedList mt="2" fontSize="xl">
+        <ListItem>In the first field paste your staking address</ListItem>
+        <ListItem>In the second field paste: 0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b</ListItem>
+        <ListItem>In the third field, paste: 0x0000000000000000000000000000000000000000</ListItem>
+      </UnorderedList>
+      <Text mt="2" fontSize="xl">
+        Click &quot;Write&quot;. A Metamask popup will appear. Confirm the transaction. This will reset the ERC777TokensRecipient implementation proxy for your wallet and this will conclude the recovery.
+      </Text>
+      <Text mt="8" fontSize="xl">
+        To restake in HOPR Staking Season 2, click{' '}
+        <Link px="1" href="https://stake.hoprnet.org" isExternal>
+          stake.hoprnet.org <ExternalLinkIcon />
+        </Link>
+        . Any questions, please ask on{' '}
+        <Link px="1" href="https://t.me/hoprnet" isExternal>
+          Telegram <ExternalLinkIcon />
+        </Link>
+        .
+      </Text>
       <Box
         maxWidth="container.l"
         p="8"
