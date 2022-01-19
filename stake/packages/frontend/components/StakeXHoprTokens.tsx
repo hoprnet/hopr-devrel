@@ -280,6 +280,7 @@ export const StakeXHoprTokens = ({
             >
               Sync
             </CallButton> */}
+            {/*
             <Button
               size="md"
               mx="10px"
@@ -301,6 +302,7 @@ export const StakeXHoprTokens = ({
                 </>
               )}
             </Button>
+            */}
             {/* <CallButton
               isLoading={state.isLoadingClaim}
               handler={() => {

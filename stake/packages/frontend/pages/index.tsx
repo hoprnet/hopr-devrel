@@ -66,10 +66,76 @@ function HomeIndex(): JSX.Element {
         </Box>
       </Box>
       <Text mt="8" fontSize="xl">
-        HOPR Staking Season 1 has ended. Press &quot;Unlock&quot; to recover
-        your stake, your HOPR Boost NFTs, and claim any unclaimed rewards.
+        HOPR Staking Season 1 has ended.
       </Text>
-      <Text fontSize="xl">
+      <Text mt="3" fontSize="xl">
+        In order to unlock your staked funds and claim rewards, you will need to follow these steps:
+      </Text>
+        <Heading as="h5">
+        1. Preparation
+        </Heading>
+      <Text mt="2" fontSize="xl">
+        This will set the ERC777TokensRecipient implementation proxy for your wallet to be the HoprWhitehat contract, which is required for step 2 to work.
+      </Text>
+      <Text mt="2" fontSize="xl">
+        Go to <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract" isExternal>
+        https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract
+        </Link>
+      </Text>
+      <Text mt="2" fontSize="xl">
+        Find row: '1. setInterfaceImplementer'
+      </Text>
+      <Text mt="2" fontSize="xl">
+        Insert these parameters:<br/>
+        1. The address of the account you staked with.<br/>
+        2. 0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b<br/>
+        3. 0x153Aa74a8588606f134B2d35eB6e707a7d550705
+      </Text>
+      <Text mt="2" fontSize="xl">
+        Click the button "Write", the Metamask popup will come out, you will need to confirm the transaction.
+      </Text>
+        <Heading as="h5">
+        2. Perform unlock
+        </Heading>
+      <Text mt="2" fontSize="xl">
+        Go to <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x153Aa74a8588606f134B2d35eB6e707a7d550705/write-contract" isExternal>
+        https://blockscout.com/xdai/mainnet/address/0x153Aa74a8588606f134B2d35eB6e707a7d550705/write-contract
+          </Link>
+      </Text>
+      <Text mt="2" fontSize="xl">
+        Find row: '3. gimmeToken'
+      </Text>
+      <Text mt="2" fontSize="xl">
+        Click the button "Write", the Metamask popup will come out, you will need to confirm the transaction.
+      </Text>
+        <Heading as="h5">
+        3. Reverse preparation step
+        </Heading>
+      <Text mt="2" fontSize="xl">
+        This will reset the ERC777TokensRecipient implementation proxy for your wallet and this will conclude the recovery.
+      </Text>
+
+      <Text mt="2" fontSize="xl">
+        Go to <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract" isExternal>
+        https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract
+        </Link>
+      </Text>
+
+      <Text mt="2" fontSize="xl">
+        Find row: '1. setInterfaceImplementer'
+      </Text>
+
+      <Text mt="2" fontSize="xl">
+        Insert these parameters:<br/>
+        1. The address of the account you staked with.<br/>
+        2. 0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b<br/>
+        3. 0x0000000000000000000000000000000000000000
+      </Text>
+
+      <Text mt="2" fontSize="xl">
+        Click the button "Write", the Metamask popup will come out, you will need to confirm the transaction.
+      </Text>
+      <Text mt="8" fontSize="xl">
         To restake in HOPR Staking Season 2, click{' '}
         <Link px="1" href="https://stake.hoprnet.org" isExternal>
           stake.hoprnet.org
