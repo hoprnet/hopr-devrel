@@ -1,4 +1,5 @@
-import { Box, Heading, Text, Link, useColorMode } from '@chakra-ui/react'
+import { Box, Heading, Text, Link, useColorMode, UnorderedList, ListItem } from '@chakra-ui/react'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { useEthers } from '@usedapp/core'
 import React, { useEffect, useReducer, useState } from 'react'
 import { DarkModeSwitch } from '../components/atoms/DarkModeSwitch'
@@ -66,83 +67,70 @@ function HomeIndex(): JSX.Element {
         </Box>
       </Box>
       <Text mt="8" fontSize="xl">
-        HOPR Staking Season 1 has ended.
+        HOPR Staking Season 1 has ended. To unlock your tokens, please follow these steps. If you have any questions, please ask on Telegram [<Link px="1" href="https://t.me/hoprnet">https://t.me/hoprnet <ExternalLinkIcon /></Link>]
       </Text>
-      <Text mt="3" fontSize="xl">
-        In order to unlock your staked funds and claim rewards, you will need to follow these steps:
-      </Text>
-        <Heading as="h5">
-        1. Preparation
+        <Heading as="h5" mt="4">
+          STEP ONE: PREPARATION
         </Heading>
       <Text mt="2" fontSize="xl">
-        This will set the ERC777TokensRecipient implementation proxy for your wallet to be the HoprWhitehat contract, which is required for step 2 to work.
-      </Text>
-      <Text mt="2" fontSize="xl">
-        Go to <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract" isExternal>
-        https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract
+        Visit this contract: <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract" isExternal>
+        https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract <ExternalLinkIcon />
         </Link>
       </Text>
       <Text mt="2" fontSize="xl">
-        Find row: &quot;1. setInterfaceImplementer&quot;
+        Find row: 1. setInterfaceImplementer
       </Text>
+      <UnorderedList mt="2" fontSize="xl">
+        <ListItem>In the first field paste your staking address</ListItem>
+        <ListItem>In the second field paste: 0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b</ListItem>
+        <ListItem>In the third field, paste: 0x153Aa74a8588606f134B2d35eB6e707a7d550705</ListItem>
+      </UnorderedList>
       <Text mt="2" fontSize="xl">
-        Insert these parameters:<br/>
-        1. The address of the account you staked with.<br/>
-        2. 0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b<br/>
-        3. 0x153Aa74a8588606f134B2d35eB6e707a7d550705
+        Click &quot;Write&quot;. A Metamask popup will appear. Confirm the transaction.
       </Text>
-      <Text mt="2" fontSize="xl">
-        Click the button &quot;Write&quot;, the Metamask popup will come out, you will need to confirm the transaction.
-      </Text>
-        <Heading as="h5">
-        2. Perform unlock
+        <Heading as="h5" mt="4">
+          STEP TWO: PERFORM UNLOCK
         </Heading>
       <Text mt="2" fontSize="xl">
-        Go to <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x153Aa74a8588606f134B2d35eB6e707a7d550705/write-contract" isExternal>
-        https://blockscout.com/xdai/mainnet/address/0x153Aa74a8588606f134B2d35eB6e707a7d550705/write-contract
+        Go to the whitehat contract: <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x153Aa74a8588606f134B2d35eB6e707a7d550705/write-contract" isExternal>
+        https://blockscout.com/xdai/mainnet/address/0x153Aa74a8588606f134B2d35eB6e707a7d550705/write-contract <ExternalLinkIcon />
+
           </Link>
       </Text>
       <Text mt="2" fontSize="xl">
-        Find row: &quot;3. gimmeToken&quot;
+        Find row: 3. gimmeToken
       </Text>
       <Text mt="2" fontSize="xl">
-        Click the button &quot;Write&quot;, the Metamask popup will come out, you will need to confirm the transaction.
+        Click &quot;Write&quot;. A Metamask popup will appear. Confirm the transaction.
       </Text>
-        <Heading as="h5">
-        3. Reverse preparation step
+        <Heading as="h5" mt="4">
+          STEP THREE: REVERSE STEP ONE
         </Heading>
       <Text mt="2" fontSize="xl">
-        This will reset the ERC777TokensRecipient implementation proxy for your wallet and this will conclude the recovery.
-      </Text>
+        Go back to the first contract: <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract" isExternal>
+        https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract <ExternalLinkIcon />
 
-      <Text mt="2" fontSize="xl">
-        Go to <Link px="1" href="https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract" isExternal>
-        https://blockscout.com/xdai/mainnet/address/0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24/write-contract
         </Link>
       </Text>
-
       <Text mt="2" fontSize="xl">
-        Find row: &quot;1. setInterfaceImplementer&quot;
+        Find row: 1. setInterfaceImplementer
       </Text>
-
+      <UnorderedList mt="2" fontSize="xl">
+        <ListItem>In the first field paste your staking address</ListItem>
+        <ListItem>In the second field paste: 0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b</ListItem>
+        <ListItem>In the third field, paste: 0x0000000000000000000000000000000000000000</ListItem>
+      </UnorderedList>
       <Text mt="2" fontSize="xl">
-        Insert these parameters:<br/>
-        1. The address of the account you staked with.<br/>
-        2. 0xb281fc8c12954d22544db45de3159a39272895b169a852b314f9cc762e44c53b<br/>
-        3. 0x0000000000000000000000000000000000000000
-      </Text>
-
-      <Text mt="2" fontSize="xl">
-        Click the button &quot;Write&quot;, the Metamask popup will come out, you will need to confirm the transaction.
+        Click &quot;Write&quot;. A Metamask popup will appear. Confirm the transaction. This will reset the ERC777TokensRecipient implementation proxy for your wallet and this will conclude the recovery.
       </Text>
       <Text mt="8" fontSize="xl">
         To restake in HOPR Staking Season 2, click{' '}
         <Link px="1" href="https://stake.hoprnet.org" isExternal>
-          stake.hoprnet.org
+          stake.hoprnet.org <ExternalLinkIcon />
         </Link>
         . Any questions, please ask on{' '}
         <Link px="1" href="https://t.me/hoprnet" isExternal>
-          Telegram
+          Telegram <ExternalLinkIcon />
         </Link>
         .
       </Text>
