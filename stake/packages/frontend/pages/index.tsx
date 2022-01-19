@@ -83,7 +83,7 @@ function HomeIndex(): JSX.Element {
         </Link>
       </Text>
       <Text mt="2" fontSize="xl">
-        Find row: '1. setInterfaceImplementer'
+        Find row: %quot;1. setInterfaceImplementer&quot;
       </Text>
       <Text mt="2" fontSize="xl">
         Insert these parameters:<br/>
@@ -92,7 +92,7 @@ function HomeIndex(): JSX.Element {
         3. 0x153Aa74a8588606f134B2d35eB6e707a7d550705
       </Text>
       <Text mt="2" fontSize="xl">
-        Click the button "Write", the Metamask popup will come out, you will need to confirm the transaction.
+        Click the button &quot;Write&quot;, the Metamask popup will come out, you will need to confirm the transaction.
       </Text>
         <Heading as="h5">
         2. Perform unlock
@@ -103,10 +103,10 @@ function HomeIndex(): JSX.Element {
           </Link>
       </Text>
       <Text mt="2" fontSize="xl">
-        Find row: '3. gimmeToken'
+        Find row: %quot;3. gimmeToken&quot;
       </Text>
       <Text mt="2" fontSize="xl">
-        Click the button "Write", the Metamask popup will come out, you will need to confirm the transaction.
+        Click the button &quot;Write&quot;, the Metamask popup will come out, you will need to confirm the transaction.
       </Text>
         <Heading as="h5">
         3. Reverse preparation step
@@ -122,7 +122,7 @@ function HomeIndex(): JSX.Element {
       </Text>
 
       <Text mt="2" fontSize="xl">
-        Find row: '1. setInterfaceImplementer'
+        Find row: %quot;1. setInterfaceImplementer&quot;
       </Text>
 
       <Text mt="2" fontSize="xl">
@@ -133,7 +133,7 @@ function HomeIndex(): JSX.Element {
       </Text>
 
       <Text mt="2" fontSize="xl">
-        Click the button "Write", the Metamask popup will come out, you will need to confirm the transaction.
+        Click the button &quot;Write&quot;, the Metamask popup will come out, you will need to confirm the transaction.
       </Text>
       <Text mt="8" fontSize="xl">
         To restake in HOPR Staking Season 2, click{' '}

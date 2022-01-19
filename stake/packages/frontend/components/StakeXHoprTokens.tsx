@@ -16,13 +16,13 @@ import {
   fetchAccountData,
   setStaking,
   StateType,
-  setUnlock,
+  //setUnlock,
 } from '../lib/reducers'
 import { RPC_COLOURS } from '../lib/connectors'
-import { useEndProgramDate } from '../lib/hooks'
+// import { useEndProgramDate } from '../lib/hooks'
 import { useBlockNumber, useEthers } from '@usedapp/core'
 import { Dispatch, useState } from 'react'
-import { EndProgramDateDays } from './atoms/ProgramDate'
+// import { EndProgramDateDays } from './atoms/ProgramDate'
 import { BalanceWithCurrency } from './molecules/BalanceWithCurrency'
 import { format } from 'timeago.js'
 import { useEffect } from 'react'
@@ -62,10 +62,10 @@ export const StakeXHoprTokens = ({
   const bonusBoost = state.totalAPRBoost / FACTOR_DENOMINATOR
   const totalBoost = bonusBoost + baseBoost
   const estimatedRewards = timeDiff * (+state.stakedHOPRTokens * totalBoost)
-  const canUnlock =
-    useEndProgramDate(HoprStakeContractAddress)?.lt(
-      Math.floor(new Date().getTime() / 1e3)
-    ) ?? false
+  // const canUnlock =
+  //   useEndProgramDate(HoprStakeContractAddress)?.lt(
+  //     Math.floor(new Date().getTime() / 1e3)
+  //   ) ?? false
   const hasLoaded = () => loadStatus === LOADED_STATUS.LOADED
 
   useEffect(() => {
