@@ -1,0 +1,57 @@
+specVersion: 0.0.2
+description: HOPR Staking program season 2
+repository: https://github.com/hoprnet/hopr-devrel
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: HoprStake2
+    network: {{network}}
+    source:
+      abi: HoprStake2
+      address: "{{stakeAddress}}"
+      startBlock: {{stakeStartBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Claimed
+        - Program
+      abis:
+        - name: HoprStake2
+          file: ./abis/HoprStake2.json
+      eventHandlers:
+        - event: Claimed(indexed address,indexed uint256)
+          handler: handleClaimed
+        - event: Redeemed(indexed address,indexed uint256,indexed bool)
+          handler: handleRedeemed
+        - event: Released(indexed address,indexed uint256)
+          handler: handleReleased
+        - event: RewardFueled(indexed uint256)
+          handler: handleRewardFueled
+        - event: Staked(indexed address,indexed uint256)
+          handler: handleStaked
+        - event: Sync(indexed address,indexed uint256)
+          handler: handleSync
+      file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: HoprBoost
+    network: {{network}}
+    source:
+      abi: HoprBoost
+      address: "{{nftAddress}}"
+      startBlock: {{nftStartBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Boost
+      abis:
+        - name: HoprBoost
+          file: ./abis/HoprBoost.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
