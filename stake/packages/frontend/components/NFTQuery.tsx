@@ -394,7 +394,7 @@ export const NFTQuery = ({
                 </Text>
               </Box>
               <Skeleton isLoaded={blocks > 5}>
-                <Box d="flex" alignItems="center" mb="10px">
+                <Box d="flex" justifyContent="center" alignItems="center" flexWrap="wrap" mb="10px">
                   {nftDataContainer.items.length > 0 ? (
                     <NFTContainer
                       consideredNFTs={consideredRedeemedNFTs}
