@@ -135,8 +135,8 @@ const NFTContainer = ({
           flexDirection="column"
           alignContent="space-evenly"
           border="1px solid #ccc"
-          p="5"
-          m="5"
+          p="2"
+          m="2"
           borderRadius="5px"
         >
           <Image src={nft.image} width="250px" m="auto" />
@@ -396,7 +396,7 @@ export const NFTQuery = ({
                 </Text>
               </Box>
               <Skeleton isLoaded={blocks > 5}>
-                <Box d="flex" alignItems="center" mb="10px">
+                <Box d="flex" flexWrap="wrap" alignItems="center" mb="10px">
                   {nftDataContainer.items.length > 0 ? (
                     <NFTContainer
                       consideredNFTs={consideredRedeemedNFTs}
