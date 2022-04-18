@@ -15,7 +15,6 @@ import { MaxXHOPRButton } from './atoms/MaxXHOPRButton'
 import {
   ActionType,
   fetchAccountData,
-  setClaim,
   setStaking,
   setSync,
   StateType,
