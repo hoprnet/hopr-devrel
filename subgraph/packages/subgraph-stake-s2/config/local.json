@@ -1,0 +1,7 @@
+{
+  "network": "localhost",
+  "stakeAddress": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+  "stakeStartBlock": "0",
+  "nftAddress": "0x37c334bd0e87a56301475437927896696f118e4a",
+  "nftStartBlock": "0"
+}

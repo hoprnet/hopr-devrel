@@ -1,0 +1,28 @@
+{
+  "name": "hopr-stake-s2",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "prepare-local": "mustache config/local.json subgraph.template.yaml > subgraph.yaml",
+    "prepare-xdai": "mustache config/xdai.json subgraph.template.yaml > subgraph.yaml",
+    "prepare-goerli": "mustache config/goerli.json subgraph.template.yaml > subgraph.yaml",
+    "deploy": "graph deploy --debug --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ hoprnet/staking-season2",
+    "create-local": "graph create --node http://localhost:8020/ hoprnet/staking-season2",
+    "remove-local": "graph remove --node http://localhost:8020/ hoprnet/staking-season2",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 hoprnet/staking-season2",
+    "deploy-xdai": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs hoprnet/staking-season2 --access-token $ACCESS_TOKEN",
+    "deploy-goerli": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs hoprnet/staking-season2-development --access-token $ACCESS_TOKEN"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "^0.25.0",
+    "@graphprotocol/graph-ts": "^0.24.0",
+    "mustache": "^4.2.0"
+  },
+  "devDependencies": {
+    "@hoprnet/hopr-ethereum": "latest",
+    "@types/node": "^16.10.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  }
+}

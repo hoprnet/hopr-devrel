@@ -84,3 +84,11 @@ Check out all the [active branches](https://github.com/austintgriffith/scaffold-
 Join the telegram [support chat 💬](https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA) to ask questions and find others building with 🏗 scaffold-eth!
 
 🙏 Please check out our [Gitcoin grant](https://gitcoin.co/grants/2851/scaffold-eth) too!
+
+# Deploying to production
+
+As we have multiple versions of staking, we use individual release branches for each version.
+These branches, when updated, they trigger a deployment in [fleek](https://app.fleek.co/).
+
+- v1: release/stake-v1
+- v2: release/stake-v2

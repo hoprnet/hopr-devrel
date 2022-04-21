@@ -1,0 +1,7 @@
+{
+  "network": "xdai",
+  "stakeAddress": "0x2cdd13ddb0346e0f620c8e5826da5d7230341c6e",
+  "stakeStartBlock": "20087773",
+  "nftAddress": "0x43d13D7B83607F14335cF2cB75E87dA369D056c7",
+  "nftStartBlock": "17147149"
+}

@@ -1,0 +1,7 @@
+google-cloud-logging
+google-cloud-storage
+pandas
+matplotlib
+colour
+numpy
+mpmath

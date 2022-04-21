@@ -1,7 +1,6 @@
 import { utils, constants } from 'ethers'
 import { useEthers, useTokenBalance } from '@usedapp/core'
 import { Button } from '@chakra-ui/react'
-import { round } from '../../lib/helpers'
 
 export const MaxXHOPRButton = ({
   XHOPRContractAddress,
@@ -15,7 +14,7 @@ export const MaxXHOPRButton = ({
   const tokenBalance =
     useTokenBalance(XHOPRContractAddress, account) || constants.Zero
   const balance = tokenBalance
-    ? round(Number(utils.formatEther(tokenBalance)), 4)
+    ? Number(utils.formatEther(tokenBalance))
     : '--'
 
   return (
