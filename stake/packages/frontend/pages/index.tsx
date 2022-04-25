@@ -92,7 +92,7 @@ function HomeIndex(): JSX.Element {
         <Link px="1" href="https://stake-s2.hoprnet.org" isExternal>
           stake S2 <ExternalLinkIcon />
         </Link>
-        , connect your wallet and press “Unlock”. To restake, simply return to
+        , connect your wallet and press “Claim & Unlock”. To restake, simply return to
         this site.
       </Text>
       <Heading mt="8" as="h4" fontSize="large">
