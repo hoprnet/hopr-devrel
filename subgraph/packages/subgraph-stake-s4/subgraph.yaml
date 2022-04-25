@@ -1,0 +1,61 @@
+specVersion: 0.0.2
+description: HOPR Staking program season 4
+repository: https://github.com/hoprnet/hopr-devrel
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: HoprStakeSeason4
+    network: xdai
+    source:
+      address: "0x5Bb7e435aDa333A6714e27962e4Bb6aFDE1cECd4"
+      abi: HoprStakeSeason4
+      startBlock: 21819539
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Claimed
+        - Program
+      abis:
+        - name: HoprStakeSeason4
+          file: ./abis/HoprStakeSeason4.json
+      eventHandlers:
+        - event: Claimed(indexed address,indexed uint256)
+          handler: handleClaimed
+        - event: NftAllowed(indexed uint256)
+          handler: handleNftAllowed
+        - event: NftBlocked(indexed uint256)
+          handler: handleNftBlocked
+        - event: Redeemed(indexed address,indexed uint256,indexed bool)
+          handler: handleRedeemed
+        - event: Released(indexed address,indexed uint256)
+          handler: handleReleased
+        - event: RewardFueled(indexed uint256)
+          handler: handleRewardFueled
+        - event: Staked(indexed address,indexed uint256)
+          handler: handleStaked
+        - event: Sync(indexed address,indexed uint256)
+          handler: handleSync
+      file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: HoprBoost
+    network: xdai
+    source:
+      abi: HoprBoost
+      address: "0x43d13D7B83607F14335cF2cB75E87dA369D056c7"
+      startBlock: 17147149
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Boost
+      abis:
+        - name: HoprBoost
+          file: ./abis/HoprBoost.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
