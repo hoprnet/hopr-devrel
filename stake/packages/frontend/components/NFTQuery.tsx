@@ -295,13 +295,21 @@ export const NFTQuery = ({
               : undefined
           }
         )
+
         const nftsPromises = nftsMappedArray.map(async (_, index) => {
           const tokenId = await HoprBoost.tokenOfOwnerByIndex(account, index)
           return await getNFTFromTokenId(HoprBoost, tokenId)
         })
+
         // We resolve both promises to make sure all NFTs are properly obtained
-        const nfts = (await Promise.all(nftsPromises)) || []
+        const allNfts = (await Promise.all(nftsPromises)) || []
         const redemeedNfts = (await Promise.all(redeemedNFTSPromises)) || []
+
+        // We filter out all blocked NFT types
+        const nfts = allNfts.filter((nft: NFT) => {
+          return !(nft.typeOfBoost in ['2'])
+        })
+
         // We update our current component state accordingly
         const actuallyConsideredRedemeedNfts: ReducedNFTs = redemeedNfts.reduce(
           (acc, val) =>
