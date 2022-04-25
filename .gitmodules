@@ -1,6 +1,3 @@
 [submodule "subgraph/packages/subgraph-node"]
 	path = subgraph/packages/subgraph-node
 	url = https://github.com/graphprotocol/graph-node/
-[submodule "stake/packages/hopr-stake"]
-	path = stake/packages/hopr-stake
-	url = https://github.com/hoprnet/hopr-stake

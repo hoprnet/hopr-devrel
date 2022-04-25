@@ -42,7 +42,7 @@ export const getContractAddresses = async (
       await import(`@hoprnet/hopr-stake/deployments/${network}/HoprBoost.json`)
     ).address,
     HoprStake: (
-      await import(`@hoprnet/hopr-stake/deployments/${network}/HoprStake3.json`)
+      await import(`@hoprnet/hopr-stake/deployments/${network}/HoprStakeSeason3.json`)
     ).address,
   }
 }
@@ -62,7 +62,7 @@ export const getBlockNumberFromDeploymentTransactionHashReceipt = async (
       await import(`@hoprnet/hopr-stake/deployments/${network}/HoprBoost.json`)
     ).receipt.blockNumber,
     HoprStake: (
-      await import(`@hoprnet/hopr-stake/deployments/${network}/HoprStake3.json`)
+      await import(`@hoprnet/hopr-stake/deployments/${network}/HoprStakeSeason3.json`)
     ).receipt.blockNumber,
   }
 }

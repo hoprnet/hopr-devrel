@@ -1,4 +1,4 @@
-import HoprStakeABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprStake3.json'
+import HoprStakeABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprStakeSeason3.json'
 import { useContractCall } from '@usedapp/core'
 import { Falsy } from '@usedapp/core/dist/esm/src/model/types'
 import { BigNumber } from 'ethers'

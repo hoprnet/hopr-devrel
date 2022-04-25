@@ -12,11 +12,11 @@ export const APRBalance = ({
       </Text>
       <Text d="inline" fontWeight="700" fontSize="xl">
         {' '}
-        (10% +{' '}
+        (10% base +{' '}
       </Text>
       <Skeleton d="inline" isLoaded={totalAPRBoost != -1}>
         <Text d="inline" fontWeight="700" color="green.600" fontSize="xl">
-          {(totalAPRBoost / 317).toFixed(2)}%
+          {(totalAPRBoost / 317).toFixed(2)}% boosted
         </Text>
       </Skeleton>
       <Text d="inline" fontWeight="700" fontSize="xl">
