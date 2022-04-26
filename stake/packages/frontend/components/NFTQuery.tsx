@@ -315,7 +315,7 @@ export const NFTQuery = ({
         const redemeedNfts = (await Promise.all(redeemedNFTSPromises)) || []
 
         // We filter out all blocked NFT types, using the Graph data as reference
-        const graphClient = createClient({
+        const graphClient: Client = createClient({
           url: SUBGRPAH_URLS[chainId] || SUBGRPAH_URLS['100'],
           fetchOptions: {
             mode: 'cors', // no-cors, cors, *same-origin
