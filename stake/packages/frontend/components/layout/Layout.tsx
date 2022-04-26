@@ -100,8 +100,8 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
           textAlign="center"
           padding="10px"
         >
-          <Link px="1" href="https://stake-s1.hoprnet.org" isExternal>
-            Unstake your season 1 stake by following this link
+          <Link px="1" href="https://stake-s2.hoprnet.org" isExternal>
+            Unstake your season 2 stake by following this link
             <ExternalLinkIcon />
           </Link>
         </Box>
