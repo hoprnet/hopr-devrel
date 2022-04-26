@@ -1,4 +1,5 @@
 import { useBlockNumber, useEthers, useTokenBalance } from '@usedapp/core'
+import { Client, createClient } from '@urql/core'
 import {
   Text,
   Box,
@@ -11,11 +12,11 @@ import {
 import { useEffect, useState, Dispatch } from 'react'
 import HoprBoostABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprBoost.json'
 import { HoprBoost as HoprBoostType } from '@hoprnet/hopr-stake/lib/types/HoprBoost'
-import HoprStakeABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprStake2.json'
-import { HoprStake2 as HoprStakeType } from '@hoprnet/hopr-stake/lib/types/HoprStake2'
+import HoprStakeABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprStakeSeason3.json'
+import { HoprStakeSeason3 as HoprStakeType } from '@hoprnet/hopr-stake/lib/types/HoprStakeSeason3'
 import { Contract, constants, BigNumber } from 'ethers'
 import { ActionType, setRedeemNFT, StateType } from '../lib/reducers'
-import { RPC_COLOURS } from '../lib/connectors'
+import { RPC_COLOURS, SUBGRPAH_URLS } from '../lib/connectors'
 import { bgColor, color, nonEmptyAccount } from '../lib/helpers'
 import { useRedeemedNFTs } from '../lib/hooks'
 import { CurrencyTag } from './atoms/CurrencyTag'
@@ -38,6 +39,14 @@ const NFT_TYPE_COLOURS: { [boostType: string]: string } = {
   gold: '#F9E82B',
   diamond: '#C5CDD0',
 }
+
+const QUERY_BLOCKEDTYPE = `
+{
+  programs(first: 1) {
+    blockedType
+  }
+}
+`
 
 const getNFTFromTokenId = async (
   HoprBoost: HoprBoostType,
@@ -243,7 +252,7 @@ export const NFTQuery = ({
   dispatch: Dispatch<ActionType>
   fromBlock?: number
 }): JSX.Element => {
-  const { library, account } = useEthers()
+  const { library, account, chainId } = useEthers()
   const [nfts, setNFTS] = useState<NFT[]>([])
   const [redeemedNFTs, setRedeeemedNFTS] = useState<NFT[]>([])
   const [consideredRedeemedNFTs, setConsideredRedeeemedNFTS] =
@@ -295,13 +304,29 @@ export const NFTQuery = ({
               : undefined
           }
         )
+
         const nftsPromises = nftsMappedArray.map(async (_, index) => {
           const tokenId = await HoprBoost.tokenOfOwnerByIndex(account, index)
           return await getNFTFromTokenId(HoprBoost, tokenId)
         })
+
         // We resolve both promises to make sure all NFTs are properly obtained
-        const nfts = (await Promise.all(nftsPromises)) || []
+        const allNfts = (await Promise.all(nftsPromises)) || []
         const redemeedNfts = (await Promise.all(redeemedNFTSPromises)) || []
+
+        // We filter out all blocked NFT types, using the Graph data as reference
+        const graphClient: Client = createClient({
+          url: SUBGRPAH_URLS[chainId] || SUBGRPAH_URLS['100'],
+          fetchOptions: {
+            mode: 'cors', // no-cors, cors, *same-origin
+          },
+        })
+        const { data } = await graphClient.query(QUERY_BLOCKEDTYPE).toPromise()
+        const blockedNftTypes = data.programs.length > 0 ? data.programs[0].blockedType : []
+        const nfts = allNfts.filter((nft: NFT) => {
+          return !(nft.typeOfBoost in blockedNftTypes)
+        })
+
         // We update our current component state accordingly
         const actuallyConsideredRedemeedNfts: ReducedNFTs = redemeedNfts.reduce(
           (acc, val) =>

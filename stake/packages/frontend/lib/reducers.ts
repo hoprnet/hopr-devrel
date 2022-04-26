@@ -3,8 +3,8 @@ import { Contract, ethers, BigNumber, utils, constants } from 'ethers'
 import React from 'react'
 import xHOPRTokenABI from '@hoprnet/hopr-stake/lib/chain/abis/ERC677Mock.json'
 import { ERC677Mock as xHOPRTokenType } from '@hoprnet/hopr-stake/lib/types/ERC677Mock'
-import HoprStakeABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprStake2.json'
-import { HoprStake2 as HoprStakeType } from '@hoprnet/hopr-stake/lib/types/HoprStake2'
+import HoprStakeABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprStakeSeason3.json'
+import { HoprStakeSeason3 as HoprStakeType } from '@hoprnet/hopr-stake/lib/types/HoprStakeSeason3'
 import HoprBoostABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprBoost.json'
 import { HoprBoost as HoprBoostType } from '@hoprnet/hopr-stake/lib/types/HoprBoost'
 import { round } from './helpers'
@@ -54,44 +54,44 @@ type Accounts = {
 
 export type ActionType =
   | {
-    type: 'SET_ACCOUNT_DATA'
-    stakedHOPRTokens: StateType['stakedHOPRTokens']
-    yetToClaimRewards: StateType['yetToClaimRewards']
-    lastSync: StateType['lastSync']
-    alreadyClaimedRewards: StateType['alreadyClaimedRewards']
-  }
+      type: 'SET_ACCOUNT_DATA'
+      stakedHOPRTokens: StateType['stakedHOPRTokens']
+      yetToClaimRewards: StateType['yetToClaimRewards']
+      lastSync: StateType['lastSync']
+      alreadyClaimedRewards: StateType['alreadyClaimedRewards']
+    }
   | {
-    type: 'SET_LOADING_STAKING'
-    isLoadingStaking: StateType['isLoadingStaking']
-  }
+      type: 'SET_LOADING_STAKING'
+      isLoadingStaking: StateType['isLoadingStaking']
+    }
   | {
-    type: 'SET_LOADING_FETCHING'
-    isLoadingFetching: StateType['isLoadingFetching']
-  }
+      type: 'SET_LOADING_FETCHING'
+      isLoadingFetching: StateType['isLoadingFetching']
+    }
   | {
-    type: 'SET_LOADING_CLAIM'
-    isLoadingClaim: StateType['isLoadingClaim']
-  }
+      type: 'SET_LOADING_CLAIM'
+      isLoadingClaim: StateType['isLoadingClaim']
+    }
   | {
-    type: 'SET_LOADING_SYNC'
-    isLoadingSync: StateType['isLoadingSync']
-  }
+      type: 'SET_LOADING_SYNC'
+      isLoadingSync: StateType['isLoadingSync']
+    }
   | {
-    type: 'SET_LOADING_REDEEM'
-    isLoadingRedeem: StateType['isLoadingRedeem']
-  }
+      type: 'SET_LOADING_REDEEM'
+      isLoadingRedeem: StateType['isLoadingRedeem']
+    }
   | {
-    type: 'SET_STAKING_AMOUNT'
-    amountValue: StateType['amountValue']
-  }
+      type: 'SET_STAKING_AMOUNT'
+      amountValue: StateType['amountValue']
+    }
   | {
-    type: 'SET_TOTAL_APR_BOOST'
-    totalAPRBoost: StateType['totalAPRBoost']
-  }
+      type: 'SET_TOTAL_APR_BOOST'
+      totalAPRBoost: StateType['totalAPRBoost']
+    }
   | {
-    type: 'SET_LOADING_UNLOCK'
-    isLoadingUnlock: StateType['isLoadingUnlock']
-  }
+      type: 'SET_LOADING_UNLOCK'
+      isLoadingUnlock: StateType['isLoadingUnlock']
+    }
 
 export function reducer(state: StateType, action: ActionType): StateType {
   switch (action.type) {
@@ -111,7 +111,7 @@ export function reducer(state: StateType, action: ActionType): StateType {
     case 'SET_LOADING_CLAIM':
       return {
         ...state,
-        isLoadingClaim: action.isLoadingClaim
+        isLoadingClaim: action.isLoadingClaim,
       }
     case 'SET_LOADING_FETCHING':
       return {
@@ -121,12 +121,12 @@ export function reducer(state: StateType, action: ActionType): StateType {
     case 'SET_LOADING_SYNC':
       return {
         ...state,
-        isLoadingSync: action.isLoadingSync
+        isLoadingSync: action.isLoadingSync,
       }
     case 'SET_LOADING_REDEEM':
       return {
         ...state,
-        isLoadingRedeem: action.isLoadingRedeem
+        isLoadingRedeem: action.isLoadingRedeem,
       }
     case 'SET_STAKING_AMOUNT':
       return {
@@ -136,12 +136,12 @@ export function reducer(state: StateType, action: ActionType): StateType {
     case 'SET_TOTAL_APR_BOOST':
       return {
         ...state,
-        totalAPRBoost: action.totalAPRBoost
+        totalAPRBoost: action.totalAPRBoost,
       }
     case 'SET_LOADING_UNLOCK':
       return {
         ...state,
-        isLoadingUnlock: action.isLoadingUnlock
+        isLoadingUnlock: action.isLoadingUnlock,
       }
     default:
       throw new Error()
@@ -165,26 +165,26 @@ export async function fetchAccountData(
       provider
     ) as unknown as HoprStakeType
     try {
-      const accountStruct: Accounts = account && await contract.accounts(account)
+      const accountStruct: Accounts =
+        account && (await contract.accounts(account))
       const {
         actualLockedTokenAmount,
         cumulatedRewards,
         lastSyncTimestamp,
         claimedRewards,
-      } = accountStruct 
-      const [
-        stakedHOPRTokens,
-        alreadyClaimedRewards
-      ] = [
+      } = accountStruct
+      const [stakedHOPRTokens, alreadyClaimedRewards] = [
         actualLockedTokenAmount,
-        claimedRewards
+        claimedRewards,
       ].map((dataPoint) =>
-        dataPoint ? round(Number(utils.formatEther(dataPoint)), 12) : '0.00000000'
+        dataPoint
+          ? round(Number(utils.formatEther(dataPoint)), 12)
+          : '0.00000000'
       )
       dispatch({
         type: 'SET_ACCOUNT_DATA',
         stakedHOPRTokens,
-        yetToClaimRewards: (cumulatedRewards.sub(claimedRewards)).toString(),
+        yetToClaimRewards: cumulatedRewards.sub(claimedRewards).toString(),
         lastSync: lastSyncTimestamp.toString(),
         alreadyClaimedRewards,
       })
@@ -218,12 +218,7 @@ export async function setClaim(
     ) as unknown as HoprStakeType
     const transaction = await contract.claimRewards(address)
     await transaction.wait()
-    fetchAccountData(
-      HoprStakeContractAddress,
-      address,
-      provider,
-      dispatch
-    )
+    fetchAccountData(HoprStakeContractAddress, address, provider, dispatch)
     dispatch({
       type: 'SET_LOADING_CLAIM',
       isLoadingClaim: false,
@@ -250,12 +245,7 @@ export async function setSync(
     ) as unknown as HoprStakeType
     const transaction = await contract.sync(address)
     await transaction.wait()
-    fetchAccountData(
-      HoprStakeContractAddress,
-      address,
-      provider,
-      dispatch
-    )
+    fetchAccountData(HoprStakeContractAddress, address, provider, dispatch)
     dispatch({
       type: 'SET_LOADING_SYNC',
       isLoadingSync: false,
@@ -282,7 +272,9 @@ export async function setRedeemNFT(
       HoprBoostABI,
       signer
     ) as unknown as HoprBoostType
-    const transaction = await contract['safeTransferFrom(address,address,uint256)'](address, HoprStakeContractAddress, tokenId)
+    const transaction = await contract[
+      'safeTransferFrom(address,address,uint256)'
+    ](address, HoprStakeContractAddress, tokenId)
     await transaction.wait()
     dispatch({
       type: 'SET_LOADING_REDEEM',
@@ -317,12 +309,7 @@ export async function setStaking(
       constants.HashZero
     )
     await transaction.wait()
-    fetchAccountData(
-      HoprStakeContractAddress,
-      address,
-      provider,
-      dispatch
-    )
+    fetchAccountData(HoprStakeContractAddress, address, provider, dispatch)
     dispatch({
       type: 'SET_STAKING_AMOUNT',
       amountValue: '0',
@@ -353,12 +340,7 @@ export async function setUnlock(
     ) as unknown as HoprStakeType
     const transaction = await contract.unlockFor(address)
     await transaction.wait()
-    fetchAccountData(
-      HoprStakeContractAddress,
-      address,
-      provider,
-      dispatch
-    )
+    fetchAccountData(HoprStakeContractAddress, address, provider, dispatch)
     dispatch({
       type: 'SET_LOADING_UNLOCK',
       isLoadingUnlock: false,

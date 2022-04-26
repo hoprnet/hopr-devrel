@@ -27,7 +27,9 @@ export const emptyFromBlockNumbers: IContractFromBlockNumbers = {
   HoprStake: -1,
 }
 
-export const getContractAddresses = async (chainId: number): Promise<IContractAddress> => {
+export const getContractAddresses = async (
+  chainId: number
+): Promise<IContractAddress> => {
   const network = chainIdToNetwork(chainId)
   return {
     xHOPR: (
@@ -40,12 +42,14 @@ export const getContractAddresses = async (chainId: number): Promise<IContractAd
       await import(`@hoprnet/hopr-stake/deployments/${network}/HoprBoost.json`)
     ).address,
     HoprStake: (
-      await import(`@hoprnet/hopr-stake/deployments/${network}/HoprStake2.json`)
+      await import(`@hoprnet/hopr-stake/deployments/${network}/HoprStakeSeason3.json`)
     ).address,
   }
 }
 
-export const getBlockNumberFromDeploymentTransactionHashReceipt = async (chainId: number): Promise<IContractFromBlockNumbers> => {
+export const getBlockNumberFromDeploymentTransactionHashReceipt = async (
+  chainId: number
+): Promise<IContractFromBlockNumbers> => {
   const network = chainIdToNetwork(chainId)
   return {
     xHOPR: (
@@ -58,7 +62,7 @@ export const getBlockNumberFromDeploymentTransactionHashReceipt = async (chainId
       await import(`@hoprnet/hopr-stake/deployments/${network}/HoprBoost.json`)
     ).receipt.blockNumber,
     HoprStake: (
-      await import(`@hoprnet/hopr-stake/deployments/${network}/HoprStake2.json`)
-    ).receipt.blockNumber
+      await import(`@hoprnet/hopr-stake/deployments/${network}/HoprStakeSeason3.json`)
+    ).receipt.blockNumber,
   }
 }
