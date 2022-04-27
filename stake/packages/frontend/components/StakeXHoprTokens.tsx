@@ -293,7 +293,7 @@ export const StakeXHoprTokens = ({
                 setUnlock(HoprStakeContractAddress, library, dispatch)
               }}
             >
-              Claim & Unlock
+              Unlock
               {canUnlock ? null : (
                 <>
                   (
