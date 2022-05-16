@@ -165,7 +165,7 @@ const NFTContainer = ({
                   alignItems="baseline"
                   justifyContent="space-between"
                 >
-                  <b>Name</b>
+                  <b>Type</b>
                   <code>{nft.typeName}</code>{' '}
                 </Box>
                 <Box
@@ -173,7 +173,7 @@ const NFTContainer = ({
                   alignItems="baseline"
                   justifyContent="space-between"
                 >
-                  <b>Type</b>
+                  <b>Rank</b>
                   <Tag
                     bg={NFT_TYPE_COLOURS[nft.typeOfBoostName]}
                     textTransform="capitalize"
