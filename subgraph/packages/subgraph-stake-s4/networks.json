@@ -1,7 +1,8 @@
 {
   "xdai": {
     "HoprStakeSeason4": {
-      "address": "0x5Bb7e435aDa333A6714e27962e4Bb6aFDE1cECd4"
+      "address": "0x5Bb7e435aDa333A6714e27962e4Bb6aFDE1cECd4",
+      "startBlock": 21819539
     }
   }
 }

@@ -8,7 +8,8 @@
     "create-local": "graph create --node http://localhost:8020/ hoprnet/stake-season3",
     "remove-local": "graph remove --node http://localhost:8020/ hoprnet/stake-season3",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 hoprnet/stake-season3",
-    "deploy-xdai": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs hoprnet/staking-season3 --access-token $ACCESS_TOKEN"
+    "deploy:xdai": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs hoprnet/staking-season3 --access-token $ACCESS_TOKEN",
+    "deploy:master-goerli": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs hoprnet/staking-season3-master-goerli --access-token $ACCESS_TOKEN --network goerli"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.29.0",
