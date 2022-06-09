@@ -39,12 +39,16 @@ enum LOADED_STATUS {
 }
 
 export const StakeXHoprTokens = ({
+  xHoprABI,
   XHOPRContractAddress,
+  HoprStakeABI,
   HoprStakeContractAddress,
   state,
   dispatch,
 }: {
+  xHoprABI: any
   XHOPRContractAddress: string
+  HoprStakeABI: any
   HoprStakeContractAddress: string
   state: StateType
   dispatch: Dispatch<ActionType>
@@ -66,7 +70,7 @@ export const StakeXHoprTokens = ({
   const totalBoost = bonusBoost + baseBoost
   const estimatedRewards = timeDiff * (+state.stakedHOPRTokens * totalBoost)
   const canUnlock =
-    useEndProgramDate(HoprStakeContractAddress)?.lt(
+    useEndProgramDate(HoprStakeABI, HoprStakeContractAddress)?.lt(
       Math.floor(new Date().getTime() / 1e3)
     ) ?? false
   const hasLoaded = () => loadStatus === LOADED_STATUS.LOADED
@@ -76,6 +80,7 @@ export const StakeXHoprTokens = ({
       startingBlock != startingBlock - 1 && setBlockCounter(blocks + 1)
       if (nonEmptyAccount(account)) {
         await fetchAccountData(
+          HoprStakeABI,
           HoprStakeContractAddress,
           account,
           library,
@@ -208,7 +213,9 @@ export const StakeXHoprTokens = ({
                 isLoading={state.isLoadingStaking}
                 onClick={() => {
                   setStaking(
+                    xHoprABI,
                     XHOPRContractAddress,
+                    HoprStakeABI,
                     HoprStakeContractAddress,
                     state,
                     library,
@@ -278,7 +285,12 @@ export const StakeXHoprTokens = ({
             <CallButton
               isLoading={state.isLoadingSync}
               handler={() => {
-                setSync(HoprStakeContractAddress, library, dispatch)
+                setSync(
+                  HoprStakeABI,
+                  HoprStakeContractAddress,
+                  library,
+                  dispatch
+                )
               }}
             >
               Sync
@@ -290,7 +302,12 @@ export const StakeXHoprTokens = ({
               color="whiteAlpha.900"
               isDisabled={!canUnlock}
               onClick={() => {
-                setUnlock(HoprStakeContractAddress, library, dispatch)
+                setUnlock(
+                  HoprStakeABI,
+                  HoprStakeContractAddress,
+                  library,
+                  dispatch
+                )
               }}
             >
               Unlock
@@ -298,6 +315,7 @@ export const StakeXHoprTokens = ({
                 <>
                   (
                   <EndProgramDateDays
+                    HoprStakeABI={HoprStakeABI}
                     HoprStakeContractAddress={HoprStakeContractAddress}
                   />{' '}
                   to go)
@@ -307,7 +325,12 @@ export const StakeXHoprTokens = ({
             <CallButton
               isLoading={state.isLoadingClaim}
               handler={() => {
-                setClaim(HoprStakeContractAddress, library, dispatch)
+                setClaim(
+                  HoprStakeABI,
+                  HoprStakeContractAddress,
+                  library,
+                  dispatch
+                )
               }}
             >
               Claim rewards

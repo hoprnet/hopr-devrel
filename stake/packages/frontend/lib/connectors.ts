@@ -11,10 +11,12 @@ export const SUBGRPAH_URLS: { [chainId: number]: string } = {
   100: 'https://api.thegraph.com/subgraphs/name/hoprnet/staking-season3',
 }
 
-export const RPC_COLOURS: { [chainId: number]: { bg: string, color: string, scheme: string } } = {
-  5: { bg: "lightblue", color: "#414141", scheme: "blue" },
-  100: { bg: "yellow.500", color: "#414141", scheme: "yellow" },
-  1337: { bg: "blackAlpha.500", color: "#414141", scheme: "blackAlpha" }
+export const RPC_COLOURS: {
+  [chainId: number]: { bg: string; color: string; scheme: string }
+} = {
+  5: { bg: 'lightblue', color: '#414141', scheme: 'blue' },
+  100: { bg: 'yellow.500', color: '#414141', scheme: 'yellow' },
+  1337: { bg: 'blackAlpha.500', color: '#414141', scheme: 'blackAlpha' },
 }
 
 export const walletconnect = new WalletConnectConnector({
@@ -26,29 +28,41 @@ export const walletconnect = new WalletConnectConnector({
 export const chainIdToNetwork = (chainId: number): string => {
   switch (chainId) {
     case 5:
-      return "goerli";
+      return 'goerli'
     case 100:
-      return "xdai";
+      return 'xdai'
     case 1337:
-      return "localhost";
+      return 'localhost'
     case 31337:
-      return "hardhat";
+      return 'hardhat'
     default:
-      return "xdai";
+      return 'xdai'
   }
-};
+}
 
+// TODO: read from protocol-config
 export const chainToNativeToken = (chainId: number): string => {
   switch (chainId) {
     case 5:
-      return "gETH";
+      return 'gETH'
     case 100:
-      return "xDAI";
+      return 'xDAI'
     case 31337:
-      return "hETH";
+      return 'hETH'
     case 1337:
-      return "lETH";
+      return 'lETH'
     default:
-      return "xDAI";
+      return 'xDAI'
   }
-};
+}
+
+type EnvironmentIds = 'master-goerli' | 'ouagadougou'
+
+export const chainIdToEnvironmentId = (chainId: number): EnvironmentIds => {
+  // goerli
+  if (chainId === 5) {
+    return 'master-goerli'
+  } else {
+    return 'ouagadougou'
+  }
+}

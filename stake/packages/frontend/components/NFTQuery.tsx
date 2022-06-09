@@ -9,11 +9,8 @@ import {
   Tag,
   Skeleton,
 } from '@chakra-ui/react'
+import type { HoprBoost, HoprStake } from '@hoprnet/hopr-ethereum'
 import { useEffect, useState, Dispatch } from 'react'
-import HoprBoostABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprBoost.json'
-import { HoprBoost as HoprBoostType } from '@hoprnet/hopr-stake/lib/types/HoprBoost'
-import HoprStakeABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprStakeSeason3.json'
-import { HoprStakeSeason3 as HoprStakeType } from '@hoprnet/hopr-stake/lib/types/HoprStakeSeason3'
 import { Contract, constants, BigNumber } from 'ethers'
 import { ActionType, setRedeemNFT, StateType } from '../lib/reducers'
 import { RPC_COLOURS, SUBGRPAH_URLS } from '../lib/connectors'
@@ -49,7 +46,7 @@ const QUERY_BLOCKEDTYPE = `
 `
 
 const getNFTFromTokenId = async (
-  HoprBoost: HoprBoostType,
+  HoprBoost: HoprBoost,
   tokenId: BigNumber,
   redeemed = false
 ) => {
@@ -79,12 +76,14 @@ const getNFTFromTokenId = async (
 
 const NFTLockButton = ({
   tokenId,
+  HoprBoostABI,
   HoprBoostContractAddress,
   HoprStakeContractAddress,
   state,
   dispatch,
 }: {
   tokenId: string
+  HoprBoostABI: any
   HoprBoostContractAddress: string
   HoprStakeContractAddress: string
   state: StateType
@@ -101,6 +100,7 @@ const NFTLockButton = ({
       {...colours}
       onClick={() => {
         setRedeemNFT(
+          HoprBoostABI,
           HoprBoostContractAddress,
           HoprStakeContractAddress,
           tokenId,
@@ -116,6 +116,7 @@ const NFTLockButton = ({
 
 const NFTContainer = ({
   nfts,
+  HoprBoostABI,
   HoprBoostContractAddress,
   HoprStakeContractAddress,
   state,
@@ -124,6 +125,7 @@ const NFTContainer = ({
   isRedeemedNFTs,
 }: {
   nfts: NFT[]
+  HoprBoostABI: any
   HoprBoostContractAddress: string
   HoprStakeContractAddress: string
   state: StateType
@@ -222,6 +224,7 @@ const NFTContainer = ({
               {!nft.redeemed && (
                 <NFTLockButton
                   tokenId={nft.tokenId}
+                  HoprBoostABI={HoprBoostABI}
                   HoprBoostContractAddress={HoprBoostContractAddress}
                   HoprStakeContractAddress={HoprStakeContractAddress}
                   state={state}
@@ -241,12 +244,16 @@ type ReducedNFTs = {
 }
 
 export const NFTQuery = ({
+  HoprBoostABI,
   HoprBoostContractAddress,
+  HoprStakeABI,
   HoprStakeContractAddress,
   state,
   dispatch,
 }: {
+  HoprBoostABI: any
   HoprBoostContractAddress: string
+  HoprStakeABI: any
   HoprStakeContractAddress: string
   state: StateType
   dispatch: Dispatch<ActionType>
@@ -264,7 +271,8 @@ export const NFTQuery = ({
     useTokenBalance(HoprBoostContractAddress, account) || constants.Zero
 
   const redeemedNFTsBalance =
-    useRedeemedNFTs(HoprStakeContractAddress, account) || constants.Zero
+    useRedeemedNFTs(HoprStakeABI, HoprStakeContractAddress, account) ||
+    constants.Zero
 
   useEffect(() => {
     const loadNFTBalance = async () => {
@@ -286,12 +294,12 @@ export const NFTQuery = ({
           HoprBoostContractAddress,
           HoprBoostABI,
           library
-        ) as unknown as HoprBoostType
+        ) as unknown as HoprBoost
         const HoprStake = new Contract(
           HoprStakeContractAddress,
           HoprStakeABI,
           library
-        ) as unknown as HoprStakeType
+        ) as unknown as HoprStake
         // We go through both mapped arrays and create the to be resolved promises
         // for both redeemed and not redeemed NFT tokens.
         const redeemedNFTSPromises = redeemedNFTsMappedArray.map(
@@ -322,7 +330,8 @@ export const NFTQuery = ({
           },
         })
         const { data } = await graphClient.query(QUERY_BLOCKEDTYPE).toPromise()
-        const blockedNftTypes = data.programs.length > 0 ? data.programs[0].blockedType : []
+        const blockedNftTypes =
+          data.programs.length > 0 ? data.programs[0].blockedType : []
         const nfts = allNfts.filter((nft: NFT) => {
           return !(nft.typeOfBoost in blockedNftTypes)
         })
@@ -426,6 +435,7 @@ export const NFTQuery = ({
                     <NFTContainer
                       consideredNFTs={consideredRedeemedNFTs}
                       nfts={nftDataContainer.items}
+                      HoprBoostABI={HoprBoostABI}
                       HoprBoostContractAddress={HoprBoostContractAddress}
                       HoprStakeContractAddress={HoprStakeContractAddress}
                       state={state}
