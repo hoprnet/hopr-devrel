@@ -23,6 +23,7 @@ const config: Config = {
     ChainId.Localhost,
     ChainId.Hardhat,
   ],
+  // remove as it's unused
   multicallAddresses: {
     ...MULTICALL_ADDRESSES,
     [ChainId.Hardhat]: Multicall.address,
