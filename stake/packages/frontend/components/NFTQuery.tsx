@@ -322,7 +322,8 @@ export const NFTQuery = ({
           },
         })
         const { data } = await graphClient.query(QUERY_BLOCKEDTYPE).toPromise()
-        const blockedNftTypes = data.programs.length > 0 ? data.programs[0].blockedType : []
+        const blockedNftTypes =
+          data.programs.length > 0 ? data.programs[0].blockedType : []
         const nfts = allNfts.filter((nft: NFT) => {
           return !(nft.typeOfBoost in blockedNftTypes)
         })

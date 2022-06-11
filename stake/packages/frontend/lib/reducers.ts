@@ -1,4 +1,4 @@
-import { Web3Provider } from '@ethersproject/providers'
+import type { Web3Provider } from '@usedapp/core/node_modules/@ethersproject/providers/lib/web3-provider'
 import { Contract, ethers, BigNumber, utils, constants } from 'ethers'
 import React from 'react'
 import xHOPRTokenABI from '@hoprnet/hopr-stake/lib/chain/abis/ERC677Mock.json'
