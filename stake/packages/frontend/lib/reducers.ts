@@ -1,9 +1,9 @@
 import type {
-  // xHoprToken,
+  xHoprToken,
   HoprStakeSeason3,
   HoprBoost,
 } from '@hoprnet/hopr-ethereum'
-import { Web3Provider } from '@ethersproject/providers'
+import type { Web3Provider } from '@usedapp/core/node_modules/@ethersproject/providers/lib/web3-provider'
 import { Contract, ethers, BigNumber, utils, constants } from 'ethers'
 import React from 'react'
 import { round } from './helpers'
@@ -319,7 +319,7 @@ export async function setStaking(
       xHOPRContractAddress,
       xHopeTokenABI,
       signer
-    ) as unknown as any // TODO: set to xHoprToken
+    ) as xHoprToken
     const transaction = await contract.transferAndCall(
       HoprStakeContractAddress,
       utils.parseEther(state.amountValue),

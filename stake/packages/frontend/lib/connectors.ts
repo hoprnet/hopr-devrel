@@ -1,6 +1,6 @@
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
-const POLLING_INTERVAL = 12000
+// const POLLING_INTERVAL = 12000
 const RPC_URLS: { [chainId: number]: string } = {
   5: 'https://provider-proxy.hoprnet.workers.dev/eth_goerli',
   100: 'https://provider-proxy.hoprnet.workers.dev/xdai_mainnet',
@@ -22,7 +22,7 @@ export const RPC_COLOURS: {
 export const walletconnect = new WalletConnectConnector({
   rpc: { 5: RPC_URLS[5], 100: RPC_URLS[100] },
   qrcode: true,
-  pollingInterval: POLLING_INTERVAL,
+  // pollingInterval: POLLING_INTERVAL,
 })
 
 export const chainIdToNetwork = (chainId: number): string => {
