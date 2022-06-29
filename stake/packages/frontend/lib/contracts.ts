@@ -40,7 +40,7 @@ export default async function getContracts(
   }
 
   const xHoprToken: ContractData = {
-    ...(envId === 'master-goerli' ? hoprToken : xDai_xHOPR),
+    ...(envId === 'master-goerli' ? goerli_xHOPR : xDai_xHOPR),
     abi: ERC677_ABI,
     transactionHash: '', // not required by this website
   }
@@ -66,6 +66,11 @@ const xDai_xHOPR: Pick<ContractData, 'address' | 'blockNumber'> = {
 const xDai_wxHOPR: Pick<ContractData, 'address' | 'blockNumber'> = {
   address: '0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1',
   blockNumber: '14744161',
+}
+
+const goerli_xHOPR: Pick<ContractData, 'address' | 'blockNumber'> = {
+  address: '0xe8ad2ac347da7549aaca8f5b1c5bf979d85bc78f',
+  blockNumber: '6907086',
 }
 
 // TODO: read from hopr-ethereum
