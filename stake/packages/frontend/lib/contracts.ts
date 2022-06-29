@@ -5,7 +5,6 @@ export type Contracts = {
   [key in
     | 'wxHoprToken'
     | 'xHoprToken'
-    | 'hoprToken'
     | 'hoprBoost'
     | 'hoprStake']: ContractData
 }
@@ -50,7 +49,6 @@ export default async function getContracts(
   contracts = {
     wxHoprToken,
     xHoprToken,
-    hoprToken,
     hoprBoost,
     hoprStake,
   }
