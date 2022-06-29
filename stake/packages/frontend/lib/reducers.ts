@@ -163,7 +163,7 @@ export async function fetchAccountData(
       HoprStakeContractAddress,
       HoprStakeABI,
       provider
-    ) as unknown as HoprStakeSeason3
+    ) as HoprStakeSeason3
     try {
       const accountStruct: Accounts =
         account && (await contract.accounts(account))
@@ -216,7 +216,7 @@ export async function setClaim(
       HoprStakeContractAddress,
       HoprStakeABI,
       signer
-    ) as unknown as HoprStakeSeason3
+    ) as HoprStakeSeason3
     const transaction = await contract.claimRewards(address)
     await transaction.wait()
     fetchAccountData(
@@ -250,7 +250,7 @@ export async function setSync(
       HoprStakeContractAddress,
       HoprStakeABI,
       signer
-    ) as unknown as HoprStakeSeason3
+    ) as HoprStakeSeason3
     const transaction = await contract.sync(address)
     await transaction.wait()
     fetchAccountData(
@@ -286,7 +286,7 @@ export async function setRedeemNFT(
       HoprBoostContractAddress,
       HoprBoostABI,
       signer
-    ) as unknown as HoprBoost
+    ) as HoprBoost
     const transaction = await contract[
       'safeTransferFrom(address,address,uint256)'
     ](address, HoprStakeContractAddress, tokenId)
@@ -361,7 +361,7 @@ export async function setUnlock(
       HoprStakeContractAddress,
       HoprStakeABI,
       signer
-    ) as unknown as HoprStakeSeason3
+    ) as HoprStakeSeason3
     const transaction = await contract.unlockFor(address)
     await transaction.wait()
     fetchAccountData(

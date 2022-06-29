@@ -35,15 +35,15 @@ export default async function getContracts(
   ])
 
   const wxHoprToken: ContractData = {
-    ...wxHOPR,
+    ...(envId === 'master-goerli' ? hoprToken : xDai_wxHOPR),
     abi: ERC677_ABI,
-    transactionHash: '', // not required by our website
+    transactionHash: '', // not required by this website
   }
 
   const xHoprToken: ContractData = {
-    ...xHOPR,
+    ...(envId === 'master-goerli' ? hoprToken : xDai_xHOPR),
     abi: ERC677_ABI,
-    transactionHash: '', // not required by our website
+    transactionHash: '', // not required by this website
   }
 
   last_chainId = chainId
@@ -59,13 +59,13 @@ export default async function getContracts(
 }
 
 // TODO: read from protocol-config
-const xHOPR: Pick<ContractData, 'address' | 'blockNumber'> = {
+const xDai_xHOPR: Pick<ContractData, 'address' | 'blockNumber'> = {
   address: '0xD057604A14982FE8D88c5fC25Aac3267eA142a08',
   blockNumber: '14635013',
 }
 
 // TODO: read from protocol-config
-const wxHOPR: Pick<ContractData, 'address' | 'blockNumber'> = {
+const xDai_wxHOPR: Pick<ContractData, 'address' | 'blockNumber'> = {
   address: '0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1',
   blockNumber: '14744161',
 }

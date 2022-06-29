@@ -294,12 +294,12 @@ export const NFTQuery = ({
           HoprBoostContractAddress,
           HoprBoostABI,
           library
-        ) as unknown as HoprBoost
+        ) as HoprBoost
         const HoprStake = new Contract(
           HoprStakeContractAddress,
           HoprStakeABI,
           library
-        ) as unknown as HoprStake
+        ) as HoprStake
         // We go through both mapped arrays and create the to be resolved promises
         // for both redeemed and not redeemed NFT tokens.
         const redeemedNFTSPromises = redeemedNFTsMappedArray.map(
