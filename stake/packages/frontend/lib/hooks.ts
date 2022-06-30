@@ -1,16 +1,16 @@
-import HoprStakeABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprStakeSeason3.json'
 import { useContractCall } from '@usedapp/core'
 import { Falsy } from '@usedapp/core/dist/esm/src/model/types'
 import { BigNumber } from 'ethers'
 import { Interface } from 'ethers/lib/utils'
 
 export function useStartProgramDate(
+  stakeContractABI: any,
   stakeContractAddress: string | Falsy
 ): BigNumber {
   const [startProgramDate] =
     useContractCall(
       stakeContractAddress && {
-        abi: new Interface(HoprStakeABI),
+        abi: new Interface(stakeContractABI),
         address: stakeContractAddress,
         method: 'PROGRAM_START',
         args: [],
@@ -20,6 +20,7 @@ export function useStartProgramDate(
 }
 
 export function useRedeemedNFTs(
+  stakeContractABI: any,
   stakeContractAddress: string | Falsy,
   address: string | Falsy
 ): BigNumber | undefined {
@@ -27,7 +28,7 @@ export function useRedeemedNFTs(
     useContractCall(
       address &&
         stakeContractAddress && {
-          abi: new Interface(HoprStakeABI),
+          abi: new Interface(stakeContractABI),
           address: stakeContractAddress,
           method: 'redeemedNftIndex',
           args: [address],
@@ -37,12 +38,13 @@ export function useRedeemedNFTs(
 }
 
 export function useEndProgramDate(
+  stakeContractABI: any,
   stakeContractAddress: string | Falsy
 ): BigNumber {
   const [endProgramDate] =
     useContractCall(
       stakeContractAddress && {
-        abi: new Interface(HoprStakeABI),
+        abi: new Interface(stakeContractABI),
         address: stakeContractAddress,
         method: 'PROGRAM_END',
         args: [],

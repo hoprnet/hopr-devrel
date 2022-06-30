@@ -1,13 +1,7 @@
 import { ChakraProvider } from '@chakra-ui/react'
-import {
-  ChainId,
-  Config,
-  DAppProvider,
-  MULTICALL_ADDRESSES,
-} from '@usedapp/core'
+import { ChainId, Config, DAppProvider } from '@usedapp/core'
 import type { AppProps } from 'next/app'
 import React from 'react'
-import Multicall from '@hoprnet/hopr-stake/deployments/localhost/Multicall.json'
 
 const config: Config = {
   readOnlyChainId: ChainId.xDai,
@@ -23,11 +17,6 @@ const config: Config = {
     ChainId.Localhost,
     ChainId.Hardhat,
   ],
-  multicallAddresses: {
-    ...MULTICALL_ADDRESSES,
-    [ChainId.Hardhat]: Multicall.address,
-    [ChainId.Localhost]: Multicall.address,
-  },
 }
 
 const MyApp = ({ Component, pageProps }: AppProps): JSX.Element => {

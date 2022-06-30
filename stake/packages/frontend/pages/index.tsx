@@ -3,15 +3,17 @@ import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { getExplorerAddressLink, useEthers } from '@usedapp/core'
 import React, { useEffect, useReducer, useState } from 'react'
 import { DarkModeSwitch } from '../components/atoms/DarkModeSwitch'
-
 import Layout from '../components/layout/Layout'
 import { NFTQuery } from '../components/NFTQuery'
 import { StakeXHoprTokens } from '../components/StakeXHoprTokens'
 import {
+  emptyContractABIs,
   emptyContractAddresses,
   emptyFromBlockNumbers,
   getBlockNumberFromDeploymentTransactionHashReceipt,
+  getContractABIs,
   getContractAddresses,
+  IContractABIs,
   IContractAddress,
   IContractFromBlockNumbers,
 } from '../lib/addresses'
@@ -38,14 +40,18 @@ function HomeIndex(): JSX.Element {
   )
   const [fromBlockNumbers, setFromBlockNumbers] =
     useState<IContractFromBlockNumbers>(emptyFromBlockNumbers)
+  const [contractABIs, setContractABIs] =
+    useState<IContractABIs>(emptyContractABIs)
 
   useEffect(() => {
     const loadContracts = async () => {
       const contractAddresses = await getContractAddresses(chainId)
       const fromBlockNumbers =
         await getBlockNumberFromDeploymentTransactionHashReceipt(chainId)
+      const abis = await getContractABIs(chainId)
       setContractAddresses(contractAddresses)
       setFromBlockNumbers(fromBlockNumbers)
+      setContractABIs(abis)
     }
     loadContracts()
   }, [chainId])
@@ -92,8 +98,8 @@ function HomeIndex(): JSX.Element {
         <Link px="1" href="https://stake-s2.hoprnet.org" isExternal>
           stake S2 <ExternalLinkIcon />
         </Link>
-        , connect your wallet and press “Claim & Unlock”. To restake, simply return to
-        this site.
+        , connect your wallet and press “Claim & Unlock”. To restake, simply
+        return to this site.
       </Text>
       <Heading mt="8" as="h4" fontSize="large">
         MAKE SURE TO STAKE FROM YOUR SEASON 2 ADDRESS TO BE ELIGIBLE FOR EXTRA
@@ -105,6 +111,7 @@ function HomeIndex(): JSX.Element {
       </Text>
       <BoldText>
         <StartProgramDate
+          HoprStakeABI={contractABIs.HoprStake}
           HoprStakeContractAddress={contractAddresses.HoprStake}
         />
       </BoldText>
@@ -121,6 +128,7 @@ function HomeIndex(): JSX.Element {
       </Text>
       <BoldText fullstop>
         <EndProgramDateDays
+          HoprStakeABI={contractABIs.HoprStake}
           HoprStakeContractAddress={contractAddresses.HoprStake}
         />
       </BoldText>
@@ -140,14 +148,18 @@ function HomeIndex(): JSX.Element {
         color={color[colorMode]}
       >
         <StakeXHoprTokens
+          xHoprABI={contractABIs.xHOPR}
           XHOPRContractAddress={contractAddresses.xHOPR}
+          HoprStakeABI={contractABIs.HoprStake}
           HoprStakeContractAddress={contractAddresses.HoprStake}
           state={state}
           dispatch={dispatch}
         />
       </Box>
       <NFTQuery
+        HoprBoostABI={contractABIs.HoprBoost}
         HoprBoostContractAddress={contractAddresses.HoprBoost}
+        HoprStakeABI={contractABIs.HoprStake}
         HoprStakeContractAddress={contractAddresses.HoprStake}
         fromBlock={fromBlockNumbers.HoprBoost}
         state={state}

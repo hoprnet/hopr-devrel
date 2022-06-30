@@ -1,12 +1,11 @@
+import type {
+  xHoprToken,
+  HoprStakeSeason3,
+  HoprBoost,
+} from '@hoprnet/hopr-ethereum'
 import type { Web3Provider } from '@usedapp/core/node_modules/@ethersproject/providers/lib/web3-provider'
 import { Contract, ethers, BigNumber, utils, constants } from 'ethers'
 import React from 'react'
-import xHOPRTokenABI from '@hoprnet/hopr-stake/lib/chain/abis/ERC677Mock.json'
-import { ERC677Mock as xHOPRTokenType } from '@hoprnet/hopr-stake/lib/types/ERC677Mock'
-import HoprStakeABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprStakeSeason3.json'
-import { HoprStakeSeason3 as HoprStakeType } from '@hoprnet/hopr-stake/lib/types/HoprStakeSeason3'
-import HoprBoostABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprBoost.json'
-import { HoprBoost as HoprBoostType } from '@hoprnet/hopr-stake/lib/types/HoprBoost'
 import { round } from './helpers'
 
 /**
@@ -149,6 +148,7 @@ export function reducer(state: StateType, action: ActionType): StateType {
 }
 
 export async function fetchAccountData(
+  HoprStakeABI: any,
   HoprStakeContractAddress: string,
   account: string,
   provider: Web3Provider,
@@ -163,7 +163,7 @@ export async function fetchAccountData(
       HoprStakeContractAddress,
       HoprStakeABI,
       provider
-    ) as unknown as HoprStakeType
+    ) as HoprStakeSeason3
     try {
       const accountStruct: Accounts =
         account && (await contract.accounts(account))
@@ -200,6 +200,7 @@ export async function fetchAccountData(
 }
 
 export async function setClaim(
+  HoprStakeABI: any,
   HoprStakeContractAddress: string,
   provider: Web3Provider,
   dispatch: React.Dispatch<ActionType>
@@ -215,10 +216,16 @@ export async function setClaim(
       HoprStakeContractAddress,
       HoprStakeABI,
       signer
-    ) as unknown as HoprStakeType
+    ) as HoprStakeSeason3
     const transaction = await contract.claimRewards(address)
     await transaction.wait()
-    fetchAccountData(HoprStakeContractAddress, address, provider, dispatch)
+    fetchAccountData(
+      HoprStakeABI,
+      HoprStakeContractAddress,
+      address,
+      provider,
+      dispatch
+    )
     dispatch({
       type: 'SET_LOADING_CLAIM',
       isLoadingClaim: false,
@@ -227,6 +234,7 @@ export async function setClaim(
 }
 
 export async function setSync(
+  HoprStakeABI: any,
   HoprStakeContractAddress: string,
   provider: Web3Provider,
   dispatch: React.Dispatch<ActionType>
@@ -242,10 +250,16 @@ export async function setSync(
       HoprStakeContractAddress,
       HoprStakeABI,
       signer
-    ) as unknown as HoprStakeType
+    ) as HoprStakeSeason3
     const transaction = await contract.sync(address)
     await transaction.wait()
-    fetchAccountData(HoprStakeContractAddress, address, provider, dispatch)
+    fetchAccountData(
+      HoprStakeABI,
+      HoprStakeContractAddress,
+      address,
+      provider,
+      dispatch
+    )
     dispatch({
       type: 'SET_LOADING_SYNC',
       isLoadingSync: false,
@@ -254,6 +268,7 @@ export async function setSync(
 }
 
 export async function setRedeemNFT(
+  HoprBoostABI: any,
   HoprBoostContractAddress: string,
   HoprStakeContractAddress: string,
   tokenId: string,
@@ -271,7 +286,7 @@ export async function setRedeemNFT(
       HoprBoostContractAddress,
       HoprBoostABI,
       signer
-    ) as unknown as HoprBoostType
+    ) as HoprBoost
     const transaction = await contract[
       'safeTransferFrom(address,address,uint256)'
     ](address, HoprStakeContractAddress, tokenId)
@@ -284,7 +299,9 @@ export async function setRedeemNFT(
 }
 
 export async function setStaking(
+  xHopeTokenABI: any,
   xHOPRContractAddress: string,
+  HoprStakeABI: any,
   HoprStakeContractAddress: string,
   state: StateType,
   provider: Web3Provider,
@@ -300,16 +317,22 @@ export async function setStaking(
     const address = await signer.getAddress()
     const contract = new ethers.Contract(
       xHOPRContractAddress,
-      xHOPRTokenABI,
+      xHopeTokenABI,
       signer
-    ) as unknown as xHOPRTokenType
+    ) as xHoprToken
     const transaction = await contract.transferAndCall(
       HoprStakeContractAddress,
       utils.parseEther(state.amountValue),
       constants.HashZero
     )
     await transaction.wait()
-    fetchAccountData(HoprStakeContractAddress, address, provider, dispatch)
+    fetchAccountData(
+      HoprStakeABI,
+      HoprStakeContractAddress,
+      address,
+      provider,
+      dispatch
+    )
     dispatch({
       type: 'SET_STAKING_AMOUNT',
       amountValue: '0',
@@ -322,6 +345,7 @@ export async function setStaking(
 }
 
 export async function setUnlock(
+  HoprStakeABI: any,
   HoprStakeContractAddress: string,
   provider: Web3Provider,
   dispatch: React.Dispatch<ActionType>
@@ -337,10 +361,16 @@ export async function setUnlock(
       HoprStakeContractAddress,
       HoprStakeABI,
       signer
-    ) as unknown as HoprStakeType
+    ) as HoprStakeSeason3
     const transaction = await contract.unlockFor(address)
     await transaction.wait()
-    fetchAccountData(HoprStakeContractAddress, address, provider, dispatch)
+    fetchAccountData(
+      HoprStakeABI,
+      HoprStakeContractAddress,
+      address,
+      provider,
+      dispatch
+    )
     dispatch({
       type: 'SET_LOADING_UNLOCK',
       isLoadingUnlock: false,
