@@ -1,4 +1,5 @@
 import { useBlockNumber, useEthers, useTokenBalance } from '@usedapp/core'
+import { Client, createClient } from '@urql/core'
 import {
   Text,
   Box,
@@ -8,14 +9,11 @@ import {
   Tag,
   Skeleton,
 } from '@chakra-ui/react'
+import type { HoprBoost, HoprStake } from '@hoprnet/hopr-ethereum'
 import { useEffect, useState, Dispatch } from 'react'
-import HoprBoostABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprBoost.json'
-import { HoprBoost as HoprBoostType } from '@hoprnet/hopr-stake/lib/types/HoprBoost'
-import HoprStakeABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprStake.json'
-import { HoprStake as HoprStakeType } from '@hoprnet/hopr-stake/lib/types/HoprStake'
 import { Contract, constants, BigNumber } from 'ethers'
 import { ActionType, setRedeemNFT, StateType } from '../lib/reducers'
-import { RPC_COLOURS } from '../lib/connectors'
+import { RPC_COLOURS, SUBGRPAH_URLS } from '../lib/connectors'
 import { bgColor, color, nonEmptyAccount } from '../lib/helpers'
 import { useRedeemedNFTs } from '../lib/hooks'
 import { CurrencyTag } from './atoms/CurrencyTag'
@@ -39,8 +37,16 @@ const NFT_TYPE_COLOURS: { [boostType: string]: string } = {
   diamond: '#C5CDD0',
 }
 
+const QUERY_BLOCKEDTYPE = `
+{
+  programs(first: 1) {
+    blockedType
+  }
+}
+`
+
 const getNFTFromTokenId = async (
-  HoprBoost: HoprBoostType,
+  HoprBoost: HoprBoost,
   tokenId: BigNumber,
   redeemed = false
 ) => {
@@ -70,12 +76,14 @@ const getNFTFromTokenId = async (
 
 const NFTLockButton = ({
   tokenId,
+  HoprBoostABI,
   HoprBoostContractAddress,
   HoprStakeContractAddress,
   state,
   dispatch,
 }: {
   tokenId: string
+  HoprBoostABI: any
   HoprBoostContractAddress: string
   HoprStakeContractAddress: string
   state: StateType
@@ -92,6 +100,7 @@ const NFTLockButton = ({
       {...colours}
       onClick={() => {
         setRedeemNFT(
+          HoprBoostABI,
           HoprBoostContractAddress,
           HoprStakeContractAddress,
           tokenId,
@@ -107,6 +116,7 @@ const NFTLockButton = ({
 
 const NFTContainer = ({
   nfts,
+  HoprBoostABI,
   HoprBoostContractAddress,
   HoprStakeContractAddress,
   state,
@@ -115,6 +125,7 @@ const NFTContainer = ({
   isRedeemedNFTs,
 }: {
   nfts: NFT[]
+  HoprBoostABI: any
   HoprBoostContractAddress: string
   HoprStakeContractAddress: string
   state: StateType
@@ -124,7 +135,9 @@ const NFTContainer = ({
 }) => (
   <>
     {nfts.map((nft) => {
-      const isRelevantNFT = consideredNFTs[nft.typeName] && consideredNFTs[nft.typeName].factor == nft.factor
+      const isRelevantNFT =
+        consideredNFTs[nft.typeName] &&
+        consideredNFTs[nft.typeName].factor == nft.factor
       return (
         <Box
           key={nft.tokenId}
@@ -133,8 +146,8 @@ const NFTContainer = ({
           flexDirection="column"
           alignContent="space-evenly"
           border="1px solid #ccc"
-          p="5"
-          m="5"
+          p="2"
+          m="2"
           borderRadius="5px"
         >
           <Image src={nft.image} width="250px" m="auto" />
@@ -154,7 +167,7 @@ const NFTContainer = ({
                   alignItems="baseline"
                   justifyContent="space-between"
                 >
-                  <b>Name</b>
+                  <b>Type</b>
                   <code>{nft.typeName}</code>{' '}
                 </Box>
                 <Box
@@ -162,7 +175,7 @@ const NFTContainer = ({
                   alignItems="baseline"
                   justifyContent="space-between"
                 >
-                  <b>Type</b>
+                  <b>Rank</b>
                   <Tag
                     bg={NFT_TYPE_COLOURS[nft.typeOfBoostName]}
                     textTransform="capitalize"
@@ -201,16 +214,17 @@ const NFTContainer = ({
                   </Box>
                 )}
               </Box>
-              <Box isTruncated mt="10px">
+              {/* <Box isTruncated mt="10px">
                 Redeem Deadline
               </Box>
               <Text fontSize="xs" fontFamily="mono">
-                {new Date(nft.deadline * 1000).toUTCString()}
-              </Text>
+                {new Date(nft.deadline * 1000).toString()}
+              </Text> */}
 
               {!nft.redeemed && (
                 <NFTLockButton
                   tokenId={nft.tokenId}
+                  HoprBoostABI={HoprBoostABI}
                   HoprBoostContractAddress={HoprBoostContractAddress}
                   HoprStakeContractAddress={HoprStakeContractAddress}
                   state={state}
@@ -230,18 +244,22 @@ type ReducedNFTs = {
 }
 
 export const NFTQuery = ({
+  HoprBoostABI,
   HoprBoostContractAddress,
+  HoprStakeABI,
   HoprStakeContractAddress,
   state,
   dispatch,
 }: {
+  HoprBoostABI: any
   HoprBoostContractAddress: string
+  HoprStakeABI: any
   HoprStakeContractAddress: string
   state: StateType
   dispatch: Dispatch<ActionType>
   fromBlock?: number
 }): JSX.Element => {
-  const { library, account } = useEthers()
+  const { library, account, chainId } = useEthers()
   const [nfts, setNFTS] = useState<NFT[]>([])
   const [redeemedNFTs, setRedeeemedNFTS] = useState<NFT[]>([])
   const [consideredRedeemedNFTs, setConsideredRedeeemedNFTS] =
@@ -253,7 +271,8 @@ export const NFTQuery = ({
     useTokenBalance(HoprBoostContractAddress, account) || constants.Zero
 
   const redeemedNFTsBalance =
-    useRedeemedNFTs(HoprStakeContractAddress, account) || constants.Zero
+    useRedeemedNFTs(HoprStakeABI, HoprStakeContractAddress, account) ||
+    constants.Zero
 
   useEffect(() => {
     const loadNFTBalance = async () => {
@@ -275,12 +294,12 @@ export const NFTQuery = ({
           HoprBoostContractAddress,
           HoprBoostABI,
           library
-        ) as unknown as HoprBoostType
+        ) as HoprBoost
         const HoprStake = new Contract(
           HoprStakeContractAddress,
           HoprStakeABI,
           library
-        ) as unknown as HoprStakeType
+        ) as HoprStake
         // We go through both mapped arrays and create the to be resolved promises
         // for both redeemed and not redeemed NFT tokens.
         const redeemedNFTSPromises = redeemedNFTsMappedArray.map(
@@ -293,13 +312,30 @@ export const NFTQuery = ({
               : undefined
           }
         )
+
         const nftsPromises = nftsMappedArray.map(async (_, index) => {
           const tokenId = await HoprBoost.tokenOfOwnerByIndex(account, index)
           return await getNFTFromTokenId(HoprBoost, tokenId)
         })
+
         // We resolve both promises to make sure all NFTs are properly obtained
-        const nfts = (await Promise.all(nftsPromises)) || []
+        const allNfts = (await Promise.all(nftsPromises)) || []
         const redemeedNfts = (await Promise.all(redeemedNFTSPromises)) || []
+
+        // We filter out all blocked NFT types, using the Graph data as reference
+        const graphClient: Client = createClient({
+          url: SUBGRPAH_URLS[chainId] || SUBGRPAH_URLS['100'],
+          fetchOptions: {
+            mode: 'cors', // no-cors, cors, *same-origin
+          },
+        })
+        const { data } = await graphClient.query(QUERY_BLOCKEDTYPE).toPromise()
+        const blockedNftTypes =
+          data.programs.length > 0 ? data.programs[0].blockedType : []
+        const nfts = allNfts.filter((nft: NFT) => {
+          return !(nft.typeOfBoost in blockedNftTypes)
+        })
+
         // We update our current component state accordingly
         const actuallyConsideredRedemeedNfts: ReducedNFTs = redemeedNfts.reduce(
           (acc, val) =>
@@ -394,11 +430,12 @@ export const NFTQuery = ({
                 </Text>
               </Box>
               <Skeleton isLoaded={blocks > 5}>
-                <Box d="flex" alignItems="center" mb="10px">
+                <Box d="flex" flexWrap="wrap" alignItems="center" mb="10px">
                   {nftDataContainer.items.length > 0 ? (
                     <NFTContainer
                       consideredNFTs={consideredRedeemedNFTs}
                       nfts={nftDataContainer.items}
+                      HoprBoostABI={HoprBoostABI}
                       HoprBoostContractAddress={HoprBoostContractAddress}
                       HoprStakeContractAddress={HoprStakeContractAddress}
                       state={state}
