@@ -101,7 +101,7 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
           padding="10px"
         >
           <Link px="1" href="https://stake-s3.hoprnet.org" isExternal>
-            Unstake your season 2 stake by following this link
+            Unstake your season 3 stake by following this link
             <ExternalLinkIcon />
           </Link>
         </Box>

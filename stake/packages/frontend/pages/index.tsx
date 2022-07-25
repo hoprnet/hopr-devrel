@@ -59,7 +59,7 @@ function HomeIndex(): JSX.Element {
   return (
     <Layout>
       <Box d="flex" mb="8" justifyContent="space-between" alignItems="center">
-        <Heading as="h1">HOPR Staking Season 3</Heading>
+        <Heading as="h1">HOPR Staking Season 4</Heading>
         <Box d="flex" alignItems="center">
           <Box d="flex" alignItems="baseline" mr="20px">
             <Text fontWeight="600" mr="10px">
@@ -93,7 +93,7 @@ function HomeIndex(): JSX.Element {
       </Text>
       <APRBalance totalAPRBoost={state.totalAPRBoost} />.
       <Text mt="8" fontSize="xl">
-        HOPR Staking Season 2 has finished, to recover your xHOPR stake, locked
+        HOPR Staking Season 3 has finished, to recover your xHOPR stake, locked
         NFTs and unclaimed wxHOPR rewards, visit{' '}
         <Link px="1" href="https://stake-s3.hoprnet.org" isExternal>
           stake S3 <ExternalLinkIcon />
@@ -102,7 +102,7 @@ function HomeIndex(): JSX.Element {
         return to this site.
       </Text>
       <Heading mt="8" as="h4" fontSize="large">
-        MAKE SURE TO STAKE FROM YOUR SEASON 2 ADDRESS TO BE ELIGIBLE FOR EXTRA
+        MAKE SURE TO STAKE FROM YOUR SEASON 3 ADDRESS TO BE ELIGIBLE FOR EXTRA
         REWARDS
       </Heading>
       <br />
@@ -134,8 +134,8 @@ function HomeIndex(): JSX.Element {
       </BoldText>
       <Text mt="2" fontSize="xl">
         Increase your APR by redeeming NFTs to your account. HOPR Boost NFTs can
-        be earned by participating in events. Season 1 and 2 NFTs can be
-        restaked in Season 3 with the same APR boost. The HODLr NFT has been
+        be earned by participating in events. Season 1, 2 and 3 NFTs can be
+        restaked in Season 4 with the same APR boost. The HODLr NFT has been
         discontinued.
       </Text>
       <ParagraphLinks />
