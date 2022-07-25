@@ -33,9 +33,6 @@ export default async function getContracts(
     ).then((res) => res.default),
   ])
 
-  // TODO: update monorepo ?
-  hoprStake.address = HOPR_STAKE_ADDRESSES.S4
-
   const wxHoprToken: ContractData = {
     ...(envId === 'master-goerli' ? hoprToken : xDai_wxHOPR),
     abi: ERC677_ABI,
@@ -90,8 +87,3 @@ const ERC677_ABI = [
     type: 'function',
   },
 ]
-
-const HOPR_STAKE_ADDRESSES = {
-  S3: '0xae933331ef0bE122f9499512d3ed4Fa3896DCf20',
-  S4: '0x5Bb7e435aDa333A6714e27962e4Bb6aFDE1cECd4',
-}
