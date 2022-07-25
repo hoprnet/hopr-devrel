@@ -100,7 +100,7 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
           textAlign="center"
           padding="10px"
         >
-          <Link px="1" href="https://stake-s2.hoprnet.org" isExternal>
+          <Link px="1" href="https://stake-s3.hoprnet.org" isExternal>
             Unstake your season 2 stake by following this link
             <ExternalLinkIcon />
           </Link>
@@ -113,7 +113,11 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
             py="8"
           >
             <Flex py={[4, null, null, 0]}>
-              <Link py="1" href="https://medium.com/hoprnet/780edfd4f1e1" isExternal>
+              <Link
+                py="1"
+                href="https://medium.com/hoprnet/780edfd4f1e1"
+                isExternal
+              >
                 Read about HOPR staking <ExternalLinkIcon />
               </Link>
               <Link

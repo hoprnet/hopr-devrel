@@ -95,8 +95,8 @@ function HomeIndex(): JSX.Element {
       <Text mt="8" fontSize="xl">
         HOPR Staking Season 2 has finished, to recover your xHOPR stake, locked
         NFTs and unclaimed wxHOPR rewards, visit{' '}
-        <Link px="1" href="https://stake-s2.hoprnet.org" isExternal>
-          stake S2 <ExternalLinkIcon />
+        <Link px="1" href="https://stake-s3.hoprnet.org" isExternal>
+          stake S3 <ExternalLinkIcon />
         </Link>
         , connect your wallet and press “Claim & Unlock”. To restake, simply
         return to this site.
