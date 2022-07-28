@@ -1,16 +1,21 @@
 import { utils, constants } from 'ethers'
-import { useEthers, useTokenBalance } from '@usedapp/core'
+import { useTokenBalance } from '@usedapp/core'
 import { Button } from '@chakra-ui/react'
 import { round } from '../../lib/helpers'
+import { useEthersWithViewMode } from '../../lib/hooks'
 
 export const MaxXHOPRButton = ({
   XHOPRContractAddress,
   updateBalanceHandler,
+  useViewMode,
+  viewModeAddress,
 }: {
   XHOPRContractAddress: string
   updateBalanceHandler: (balance: string) => void
+  useViewMode: boolean
+  viewModeAddress: string
 }): JSX.Element => {
-  const { account } = useEthers()
+  const { account } = useEthersWithViewMode(useViewMode && viewModeAddress)
 
   const tokenBalance =
     useTokenBalance(XHOPRContractAddress, account) || constants.Zero

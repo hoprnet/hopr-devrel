@@ -24,6 +24,8 @@ export type StateType = {
   isLoadingClaim: boolean
   totalAPRBoost: number
   isLoadingUnlock: boolean
+  useViewMode: boolean
+  viewModeAddress: string
 }
 
 /**
@@ -42,6 +44,8 @@ export const initialState: StateType = {
   isLoadingClaim: false,
   totalAPRBoost: -1,
   isLoadingUnlock: false,
+  useViewMode: false,
+  viewModeAddress: '',
 }
 
 type Accounts = {
@@ -91,6 +95,14 @@ export type ActionType =
       type: 'SET_LOADING_UNLOCK'
       isLoadingUnlock: StateType['isLoadingUnlock']
     }
+  | {
+      type: 'SET_VIEW_MODE'
+      useViewMode: StateType['useViewMode']
+  }
+  | {
+      type: 'SET_VIEW_MODE_ADDRESS'
+      viewModeAddress: StateType['viewModeAddress']
+  }
 
 export function reducer(state: StateType, action: ActionType): StateType {
   switch (action.type) {
@@ -141,6 +153,16 @@ export function reducer(state: StateType, action: ActionType): StateType {
       return {
         ...state,
         isLoadingUnlock: action.isLoadingUnlock,
+      }
+    case 'SET_VIEW_MODE':
+      return {
+        ...state,
+        useViewMode: action.useViewMode
+      }
+    case 'SET_VIEW_MODE_ADDRESS':
+      return {
+        ...state,
+        viewModeAddress: action.viewModeAddress
       }
     default:
       throw new Error()

@@ -1,19 +1,24 @@
 import { utils, constants } from 'ethers'
-import { useEthers, useTokenBalance } from '@usedapp/core'
+import { useTokenBalance } from '@usedapp/core'
 import { Skeleton, Tag } from '@chakra-ui/react'
 import { round } from '../../lib/helpers'
+import { useEthersWithViewMode } from '../../lib/hooks'
 
 export const TokenBalance = ({
   tokenContract,
   givenAccount,
   colorScheme = 'green',
+  useViewMode,
+  viewModeAddress
 }: {
   tokenContract: string
   givenAccount?: string
   colorScheme?: string
+  useViewMode?: boolean
+  viewModeAddress?: string
 }): JSX.Element => {
   let isLoaded = false;
-  const { account } = useEthers()
+  const { account } = useEthersWithViewMode(useViewMode && viewModeAddress)
   
   const tokenBalance =
     useTokenBalance(tokenContract, givenAccount || account) || constants.Zero

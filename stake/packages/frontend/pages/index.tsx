@@ -57,7 +57,7 @@ function HomeIndex(): JSX.Element {
   }, [chainId])
 
   return (
-    <Layout>
+    <Layout dispatch={dispatch} useViewMode={state.useViewMode} viewModeAddress={state.viewModeAddress}>
       <Box d="flex" mb="8" justifyContent="space-between" alignItems="center">
         <Heading as="h1">HOPR Staking Season 4</Heading>
         <Box d="flex" alignItems="center">
