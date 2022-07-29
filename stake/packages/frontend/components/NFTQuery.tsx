@@ -96,7 +96,7 @@ const NFTLockButton = ({
       width="10rem"
       size="sm"
       isLoading={state.isLoadingRedeem}
-      isDisabled={state.isLoadingRedeem}
+      isDisabled={state.isLoadingRedeem || state.useViewMode}
       {...colours}
       onClick={() => {
         setRedeemNFT(

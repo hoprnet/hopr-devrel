@@ -212,6 +212,7 @@ export const StakeXHoprTokens = ({
               <Button
                 width="10rem"
                 size="sm"
+                disabled={state.useViewMode}
                 isLoading={state.isLoadingStaking}
                 onClick={() => {
                   setStaking(
@@ -285,6 +286,7 @@ export const StakeXHoprTokens = ({
         {account && (
           <Box textAlign="right">
             <CallButton
+              disabled={state.useViewMode}
               isLoading={state.isLoadingSync}
               handler={() => {
                 setSync(
@@ -302,7 +304,7 @@ export const StakeXHoprTokens = ({
               mx="10px"
               bg="blackAlpha.900"
               color="whiteAlpha.900"
-              isDisabled={!canUnlock}
+              isDisabled={!canUnlock || state.useViewMode}
               onClick={() => {
                 setUnlock(
                   HoprStakeABI,
@@ -325,6 +327,7 @@ export const StakeXHoprTokens = ({
               )}
             </Button>
             <CallButton
+              disabled={state.useViewMode}
               isLoading={state.isLoadingClaim}
               handler={() => {
                 setClaim(
