@@ -15,7 +15,7 @@ import { Contract, constants, BigNumber } from 'ethers'
 import { ActionType, setRedeemNFT, StateType } from '../lib/reducers'
 import { RPC_COLOURS, SUBGRPAH_URLS } from '../lib/connectors'
 import { bgColor, color, nonEmptyAccount } from '../lib/helpers'
-import { useRedeemedNFTs } from '../lib/hooks'
+import { useEthersWithViewMode, useRedeemedNFTs } from '../lib/hooks'
 import { CurrencyTag } from './atoms/CurrencyTag'
 
 type NFT = {
@@ -96,7 +96,7 @@ const NFTLockButton = ({
       width="10rem"
       size="sm"
       isLoading={state.isLoadingRedeem}
-      isDisabled={state.isLoadingRedeem}
+      isDisabled={state.isLoadingRedeem || state.useViewMode}
       {...colours}
       onClick={() => {
         setRedeemNFT(
@@ -259,7 +259,7 @@ export const NFTQuery = ({
   dispatch: Dispatch<ActionType>
   fromBlock?: number
 }): JSX.Element => {
-  const { library, account, chainId } = useEthers()
+  const { library, account, chainId } = useEthersWithViewMode(state.useViewMode && state.viewModeAddress)
   const [nfts, setNFTS] = useState<NFT[]>([])
   const [redeemedNFTs, setRedeeemedNFTS] = useState<NFT[]>([])
   const [consideredRedeemedNFTs, setConsideredRedeeemedNFTS] =

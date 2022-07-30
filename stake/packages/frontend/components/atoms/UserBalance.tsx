@@ -11,9 +11,13 @@ import { BalanceWithCurrency } from '../molecules/BalanceWithCurrency'
 function UserBalance({
   wxHOPRContractAddress,
   xHOPRContractAddress,
+  useViewMode,
+  viewModeAddress
 }: {
   wxHOPRContractAddress: string
   xHOPRContractAddress: string
+  useViewMode: boolean
+  viewModeAddress: string
 }): JSX.Element {
   const { chainId } = useEthers()
 
@@ -35,7 +39,7 @@ function UserBalance({
         props={{ mr: '20px' }}
       />
       <BalanceWithCurrency
-        balanceElement={<EtherBalance />}
+        balanceElement={<EtherBalance useViewMode={useViewMode} viewModeAddress={viewModeAddress} />}
         currencyElement={<CurrencyTag tag={chainToNativeToken(chainId)} />}
       />
     </>
