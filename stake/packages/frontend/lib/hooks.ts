@@ -37,12 +37,6 @@ export function useRedeemedNFTs(
   return startProgramDate
 }
 
-export function blockedNFTs(
-  stakeContractABI: any,
-  stakeContractAddress: string | Falsy,
-  address: string | Falsy
-)
-
 export function useEndProgramDate(
   stakeContractABI: any,
   stakeContractAddress: string | Falsy
