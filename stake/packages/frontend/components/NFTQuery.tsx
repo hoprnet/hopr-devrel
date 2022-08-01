@@ -9,7 +9,7 @@ import {
   Tag,
   Skeleton,
 } from '@chakra-ui/react'
-import type { HoprBoost, HoprStake, HoprStakeSeason4 } from '@hoprnet/hopr-ethereum'
+import type { HoprBoost, HoprStakeSeason4 } from '@hoprnet/hopr-ethereum'
 import { useEffect, useState, Dispatch } from 'react'
 import { Contract, constants, BigNumber } from 'ethers'
 import { ActionType, setRedeemNFT, StateType } from '../lib/reducers'

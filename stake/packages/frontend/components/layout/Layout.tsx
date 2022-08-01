@@ -169,7 +169,7 @@ const Layout = ({ children, customMeta, dispatch, useViewMode, viewModeAddress }
                         })
                         dispatch({
                           type: 'SET_VIEW_MODE_ADDRESS',
-                          useViewMode: '',
+                          viewModeAddress: '',
                         })
                       }}
                     >
