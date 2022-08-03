@@ -9,13 +9,13 @@ import {
   Tag,
   Skeleton,
 } from '@chakra-ui/react'
-import type { HoprBoost, HoprStake } from '@hoprnet/hopr-ethereum'
+import type { HoprBoost, HoprStakeSeason4 } from '@hoprnet/hopr-ethereum'
 import { useEffect, useState, Dispatch } from 'react'
 import { Contract, constants, BigNumber } from 'ethers'
 import { ActionType, setRedeemNFT, StateType } from '../lib/reducers'
 import { RPC_COLOURS, SUBGRPAH_URLS } from '../lib/connectors'
 import { bgColor, color, nonEmptyAccount } from '../lib/helpers'
-import { useRedeemedNFTs } from '../lib/hooks'
+import { useEthersWithViewMode, useRedeemedNFTs } from '../lib/hooks'
 import { CurrencyTag } from './atoms/CurrencyTag'
 
 type NFT = {
@@ -26,6 +26,7 @@ type NFT = {
   deadline: number
   tokenURI: string
   redeemed?: boolean
+  isBlocked: boolean
   image: string
   typeOfBoostName: string
 }
@@ -47,6 +48,7 @@ const QUERY_BLOCKEDTYPE = `
 
 const getNFTFromTokenId = async (
   HoprBoost: HoprBoost,
+  HoprStake: HoprStakeSeason4,
   tokenId: BigNumber,
   redeemed = false
 ) => {
@@ -54,6 +56,7 @@ const getNFTFromTokenId = async (
   const typeName = await HoprBoost.typeOf(tokenId)
   const [factor, deadline] = await HoprBoost.boostOf(tokenId)
   const tokenURI = await HoprBoost.tokenURI(tokenId)
+  const isBlocked = await HoprStake.isBlockedNft(typeOfBoost)
 
   const json: any = await fetch(tokenURI).then((res) => res.json())
   const gateway = 'https://cloudflare-ipfs.com/ipfs/'
@@ -70,6 +73,7 @@ const getNFTFromTokenId = async (
     tokenURI,
     redeemed,
     image,
+    isBlocked,
     typeOfBoostName,
   }
 }
@@ -96,7 +100,7 @@ const NFTLockButton = ({
       width="10rem"
       size="sm"
       isLoading={state.isLoadingRedeem}
-      isDisabled={state.isLoadingRedeem}
+      isDisabled={state.isLoadingRedeem || state.useViewMode}
       {...colours}
       onClick={() => {
         setRedeemNFT(
@@ -175,6 +179,19 @@ const NFTContainer = ({
                   alignItems="baseline"
                   justifyContent="space-between"
                 >
+                  <b>Expired</b>
+                  <Tag
+                    bg={nft.isBlocked ? 'red' : 'green'}
+                    textTransform="capitalize"
+                  >
+                    {nft.isBlocked ? 'Yes' : 'No'}
+                  </Tag>
+                </Box>
+                <Box
+                  d="flex"
+                  alignItems="baseline"
+                  justifyContent="space-between"
+                >
                   <b>Rank</b>
                   <Tag
                     bg={NFT_TYPE_COLOURS[nft.typeOfBoostName]}
@@ -221,7 +238,7 @@ const NFTContainer = ({
                 {new Date(nft.deadline * 1000).toString()}
               </Text> */}
 
-              {!nft.redeemed && (
+              {!nft.redeemed && !nft.isBlocked && (
                 <NFTLockButton
                   tokenId={nft.tokenId}
                   HoprBoostABI={HoprBoostABI}
@@ -259,7 +276,7 @@ export const NFTQuery = ({
   dispatch: Dispatch<ActionType>
   fromBlock?: number
 }): JSX.Element => {
-  const { library, account, chainId } = useEthers()
+  const { library, account, chainId } = useEthersWithViewMode(state.useViewMode && state.viewModeAddress)
   const [nfts, setNFTS] = useState<NFT[]>([])
   const [redeemedNFTs, setRedeeemedNFTS] = useState<NFT[]>([])
   const [consideredRedeemedNFTs, setConsideredRedeeemedNFTS] =
@@ -299,7 +316,7 @@ export const NFTQuery = ({
           HoprStakeContractAddress,
           HoprStakeABI,
           library
-        ) as HoprStake
+        ) as HoprStakeSeason4
         // We go through both mapped arrays and create the to be resolved promises
         // for both redeemed and not redeemed NFT tokens.
         const redeemedNFTSPromises = redeemedNFTsMappedArray.map(
@@ -308,14 +325,14 @@ export const NFTQuery = ({
               ? await HoprStake.redeemedNft(account, index)
               : constants.NegativeOne
             return +tokenId >= 0
-              ? await getNFTFromTokenId(HoprBoost, tokenId, true)
+              ? await getNFTFromTokenId(HoprBoost, HoprStake, tokenId, true)
               : undefined
           }
         )
 
         const nftsPromises = nftsMappedArray.map(async (_, index) => {
           const tokenId = await HoprBoost.tokenOfOwnerByIndex(account, index)
-          return await getNFTFromTokenId(HoprBoost, tokenId)
+          return await getNFTFromTokenId(HoprBoost, HoprStake, tokenId)
         })
 
         // We resolve both promises to make sure all NFTs are properly obtained

@@ -20,7 +20,6 @@ import {
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import {
   getExplorerAddressLink,
-  useEthers,
   useNotifications,
 } from '@usedapp/core'
 import blockies from 'blockies-ts'
@@ -35,6 +34,9 @@ import UserBalance from '../atoms/UserBalance'
 import ConnectWallet from '../atoms/ConnectWallet'
 import Head, { MetaProps } from './Head'
 import { chainIdToNetwork, RPC_COLOURS } from '../../lib/connectors'
+import { ActionType } from '../../lib/reducers'
+import ViewAddress from '../atoms/ViewAddress'
+import { useEthersWithViewMode } from '../../lib/hooks'
 
 // Extends `window` to add `ethereum`.
 declare global {
@@ -64,13 +66,16 @@ function truncateHash(hash: string, length = 38): string {
 interface LayoutProps {
   children: React.ReactNode
   customMeta?: MetaProps
+  dispatch: React.Dispatch<ActionType>
+  useViewMode: boolean
+  viewModeAddress: string
 }
 
 /**
  * Component
  */
-const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
-  const { account, deactivate, chainId } = useEthers()
+const Layout = ({ children, customMeta, dispatch, useViewMode, viewModeAddress }: LayoutProps): JSX.Element => {
+  const { account, deactivate, chainId } = useEthersWithViewMode(useViewMode && viewModeAddress)
   const [contractAddresses, setContractAddresses] = useState<IContractAddress>(
     emptyContractAddresses
   )
@@ -134,6 +139,8 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
             </Flex>
             <Flex justifyContent="flex-end">
               <UserBalance
+                useViewMode={useViewMode}
+                viewModeAddress={viewModeAddress}
                 wxHOPRContractAddress={contractAddresses.wxHOPR}
                 xHOPRContractAddress={contractAddresses.xHOPR}
               />
@@ -156,6 +163,14 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
                     <MenuItem
                       onClick={() => {
                         deactivate()
+                        dispatch({
+                          type: 'SET_VIEW_MODE',
+                          useViewMode: false,
+                        })
+                        dispatch({
+                          type: 'SET_VIEW_MODE_ADDRESS',
+                          viewModeAddress: '',
+                        })
                       }}
                     >
                       Disconnect
@@ -164,7 +179,7 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
                 </Menu>
               </Flex>
             ) : (
-              <ConnectWallet />
+              useViewMode ? <ViewAddress dispatch={dispatch} viewModeAddress={viewModeAddress} /> : <ConnectWallet dispatch={dispatch} />
             )}
           </SimpleGrid>
         </Container>

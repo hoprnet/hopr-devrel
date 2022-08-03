@@ -22,8 +22,8 @@ import {
   setUnlock,
 } from '../lib/reducers'
 import { RPC_COLOURS } from '../lib/connectors'
-import { useEndProgramDate } from '../lib/hooks'
-import { useBlockNumber, useEthers } from '@usedapp/core'
+import { useEndProgramDate, useEthersWithViewMode } from '../lib/hooks'
+import { useBlockNumber } from '@usedapp/core'
 import { Dispatch, useState } from 'react'
 import { EndProgramDateDays } from './atoms/ProgramDate'
 import { BalanceWithCurrency } from './molecules/BalanceWithCurrency'
@@ -53,7 +53,7 @@ export const StakeXHoprTokens = ({
   state: StateType
   dispatch: Dispatch<ActionType>
 }): JSX.Element => {
-  const { chainId, library, account } = useEthers()
+  const { chainId, library, account } = useEthersWithViewMode(state.useViewMode && state.viewModeAddress)
   const startingBlock = useBlockNumber()
   const [blocks, setBlockCounter] = useState<number>(0)
   const colours = RPC_COLOURS[chainId]
@@ -190,6 +190,8 @@ export const StakeXHoprTokens = ({
                   amountValue: xHOPRBalance,
                 })
               }
+              useViewMode={state.useViewMode}
+              viewModeAddress={state.viewModeAddress}
             />
           </InputLeftElement>
           <Input
@@ -210,6 +212,7 @@ export const StakeXHoprTokens = ({
               <Button
                 width="10rem"
                 size="sm"
+                disabled={state.useViewMode}
                 isLoading={state.isLoadingStaking}
                 onClick={() => {
                   setStaking(
@@ -283,6 +286,7 @@ export const StakeXHoprTokens = ({
         {account && (
           <Box textAlign="right">
             <CallButton
+              disabled={state.useViewMode}
               isLoading={state.isLoadingSync}
               handler={() => {
                 setSync(
@@ -300,7 +304,7 @@ export const StakeXHoprTokens = ({
               mx="10px"
               bg="blackAlpha.900"
               color="whiteAlpha.900"
-              isDisabled={!canUnlock}
+              isDisabled={!canUnlock || state.useViewMode}
               onClick={() => {
                 setUnlock(
                   HoprStakeABI,
@@ -323,6 +327,7 @@ export const StakeXHoprTokens = ({
               )}
             </Button>
             <CallButton
+              disabled={state.useViewMode}
               isLoading={state.isLoadingClaim}
               handler={() => {
                 setClaim(

@@ -1750,10 +1750,10 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.3.0.tgz#8368869dcb735be2e7f5cb7647de78e167a251fb"
   integrity sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==
 
-"@hoprnet/hopr-ethereum@^1.89.0-next.43":
-  version "1.89.0-next.44"
-  resolved "https://registry.yarnpkg.com/@hoprnet/hopr-ethereum/-/hopr-ethereum-1.89.0-next.44.tgz#b8fd077c4ff297d35a8f5279c95c5283bfbe6520"
-  integrity sha512-U+RWq8k2p3wGOxFrQ0yOWa/IWnpRDndSP3TTwMRjLUYV3zc/AWd2Sivi0pDGvMEIM0Ga9IvaE+31u6WfSvFGmg==
+"@hoprnet/hopr-ethereum@^1.89.0-next.77":
+  version "1.89.0-next.77"
+  resolved "https://registry.yarnpkg.com/@hoprnet/hopr-ethereum/-/hopr-ethereum-1.89.0-next.77.tgz#3218e35f0f4bc2dfb8bf59e4bca5ec952c9eab01"
+  integrity sha512-prkGLwE7hYUkTF0OQz4LUH6S6Fihcw5Z6Py6oX5F+7+oHvty3ShQB9ihtPfmDLsMVB/xD6Uj7CEe82XSUqPQ6w==
   dependencies:
     "@openzeppelin/contracts" "4.4.2"
     "@openzeppelin/contracts-v3-0-1" "npm:@openzeppelin/contracts@3.4.2"
