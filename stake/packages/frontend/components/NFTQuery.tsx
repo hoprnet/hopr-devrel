@@ -138,7 +138,7 @@ const NFTContainer = ({
   isRedeemedNFTs: boolean
 }) => (
   <>
-    {nfts.map((nft) => {
+    {nfts.reverse().map((nft) => {
       const isRelevantNFT =
         consideredNFTs[nft.typeName] &&
         consideredNFTs[nft.typeName].factor == nft.factor
