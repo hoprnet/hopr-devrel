@@ -138,7 +138,7 @@ const NFTContainer = ({
   isRedeemedNFTs: boolean
 }) => (
   <>
-    {nfts.reverse().map((nft) => {
+    {nfts.map((nft) => {
       const isRelevantNFT =
         consideredNFTs[nft.typeName] &&
         consideredNFTs[nft.typeName].factor == nft.factor
@@ -368,7 +368,7 @@ export const NFTQuery = ({
           {}
         )
         setConsideredRedeeemedNFTS(actuallyConsideredRedemeedNfts)
-        setNFTS(nfts)
+        setNFTS(nfts.reverse())
         setRedeeemedNFTS(redemeedNfts)
         // We propagate the total APR boost to the rest of the application.
         const maxFactorNFT = Object.values(
