@@ -4,30 +4,26 @@ This project contains queries and dashboard source code for Dune Analytics Payme
 
 Created in scope of https://gitcoin.co/issue/28790 bounty.
 
-## Requirements
-
-* Create a Dune Analytics Dashboard that contains a table of all nodes that have announced themselves with Ethereum address of the node
-
-* Last public key (also called HOPR address, hex is ok) that has been announced on-chain
-
-* Number of times that node has announced itself on-chain
-
-* Balance in xDAI of that node
-
-* Balance in wxHOPR of that node
-
-* Number of open payment channels that it has currently funded (any state, excluding channels in state CLOSED)
-
-* Amount of HOPR tokens that it has currently staked (decreases when counterparty redeemed a ticket)
-
-* Number of transactions that it made sending xDAI
-
-* Number of transactions that it made sending wxHOPR
-
-* Number of unique Ethereum addresses that funded them with wxHOPR tokens
-
-* Last Ethereum address that funded them with wxHOPR tokens
-
 ## Queries
 
+* HOPR Node Announcements : https://dune.com/queries/1233765
+* Gnosis HOPR accounting by address (forked from @qyuqianchen with thHOPR added) : https://dune.com/queries/1233748
+* Gnosis HOPR incoming transfers by address : https://dune.com/queries/1233873
+* Gnosis HOPR outgoing transfers by address : https://dune.com/queries/1233857
+* HOPR Funded Not Closed Channels by Node: https://dune.com/queries/1237370
+* HOPR Funded Channels by Node https://dune.com/queries/1240679
+
 ## Dashboard
+
+Example nodes dashboards
+
+Main table, shows node announcements with last publicKey and Dune hyper links to node data
+
+* https://dune.com/korrrba/hopr-node-announcements-and-payment-channels-analytics
+
+Example node data: incoming/outgoing HOPR, number of funded channels (all states including closed) and all states excluding closed
+
+* https://dune.com/korrrba/hopr-payment-channel-by-node?account=0x57a0dfc455413bff5a07852ea4ed81163e64b263
+* https://dune.com/korrrba/hopr-payment-channel-by-node?account=0x30fc9c5a173590ab37e7ebf5b949f433d998d872
+
+NOTE: If dashboards show 'No results from query.' in any table, it memay mean that the node did not fund payment channels or did not send / receive HOPR/ txHOPR tokens (just announced itself).
