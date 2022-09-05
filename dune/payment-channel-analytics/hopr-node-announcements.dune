@@ -1,0 +1,26 @@
+WITH
+  hopr_call_announce AS (
+    SELECT
+      call_block_time,
+      call_success,
+      "publicKey"
+    FROM
+      hopr_protocol."HoprChannels_call_announce"
+  ),
+  hopr_evt_announcement AS (
+    SELECT
+      evt_block_time,
+      account,
+      "publicKey" as evtPublicKey
+    FROM
+      hopr_protocol."HoprChannels_evt_Announcement"
+  )
+SELECT
+  call_block_time,
+  "publicKey"
+FROM
+  hopr_call_announce,
+  hopr_evt_announcement
+WHERE
+  call_success IS true
+  AND "publicKey" = evtPublicKey
