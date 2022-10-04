@@ -1,6 +1,6 @@
 import type {
   xHoprToken,
-  HoprStakeSeason4,
+  HoprStakeSeason5 as HoprStakeSeason,
   HoprBoost,
 } from '@hoprnet/hopr-ethereum'
 import type { Web3Provider } from '@usedapp/core/node_modules/@ethersproject/providers/lib/web3-provider'
@@ -185,7 +185,7 @@ export async function fetchAccountData(
       HoprStakeContractAddress,
       HoprStakeABI,
       provider
-    ) as HoprStakeSeason4
+    ) as HoprStakeSeason
     try {
       const accountStruct: Accounts =
         account && (await contract.accounts(account))
@@ -238,7 +238,7 @@ export async function setClaim(
       HoprStakeContractAddress,
       HoprStakeABI,
       signer
-    ) as HoprStakeSeason4
+    ) as HoprStakeSeason
     const transaction = await contract.claimRewards(address)
     await transaction.wait()
     fetchAccountData(
@@ -272,7 +272,7 @@ export async function setSync(
       HoprStakeContractAddress,
       HoprStakeABI,
       signer
-    ) as HoprStakeSeason4
+    ) as HoprStakeSeason
     const transaction = await contract.sync(address)
     await transaction.wait()
     fetchAccountData(
@@ -383,7 +383,7 @@ export async function setUnlock(
       HoprStakeContractAddress,
       HoprStakeABI,
       signer
-    ) as HoprStakeSeason4
+    ) as HoprStakeSeason
     const transaction = await contract.unlockFor(address)
     await transaction.wait()
     fetchAccountData(

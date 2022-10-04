@@ -8,8 +8,8 @@ const RPC_URLS: { [chainId: number]: string } = {
 
 export const SUBGRPAH_URLS: { [chainId: number]: string } = {
   // TODO: create development subgraph
-  5: 'https://api.thegraph.com/subgraphs/name/hoprnet/stake-season4-development',
-  100: 'https://api.thegraph.com/subgraphs/name/hoprnet/stake-season4',
+  5: 'https://api.thegraph.com/subgraphs/name/hoprnet/stake-season5-development',
+  100: 'https://api.thegraph.com/subgraphs/name/hoprnet/stake-season5',
 }
 
 export const RPC_COLOURS: {

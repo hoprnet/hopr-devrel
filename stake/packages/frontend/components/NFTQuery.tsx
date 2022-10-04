@@ -9,7 +9,7 @@ import {
   Tag,
   Skeleton,
 } from '@chakra-ui/react'
-import type { HoprBoost, HoprStakeSeason4 } from '@hoprnet/hopr-ethereum'
+import type { HoprBoost, HoprStakeSeason5 as HoprStakeSeason } from '@hoprnet/hopr-ethereum'
 import { useEffect, useState, Dispatch } from 'react'
 import { Contract, constants, BigNumber } from 'ethers'
 import { ActionType, setRedeemNFT, StateType } from '../lib/reducers'
@@ -48,7 +48,7 @@ const QUERY_BLOCKEDTYPE = `
 
 const getNFTFromTokenId = async (
   HoprBoost: HoprBoost,
-  HoprStake: HoprStakeSeason4,
+  HoprStake: HoprStakeSeason,
   tokenId: BigNumber,
   redeemed = false
 ) => {
@@ -316,7 +316,7 @@ export const NFTQuery = ({
           HoprStakeContractAddress,
           HoprStakeABI,
           library
-        ) as HoprStakeSeason4
+        ) as HoprStakeSeason
         // We go through both mapped arrays and create the to be resolved promises
         // for both redeemed and not redeemed NFT tokens.
         const redeemedNFTSPromises = redeemedNFTsMappedArray.map(
