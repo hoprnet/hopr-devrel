@@ -10,11 +10,13 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react'
+import { ViewIcon } from '@chakra-ui/icons'
 import { useEthers } from '@usedapp/core'
 import React from 'react'
 import { walletconnect } from '../../lib/connectors'
+import { ActionType } from '../../lib/reducers'
 
-function ConnectWallet(): JSX.Element {
+function ConnectWallet({ dispatch }: { dispatch: React.Dispatch<ActionType>}): JSX.Element {
   const { activate, activateBrowserWallet } = useEthers()
 
   const { onOpen, isOpen, onClose } = useDisclosure()
@@ -72,6 +74,27 @@ function ConnectWallet(): JSX.Element {
               }}
             >
               WalletConnect
+            </Button>
+            <Button
+              aria-label='View Mode'
+              justifyContent="space-between"
+              width="100%"
+              mb="4"
+              size="lg"
+              variant="outline"
+              rightIcon={
+                <ViewIcon
+                  maxWidth="20px"
+                />
+              }
+              onClick={() => {
+                dispatch({
+                  type: 'SET_VIEW_MODE',
+                  useViewMode: true,
+                })
+              }}
+            >
+              View Mode
             </Button>
           </ModalBody>
         </ModalContent>
