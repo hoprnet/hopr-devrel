@@ -19,9 +19,11 @@ import {
   setStaking,
   setSync,
   StateType,
+  setUnlock,
 } from '../lib/reducers'
 import { RPC_COLOURS } from '../lib/connectors'
-import { useBlockNumber, useEthers } from '@usedapp/core'
+import { useEndProgramDate, useEthersWithViewMode } from '../lib/hooks'
+import { useBlockNumber } from '@usedapp/core'
 import { Dispatch, useState } from 'react'
 import { EndProgramDateDays } from './atoms/ProgramDate'
 import { BalanceWithCurrency } from './molecules/BalanceWithCurrency'
@@ -37,17 +39,21 @@ enum LOADED_STATUS {
 }
 
 export const StakeXHoprTokens = ({
+  xHoprABI,
   XHOPRContractAddress,
+  HoprStakeABI,
   HoprStakeContractAddress,
   state,
   dispatch,
 }: {
+  xHoprABI: any
   XHOPRContractAddress: string
+  HoprStakeABI: any
   HoprStakeContractAddress: string
   state: StateType
   dispatch: Dispatch<ActionType>
 }): JSX.Element => {
-  const { chainId, library, account } = useEthers()
+  const { chainId, library, account } = useEthersWithViewMode(state.useViewMode && state.viewModeAddress)
   const startingBlock = useBlockNumber()
   const [blocks, setBlockCounter] = useState<number>(0)
   const colours = RPC_COLOURS[chainId]
@@ -59,11 +65,14 @@ export const StakeXHoprTokens = ({
 
   const timeDiff = (new Date().getTime() - +state.lastSync * 1000) / 1000 // to seconds
   const FACTOR_DENOMINATOR = 1e12
-  const baseBoost = 5787 / FACTOR_DENOMINATOR
+  const baseBoost = 3171 / FACTOR_DENOMINATOR
   const bonusBoost = state.totalAPRBoost / FACTOR_DENOMINATOR
   const totalBoost = bonusBoost + baseBoost
   const estimatedRewards = timeDiff * (+state.stakedHOPRTokens * totalBoost)
-
+  const canUnlock =
+    useEndProgramDate(HoprStakeABI, HoprStakeContractAddress)?.lt(
+      Math.floor(new Date().getTime() / 1e3)
+    ) ?? false
   const hasLoaded = () => loadStatus === LOADED_STATUS.LOADED
 
   useEffect(() => {
@@ -71,6 +80,7 @@ export const StakeXHoprTokens = ({
       startingBlock != startingBlock - 1 && setBlockCounter(blocks + 1)
       if (nonEmptyAccount(account)) {
         await fetchAccountData(
+          HoprStakeABI,
           HoprStakeContractAddress,
           account,
           library,
@@ -180,6 +190,8 @@ export const StakeXHoprTokens = ({
                   amountValue: xHOPRBalance,
                 })
               }
+              useViewMode={state.useViewMode}
+              viewModeAddress={state.viewModeAddress}
             />
           </InputLeftElement>
           <Input
@@ -200,10 +212,13 @@ export const StakeXHoprTokens = ({
               <Button
                 width="10rem"
                 size="sm"
+                disabled={state.useViewMode}
                 isLoading={state.isLoadingStaking}
                 onClick={() => {
                   setStaking(
+                    xHoprABI,
                     XHOPRContractAddress,
+                    HoprStakeABI,
                     HoprStakeContractAddress,
                     state,
                     library,
@@ -238,7 +253,7 @@ export const StakeXHoprTokens = ({
                 {state.lastSync
                   ? state.lastSync == '0'
                     ? 'Never'
-                    : new Date(+state.lastSync * 1000).toUTCString()
+                    : new Date(+state.lastSync * 1000).toString()
                   : '--'}
                 {+state.lastSync > 0 && `(${format(+state.lastSync * 1000)})`}
               </Text>
@@ -271,9 +286,15 @@ export const StakeXHoprTokens = ({
         {account && (
           <Box textAlign="right">
             <CallButton
+              disabled={state.useViewMode}
               isLoading={state.isLoadingSync}
               handler={() => {
-                setSync(HoprStakeContractAddress, library, dispatch)
+                setSync(
+                  HoprStakeABI,
+                  HoprStakeContractAddress,
+                  library,
+                  dispatch
+                )
               }}
             >
               Sync
@@ -283,18 +304,38 @@ export const StakeXHoprTokens = ({
               mx="10px"
               bg="blackAlpha.900"
               color="whiteAlpha.900"
-              isDisabled={true}
+              isDisabled={!canUnlock || state.useViewMode}
+              onClick={() => {
+                setUnlock(
+                  HoprStakeABI,
+                  HoprStakeContractAddress,
+                  library,
+                  dispatch
+                )
+              }}
             >
-              Unlock (
-              <EndProgramDateDays
-                HoprStakeContractAddress={HoprStakeContractAddress}
-              />{' '}
-              to go)
+              Unlock
+              {canUnlock ? null : (
+                <>
+                  (
+                  <EndProgramDateDays
+                    HoprStakeABI={HoprStakeABI}
+                    HoprStakeContractAddress={HoprStakeContractAddress}
+                  />{' '}
+                  to go)
+                </>
+              )}
             </Button>
             <CallButton
+              disabled={state.useViewMode}
               isLoading={state.isLoadingClaim}
               handler={() => {
-                setClaim(HoprStakeContractAddress, library, dispatch)
+                setClaim(
+                  HoprStakeABI,
+                  HoprStakeContractAddress,
+                  library,
+                  dispatch
+                )
               }}
             >
               Claim rewards

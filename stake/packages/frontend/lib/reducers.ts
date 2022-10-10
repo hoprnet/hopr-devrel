@@ -1,12 +1,11 @@
-import { Web3Provider } from '@ethersproject/providers'
+import type {
+  xHoprToken,
+  HoprStakeSeason4,
+  HoprBoost,
+} from '@hoprnet/hopr-ethereum'
+import type { Web3Provider } from '@usedapp/core/node_modules/@ethersproject/providers/lib/web3-provider'
 import { Contract, ethers, BigNumber, utils, constants } from 'ethers'
 import React from 'react'
-import xHOPRTokenABI from '@hoprnet/hopr-stake/lib/chain/abis/ERC677Mock.json'
-import { ERC677Mock as xHOPRTokenType } from '@hoprnet/hopr-stake/lib/types/ERC677Mock'
-import HoprStakeABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprStake.json'
-import { HoprStake as HoprStakeType } from '@hoprnet/hopr-stake/lib/types/HoprStake'
-import HoprBoostABI from '@hoprnet/hopr-stake/lib/chain/abis/HoprBoost.json'
-import { HoprBoost as HoprBoostType } from '@hoprnet/hopr-stake/lib/types/HoprBoost'
 import { round } from './helpers'
 
 /**
@@ -24,6 +23,9 @@ export type StateType = {
   isLoadingRedeem: boolean
   isLoadingClaim: boolean
   totalAPRBoost: number
+  isLoadingUnlock: boolean
+  useViewMode: boolean
+  viewModeAddress: string
 }
 
 /**
@@ -41,11 +43,13 @@ export const initialState: StateType = {
   isLoadingRedeem: false,
   isLoadingClaim: false,
   totalAPRBoost: -1,
+  isLoadingUnlock: false,
+  useViewMode: false,
+  viewModeAddress: '',
 }
 
 type Accounts = {
   actualLockedTokenAmount: BigNumber
-  virtualLockedTokenAmount: BigNumber
   lastSyncTimestamp: BigNumber
   cumulatedRewards: BigNumber
   claimedRewards: BigNumber
@@ -53,39 +57,51 @@ type Accounts = {
 
 export type ActionType =
   | {
-    type: 'SET_ACCOUNT_DATA'
-    stakedHOPRTokens: StateType['stakedHOPRTokens']
-    yetToClaimRewards: StateType['yetToClaimRewards']
-    lastSync: StateType['lastSync']
-    alreadyClaimedRewards: StateType['alreadyClaimedRewards']
+      type: 'SET_ACCOUNT_DATA'
+      stakedHOPRTokens: StateType['stakedHOPRTokens']
+      yetToClaimRewards: StateType['yetToClaimRewards']
+      lastSync: StateType['lastSync']
+      alreadyClaimedRewards: StateType['alreadyClaimedRewards']
+    }
+  | {
+      type: 'SET_LOADING_STAKING'
+      isLoadingStaking: StateType['isLoadingStaking']
+    }
+  | {
+      type: 'SET_LOADING_FETCHING'
+      isLoadingFetching: StateType['isLoadingFetching']
+    }
+  | {
+      type: 'SET_LOADING_CLAIM'
+      isLoadingClaim: StateType['isLoadingClaim']
+    }
+  | {
+      type: 'SET_LOADING_SYNC'
+      isLoadingSync: StateType['isLoadingSync']
+    }
+  | {
+      type: 'SET_LOADING_REDEEM'
+      isLoadingRedeem: StateType['isLoadingRedeem']
+    }
+  | {
+      type: 'SET_STAKING_AMOUNT'
+      amountValue: StateType['amountValue']
+    }
+  | {
+      type: 'SET_TOTAL_APR_BOOST'
+      totalAPRBoost: StateType['totalAPRBoost']
+    }
+  | {
+      type: 'SET_LOADING_UNLOCK'
+      isLoadingUnlock: StateType['isLoadingUnlock']
+    }
+  | {
+      type: 'SET_VIEW_MODE'
+      useViewMode: StateType['useViewMode']
   }
   | {
-    type: 'SET_LOADING_STAKING'
-    isLoadingStaking: StateType['isLoadingStaking']
-  }
-  | {
-    type: 'SET_LOADING_FETCHING'
-    isLoadingFetching: StateType['isLoadingFetching']
-  }
-  | {
-    type: 'SET_LOADING_CLAIM'
-    isLoadingClaim: StateType['isLoadingClaim']
-  }
-  | {
-    type: 'SET_LOADING_SYNC'
-    isLoadingSync: StateType['isLoadingSync']
-  }
-  | {
-    type: 'SET_LOADING_REDEEM'
-    isLoadingRedeem: StateType['isLoadingRedeem']
-  }
-  | {
-    type: 'SET_STAKING_AMOUNT'
-    amountValue: StateType['amountValue']
-  }
-  | {
-    type: 'SET_TOTAL_APR_BOOST'
-    totalAPRBoost: StateType['totalAPRBoost']
+      type: 'SET_VIEW_MODE_ADDRESS'
+      viewModeAddress: StateType['viewModeAddress']
   }
 
 export function reducer(state: StateType, action: ActionType): StateType {
@@ -106,7 +122,7 @@ export function reducer(state: StateType, action: ActionType): StateType {
     case 'SET_LOADING_CLAIM':
       return {
         ...state,
-        isLoadingClaim: action.isLoadingClaim
+        isLoadingClaim: action.isLoadingClaim,
       }
     case 'SET_LOADING_FETCHING':
       return {
@@ -116,12 +132,12 @@ export function reducer(state: StateType, action: ActionType): StateType {
     case 'SET_LOADING_SYNC':
       return {
         ...state,
-        isLoadingSync: action.isLoadingSync
+        isLoadingSync: action.isLoadingSync,
       }
     case 'SET_LOADING_REDEEM':
       return {
         ...state,
-        isLoadingRedeem: action.isLoadingRedeem
+        isLoadingRedeem: action.isLoadingRedeem,
       }
     case 'SET_STAKING_AMOUNT':
       return {
@@ -131,7 +147,22 @@ export function reducer(state: StateType, action: ActionType): StateType {
     case 'SET_TOTAL_APR_BOOST':
       return {
         ...state,
-        totalAPRBoost: action.totalAPRBoost
+        totalAPRBoost: action.totalAPRBoost,
+      }
+    case 'SET_LOADING_UNLOCK':
+      return {
+        ...state,
+        isLoadingUnlock: action.isLoadingUnlock,
+      }
+    case 'SET_VIEW_MODE':
+      return {
+        ...state,
+        useViewMode: action.useViewMode
+      }
+    case 'SET_VIEW_MODE_ADDRESS':
+      return {
+        ...state,
+        viewModeAddress: action.viewModeAddress
       }
     default:
       throw new Error()
@@ -139,6 +170,7 @@ export function reducer(state: StateType, action: ActionType): StateType {
 }
 
 export async function fetchAccountData(
+  HoprStakeABI: any,
   HoprStakeContractAddress: string,
   account: string,
   provider: Web3Provider,
@@ -153,28 +185,28 @@ export async function fetchAccountData(
       HoprStakeContractAddress,
       HoprStakeABI,
       provider
-    ) as unknown as HoprStakeType
+    ) as HoprStakeSeason4
     try {
-      const accountStruct: Accounts = account && await contract.accounts(account)
+      const accountStruct: Accounts =
+        account && (await contract.accounts(account))
       const {
         actualLockedTokenAmount,
         cumulatedRewards,
         lastSyncTimestamp,
         claimedRewards,
-      } = accountStruct 
-      const [
-        stakedHOPRTokens,
-        alreadyClaimedRewards
-      ] = [
+      } = accountStruct
+      const [stakedHOPRTokens, alreadyClaimedRewards] = [
         actualLockedTokenAmount,
-        claimedRewards
+        claimedRewards,
       ].map((dataPoint) =>
-        dataPoint ? round(Number(utils.formatEther(dataPoint)), 12) : '0.00000000'
+        dataPoint
+          ? round(Number(utils.formatEther(dataPoint)), 12)
+          : '0.00000000'
       )
       dispatch({
         type: 'SET_ACCOUNT_DATA',
         stakedHOPRTokens,
-        yetToClaimRewards: (cumulatedRewards.sub(claimedRewards)).toString(),
+        yetToClaimRewards: cumulatedRewards.sub(claimedRewards).toString(),
         lastSync: lastSyncTimestamp.toString(),
         alreadyClaimedRewards,
       })
@@ -190,6 +222,7 @@ export async function fetchAccountData(
 }
 
 export async function setClaim(
+  HoprStakeABI: any,
   HoprStakeContractAddress: string,
   provider: Web3Provider,
   dispatch: React.Dispatch<ActionType>
@@ -205,10 +238,11 @@ export async function setClaim(
       HoprStakeContractAddress,
       HoprStakeABI,
       signer
-    ) as unknown as HoprStakeType
+    ) as HoprStakeSeason4
     const transaction = await contract.claimRewards(address)
     await transaction.wait()
     fetchAccountData(
+      HoprStakeABI,
       HoprStakeContractAddress,
       address,
       provider,
@@ -222,6 +256,7 @@ export async function setClaim(
 }
 
 export async function setSync(
+  HoprStakeABI: any,
   HoprStakeContractAddress: string,
   provider: Web3Provider,
   dispatch: React.Dispatch<ActionType>
@@ -237,10 +272,11 @@ export async function setSync(
       HoprStakeContractAddress,
       HoprStakeABI,
       signer
-    ) as unknown as HoprStakeType
+    ) as HoprStakeSeason4
     const transaction = await contract.sync(address)
     await transaction.wait()
     fetchAccountData(
+      HoprStakeABI,
       HoprStakeContractAddress,
       address,
       provider,
@@ -254,6 +290,7 @@ export async function setSync(
 }
 
 export async function setRedeemNFT(
+  HoprBoostABI: any,
   HoprBoostContractAddress: string,
   HoprStakeContractAddress: string,
   tokenId: string,
@@ -271,8 +308,10 @@ export async function setRedeemNFT(
       HoprBoostContractAddress,
       HoprBoostABI,
       signer
-    ) as unknown as HoprBoostType
-    const transaction = await contract['safeTransferFrom(address,address,uint256)'](address, HoprStakeContractAddress, tokenId)
+    ) as HoprBoost
+    const transaction = await contract[
+      'safeTransferFrom(address,address,uint256)'
+    ](address, HoprStakeContractAddress, tokenId)
     await transaction.wait()
     dispatch({
       type: 'SET_LOADING_REDEEM',
@@ -282,7 +321,9 @@ export async function setRedeemNFT(
 }
 
 export async function setStaking(
+  xHopeTokenABI: any,
   xHOPRContractAddress: string,
+  HoprStakeABI: any,
   HoprStakeContractAddress: string,
   state: StateType,
   provider: Web3Provider,
@@ -298,9 +339,9 @@ export async function setStaking(
     const address = await signer.getAddress()
     const contract = new ethers.Contract(
       xHOPRContractAddress,
-      xHOPRTokenABI,
+      xHopeTokenABI,
       signer
-    ) as unknown as xHOPRTokenType
+    ) as xHoprToken
     const transaction = await contract.transferAndCall(
       HoprStakeContractAddress,
       utils.parseEther(state.amountValue),
@@ -308,6 +349,7 @@ export async function setStaking(
     )
     await transaction.wait()
     fetchAccountData(
+      HoprStakeABI,
       HoprStakeContractAddress,
       address,
       provider,
@@ -320,6 +362,40 @@ export async function setStaking(
     dispatch({
       type: 'SET_LOADING_STAKING',
       isLoadingStaking: false,
+    })
+  }
+}
+
+export async function setUnlock(
+  HoprStakeABI: any,
+  HoprStakeContractAddress: string,
+  provider: Web3Provider,
+  dispatch: React.Dispatch<ActionType>
+): Promise<void> {
+  if (provider && HoprStakeContractAddress != '') {
+    dispatch({
+      type: 'SET_LOADING_UNLOCK',
+      isLoadingUnlock: true,
+    })
+    const signer = provider.getSigner()
+    const address = await signer.getAddress()
+    const contract = new ethers.Contract(
+      HoprStakeContractAddress,
+      HoprStakeABI,
+      signer
+    ) as HoprStakeSeason4
+    const transaction = await contract.unlockFor(address)
+    await transaction.wait()
+    fetchAccountData(
+      HoprStakeABI,
+      HoprStakeContractAddress,
+      address,
+      provider,
+      dispatch
+    )
+    dispatch({
+      type: 'SET_LOADING_UNLOCK',
+      isLoadingUnlock: false,
     })
   }
 }
