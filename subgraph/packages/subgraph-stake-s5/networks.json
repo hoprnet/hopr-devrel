@@ -1,0 +1,22 @@
+{
+  "xdai": {
+    "HoprBoost": {
+      "address": "0x43d13D7B83607F14335cF2cB75E87dA369D056c7",
+      "startBlock": 17147149
+    },
+    "HoprStakeSeason5": {
+      "address": "0xd80fbBFE9d057254d80eEbB49f17aCA66a238e2D",
+      "startBlock": 24536036
+    }
+  },
+  "goerli": {
+    "HoprBoost": {
+      "address": "0x1C0C4EFb9a2ccE18d66eaFFc585876d8CA768013",
+      "startBlock": 7559051
+    },
+    "HoprStakeSeason5": {
+      "address": "0xc772eBd959c6e402Be99417b031eb3E38967f0e7",
+      "startBlock": 7743835
+    }
+  }
+}
