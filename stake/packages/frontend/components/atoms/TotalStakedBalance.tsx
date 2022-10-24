@@ -18,7 +18,7 @@ const QUERY_STATS = `
 }
 `
 
-export const TotalStakedBalance = () => {
+export const TotalStakedBalance = (): JSX.Element => {
   const { chainId } = useEthers()
   const [isLoaded, setLoaded] = useState(true)
   const [actualStake, setActualStake] = useState(0)
@@ -41,7 +41,7 @@ export const TotalStakedBalance = () => {
       setLoaded(true)
     }
     loadStakingStats()
-  }, [chainId, setLoaded, setActualStake, setTotalStake])
+  }, [chainId])
   return (
     <>
       <Skeleton isLoaded={isLoaded} mr="5px">

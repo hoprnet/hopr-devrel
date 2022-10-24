@@ -59,18 +59,18 @@ export default async function getContracts(
 // TODO: read from protocol-config
 const xDai_xHOPR: Pick<ContractData, 'address' | 'blockNumber'> = {
   address: '0xD057604A14982FE8D88c5fC25Aac3267eA142a08',
-  blockNumber: '14635013',
+  blockNumber: 14635013,
 }
 
 // TODO: read from protocol-config
 const xDai_wxHOPR: Pick<ContractData, 'address' | 'blockNumber'> = {
   address: '0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1',
-  blockNumber: '14744161',
+  blockNumber: 14744161,
 }
 
 const goerli_xHOPR: Pick<ContractData, 'address' | 'blockNumber'> = {
   address: '0xe8ad2ac347da7549aaca8f5b1c5bf979d85bc78f',
-  blockNumber: '6907086',
+  blockNumber: 6907086,
 }
 
 // TODO: read from hopr-ethereum
