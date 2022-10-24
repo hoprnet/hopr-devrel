@@ -31,7 +31,7 @@
     "@chakra-ui/react": "^1.6.3",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@hoprnet/hopr-ethereum": "^1.89.0-next.77",
+    "@hoprnet/hopr-ethereum": "^1.91.0-next.3",
     "@urql/core": "^2.2.0",
     "@usedapp/core": "^0.4.4",
     "@web3-react/walletconnect-connector": "^6.2.4",

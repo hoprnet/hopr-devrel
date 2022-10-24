@@ -7,13 +7,7 @@
     "build": "yarn workspace frontend build",
     "start": "yarn workspace frontend start",
     "export": "yarn workspace frontend export",
-    "clean:contracts": "yarn workspace @hoprnet/hopr-stake clean",
-    "clean:frontend": "yarn workspace frontend clean",
-    "clean": "yarn clean:contracts && yarn clean:frontend",
-    "compile": "yarn clean:contracts && yarn workspace @hoprnet/hopr-stake build",
-    "chain": "yarn workspace @hoprnet/hopr-stake chain",
-    "mint": "yarn workspace @hoprnet/hopr-stake hardhat mint",
-    "updateURL": "yarn workspace @hoprnet/hopr-stake hardhat updateBaseURI"
+    "clean": "yarn workspace frontend clean"
   },
   "workspaces": {
     "packages": [
