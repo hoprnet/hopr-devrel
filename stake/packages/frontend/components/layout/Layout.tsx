@@ -105,8 +105,8 @@ const Layout = ({ children, customMeta, dispatch, useViewMode, viewModeAddress }
           textAlign="center"
           padding="10px"
         >
-          <Link px="1" href="https://stake-s3.hoprnet.org" isExternal>
-            Unstake your season 3 stake by following this link
+          <Link px="1" href="https://stake-s4.hoprnet.org" isExternal>
+            Unstake your season 4 stake by following this link
             <ExternalLinkIcon />
           </Link>
         </Box>

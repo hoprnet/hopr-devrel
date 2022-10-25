@@ -8,8 +8,8 @@ const RPC_URLS: { [chainId: number]: string } = {
 
 export const SUBGRPAH_URLS: { [chainId: number]: string } = {
   // TODO: create development subgraph
-  5: 'https://api.thegraph.com/subgraphs/name/hoprnet/stake-season4-development',
-  100: 'https://api.thegraph.com/subgraphs/name/hoprnet/stake-season4',
+  5: 'https://api.thegraph.com/subgraphs/name/hoprnet/stake-season5-development',
+  100: 'https://api.thegraph.com/subgraphs/name/hoprnet/stake-season5',
 }
 
 export const RPC_COLOURS: {
@@ -57,13 +57,13 @@ export const chainToNativeToken = (chainId: number): string => {
   }
 }
 
-type EnvironmentIds = 'master-goerli' | 'ouagadougou'
+type EnvironmentIds = 'master-goerli' | 'monte_rosa'
 
 export const chainIdToEnvironmentId = (chainId: number): EnvironmentIds => {
   // goerli
   if (chainId === 5) {
     return 'master-goerli'
   } else {
-    return 'ouagadougou'
+    return 'monte_rosa'
   }
 }
