@@ -134,8 +134,8 @@ function HomeIndex(): JSX.Element {
       </BoldText>
       <Text mt="2" fontSize="xl">
         Increase your APR by redeeming NFTs to your account. HOPR Boost NFTs can
-        be earned by participating in events. Season 2, 3 and 4 NFTs can be
-        restaked in Season 4 with the same APR boost. Season 1 and 2 NFTs and the HODLr NFT have been
+        be earned by participating in events. Season 3 and 4 NFTs can be
+        restaked in Season 5 with the same APR boost. Season 1 and 2 NFTs and the HODLr NFT have been
         discontinued. New NFTs based on your previous collection will be available soon.
       </Text>
       <ParagraphLinks />
