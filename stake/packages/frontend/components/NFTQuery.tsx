@@ -154,7 +154,7 @@ const NFTContainer = ({
           m="2"
           borderRadius="5px"
         >
-          <Image src={nft.image} width="250px" m="auto" />
+          <Image src={nft.image} width="250px" m="auto" alt="Image of the NFT" />
           <Box py="6" px="6">
             <Box d="flex" alignItems="baseline" flexDirection="column">
               <Box w="100%">
@@ -390,7 +390,7 @@ export const NFTQuery = ({
       }
     }
     loadNFTBalance()
-  }, [account, startingBlock])
+  }, [account, startingBlock, HoprBoostABI, HoprBoostContractAddress, HoprStakeABI, HoprStakeContractAddress, NFTBalance, blocks, chainId, dispatch, library, redeemedNFTsBalance])
   return (
     <>
       <Box

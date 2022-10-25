@@ -41,7 +41,7 @@ export const TotalStakedBalance = () => {
       setLoaded(true)
     }
     loadStakingStats()
-  }, [])
+  }, [chainId, setLoaded, setActualStake, setTotalStake])
   return (
     <>
       <Skeleton isLoaded={isLoaded} mr="5px">
