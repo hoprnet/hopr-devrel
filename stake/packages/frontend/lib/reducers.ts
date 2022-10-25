@@ -1,6 +1,6 @@
 import type {
   xHoprToken,
-  HoprStakeSeason5,
+  HoprStakeSeason5 as HoprStakeSeason,
   HoprBoost,
 } from '@hoprnet/hopr-ethereum'
 import type { Web3Provider } from '@usedapp/core/node_modules/@ethersproject/providers/lib/web3-provider'
