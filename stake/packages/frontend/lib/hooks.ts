@@ -1,22 +1,25 @@
 import { useCall, useEthers, Web3Ethers } from '@usedapp/core'
 import { Falsy } from '@usedapp/core/dist/esm/src/model/types'
-import { BigNumber } from 'ethers'
+import { BigNumber, Contract } from 'ethers'
 import { Interface, isAddress } from 'ethers/lib/utils'
 
 export function useStartProgramDate(
   stakeContractABI: any,
   stakeContractAddress: string | Falsy
 ): BigNumber {
-  const [startProgramDate] =
+  const { value, error} =
     useCall(
       stakeContractAddress && {
-        abi: new Interface(stakeContractABI),
-        address: stakeContractAddress,
+        contract: new Contract(stakeContractAddress, stakeContractABI),
         method: 'PROGRAM_START',
         args: [],
       }
-    ) ?? []
-  return startProgramDate
+    ) ?? {}
+    if(error) {
+      console.error(error.message)
+      return undefined
+    }
+    return value?.[0]
 }
 
 export function useRedeemedNFTs(
@@ -24,33 +27,40 @@ export function useRedeemedNFTs(
   stakeContractAddress: string | Falsy,
   address: string | Falsy
 ): BigNumber | undefined {
-  const [startProgramDate] =
+  const { value, error} =
     useCall(
       address &&
       stakeContractAddress && {
-        abi: new Interface(stakeContractABI),
+        contract: new Contract(stakeContractAddress, stakeContractABI),
         address: stakeContractAddress,
         method: 'redeemedNftIndex',
         args: [address],
       }
-    ) ?? []
-  return startProgramDate
+) ?? {}
+    if(error) {
+      console.error(error.message)
+      return undefined
+    }
+    return value?.[0]
 }
 
 export function useEndProgramDate(
   stakeContractABI: any,
   stakeContractAddress: string | Falsy
 ): BigNumber {
-  const [endProgramDate] =
+  const { value, error} =
     useCall(
       stakeContractAddress && {
-        abi: new Interface(stakeContractABI),
-        address: stakeContractAddress,
+        contract: new Contract(stakeContractAddress, stakeContractABI),
         method: 'PROGRAM_END',
         args: [],
       }
-    ) ?? []
-  return endProgramDate
+) ?? {}
+    if(error) {
+      console.error(error.message)
+      return undefined
+    }
+    return value?.[0]
 }
 
 export const useEthersWithViewMode = (viewModeAddress: string): Web3Ethers => {

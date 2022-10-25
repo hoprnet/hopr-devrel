@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@chakra-ui/react'
+import { Flex, BoxProps } from '@chakra-ui/react'
 
 export const BalanceWithCurrency = ({
   balanceElement,
@@ -10,9 +10,9 @@ export const BalanceWithCurrency = ({
   props?: BoxProps
 }): JSX.Element => {
   return (
-    <Box d="flex" alignItems="baseline" {...props}>
+    <Flex alignItems="baseline" {...props}>
       {balanceElement}
       {currencyElement}
-    </Box>
+    </Flex>
   )
 }

@@ -19,8 +19,10 @@ import {
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import {
-  getExplorerAddressLink,
   useNotifications,
+  useConfig,
+  Goerli,
+  Chain
 } from '@usedapp/core'
 import blockies from 'blockies-ts'
 import React from 'react'
@@ -75,11 +77,13 @@ interface LayoutProps {
  * Component
  */
 const Layout = ({ children, customMeta, dispatch, useViewMode, viewModeAddress }: LayoutProps): JSX.Element => {
+  const { networks } = useConfig()
   const { account, deactivate, chainId } = useEthersWithViewMode(useViewMode && viewModeAddress)
   const [contractAddresses, setContractAddresses] = useState<IContractAddress>(
     emptyContractAddresses
   )
   const { notifications } = useNotifications()
+  const [chain, setChain] = useState<Chain>(Goerli)
   const colours = RPC_COLOURS[chainId] || { scheme: 'gray' }
 
   let blockieImageSrc
@@ -90,10 +94,12 @@ const Layout = ({ children, customMeta, dispatch, useViewMode, viewModeAddress }
   useEffect(() => {
     const loadContracts = async () => {
       const contractAddresses = await getContractAddresses(chainId)
+      const chain = networks.find((network) => network.chainId == chainId)
       setContractAddresses(contractAddresses)
+      setChain(chain)
     }
     loadContracts()
-  }, [chainId])
+  }, [chainId, networks])
 
   return (
     <>
@@ -128,9 +134,8 @@ const Layout = ({ children, customMeta, dispatch, useViewMode, viewModeAddress }
               <Link
                 px="4"
                 py="1"
-                href={getExplorerAddressLink(
-                  contractAddresses.HoprStake,
-                  chainId
+                href={chain.getExplorerAddressLink(
+                  contractAddresses.HoprStake
                 )}
                 isExternal
               >

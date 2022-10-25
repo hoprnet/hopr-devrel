@@ -1,6 +1,6 @@
-import { Box, Heading, Text, Link, useColorMode } from '@chakra-ui/react'
+import { Box, Flex, Heading, Text, Link, useColorMode } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { getExplorerAddressLink, useEthers } from '@usedapp/core'
+import { useEthers, useConfig, Goerli, Chain } from '@usedapp/core'
 import React, { useEffect, useReducer, useState } from 'react'
 import { DarkModeSwitch } from '../components/atoms/DarkModeSwitch'
 import Layout from '../components/layout/Layout'
@@ -33,6 +33,7 @@ import { TotalStakedBalance } from '../components/atoms/TotalStakedBalance'
 function HomeIndex(): JSX.Element {
   const { chainId } = useEthers()
   const { colorMode } = useColorMode()
+  const { networks } = useConfig()
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const [contractAddresses, setContractAddresses] = useState<IContractAddress>(
@@ -42,9 +43,11 @@ function HomeIndex(): JSX.Element {
     useState<IContractFromBlockNumbers>(emptyFromBlockNumbers)
   const [contractABIs, setContractABIs] =
     useState<IContractABIs>(emptyContractABIs)
+  const [chain, setChain] = useState<Chain>(Goerli)
 
   useEffect(() => {
     const loadContracts = async () => {
+      const chain = networks.find((network) => network.chainId == chainId)
       const contractAddresses = await getContractAddresses(chainId)
       const fromBlockNumbers =
         await getBlockNumberFromDeploymentTransactionHashReceipt(chainId)
@@ -52,16 +55,18 @@ function HomeIndex(): JSX.Element {
       setContractAddresses(contractAddresses)
       setFromBlockNumbers(fromBlockNumbers)
       setContractABIs(abis)
+      setChain(chain)
     }
     loadContracts()
-  }, [chainId])
+  }, [chainId, networks])
+
 
   return (
     <Layout dispatch={dispatch} useViewMode={state.useViewMode} viewModeAddress={state.viewModeAddress}>
-      <Box d="flex" mb="8" justifyContent="space-between" alignItems="center">
+      <Flex mb="8" justifyContent="space-between" alignItems="center">
         <Heading as="h1">HOPR Staking Season 5</Heading>
-        <Box d="flex" alignItems="center">
-          <Box d="flex" alignItems="baseline" mr="20px">
+        <Flex alignItems="center">
+          <Flex alignItems="baseline" mr="20px">
             <Text fontWeight="600" mr="10px">
               Available Rewards{'  '}
             </Text>
@@ -70,29 +75,27 @@ function HomeIndex(): JSX.Element {
               givenAccount={contractAddresses.HoprStake}
             />{' '}
             <Text fontSize="xs">wxHOPR</Text>
-          </Box>
-          <Box d="flex" alignItems="baseline">
+          </Flex>
+          <Flex alignItems="baseline">
             <Text fontWeight="600" mr="10px">
               Total Staked{'  '}
             </Text>
             <TotalStakedBalance />
             <CurrencyTag tag="xHOPR" />
-          </Box>
-        </Box>
-      </Box>
-      <Text mt="8" fontSize="xl" d="inline">
+          </Flex>
+        </Flex>
+      </Flex>
+      <Text mt="8" fontSize="xl">
         Stake{' '}
         <Link
           px="1"
-          href={getExplorerAddressLink(contractAddresses.xHOPR, chainId)}
+          href={chain.getExplorerAddressLink(contractAddresses.xHOPR)}
           isExternal
         >
           xHOPR <ExternalLinkIcon />
         </Link>{' '}
         tokens to earn a total APR of{' '}
-      </Text>
       <APRBalance totalAPRBoost={state.totalAPRBoost} />.
-      <Text mt="8" fontSize="xl">
         HOPR Staking Season 4 has finished, to recover your xHOPR stake, locked
         NFTs and unclaimed wxHOPR rewards, visit{' '}
         <Link px="1" href="https://stake-s4.hoprnet.org" isExternal>
@@ -119,7 +122,7 @@ function HomeIndex(): JSX.Element {
         , rewards can be claimed on each block. All rewards will be returned as{' '}
         <Link
           px="1"
-          href={getExplorerAddressLink(contractAddresses.wxHOPR, chainId)}
+          href={chain.getExplorerAddressLink(contractAddresses.wxHOPR)}
           isExternal
         >
           wxHOPR <ExternalLinkIcon />
