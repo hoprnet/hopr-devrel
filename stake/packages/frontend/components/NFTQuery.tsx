@@ -390,7 +390,7 @@ export const NFTQuery = ({
       }
     }
     loadNFTBalance()
-  }, [account, startingBlock, HoprBoostABI, HoprBoostContractAddress, HoprStakeABI, HoprStakeContractAddress, NFTBalance, blocks, chainId, dispatch, library, redeemedNFTsBalance])
+  }, [account, startingBlock])
   return (
     <>
       <Box

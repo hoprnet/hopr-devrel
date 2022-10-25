@@ -93,7 +93,7 @@ export const StakeXHoprTokens = ({
       }
     }
     loadAccountData()
-  }, [account, startingBlock, HoprStakeABI, HoprStakeContractAddress, blocks, dispatch, library, loadCounter])
+  }, [account, startingBlock])
 
   return (
     <>

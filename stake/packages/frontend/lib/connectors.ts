@@ -64,6 +64,6 @@ export const chainIdToEnvironmentId = (chainId: number): EnvironmentIds => {
   if (chainId === 5) {
     return 'master-goerli'
   } else {
-    return 'ouagadougou'
+    return 'monte_rosa'
   }
 }

@@ -20,6 +20,7 @@ export default async function getContracts(
 
   const network = chainIdToNetwork(chainId)
   const envId = chainIdToEnvironmentId(chainId)
+  console.log(network, envId)
 
   const [hoprToken, hoprBoost, hoprStake] = await Promise.all([
     import(

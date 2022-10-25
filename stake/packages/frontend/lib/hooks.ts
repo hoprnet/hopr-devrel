@@ -1,4 +1,4 @@
-import { useContractCall, useEthers, Web3Ethers } from '@usedapp/core'
+import { useCall, useEthers, Web3Ethers } from '@usedapp/core'
 import { Falsy } from '@usedapp/core/dist/esm/src/model/types'
 import { BigNumber } from 'ethers'
 import { Interface, isAddress } from 'ethers/lib/utils'
@@ -8,7 +8,7 @@ export function useStartProgramDate(
   stakeContractAddress: string | Falsy
 ): BigNumber {
   const [startProgramDate] =
-    useContractCall(
+    useCall(
       stakeContractAddress && {
         abi: new Interface(stakeContractABI),
         address: stakeContractAddress,
@@ -25,7 +25,7 @@ export function useRedeemedNFTs(
   address: string | Falsy
 ): BigNumber | undefined {
   const [startProgramDate] =
-    useContractCall(
+    useCall(
       address &&
       stakeContractAddress && {
         abi: new Interface(stakeContractABI),
@@ -42,7 +42,7 @@ export function useEndProgramDate(
   stakeContractAddress: string | Falsy
 ): BigNumber {
   const [endProgramDate] =
-    useContractCall(
+    useCall(
       stakeContractAddress && {
         abi: new Interface(stakeContractABI),
         address: stakeContractAddress,
