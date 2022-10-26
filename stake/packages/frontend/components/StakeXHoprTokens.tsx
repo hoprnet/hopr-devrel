@@ -65,7 +65,7 @@ export const StakeXHoprTokens = ({
 
   const timeDiff = (new Date().getTime() - +state.lastSync * 1000) / 1000 // to seconds
   const FACTOR_DENOMINATOR = 1e12
-  const baseBoost = 3171 / FACTOR_DENOMINATOR
+  const baseBoost = 793 / FACTOR_DENOMINATOR
   const bonusBoost = state.totalAPRBoost / FACTOR_DENOMINATOR
   const totalBoost = bonusBoost + baseBoost
   const estimatedRewards = timeDiff * (+state.stakedHOPRTokens * totalBoost)
