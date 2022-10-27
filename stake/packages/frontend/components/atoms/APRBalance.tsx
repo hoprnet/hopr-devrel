@@ -6,7 +6,7 @@ export const APRBalance = ({
   totalAPRBoost?: number
 }): JSX.Element => {
   const base = 2.5
-  const factor = 79
+  const factor = 1 / (100 * 60 * 60 * 24 * 365 / 1e12)
   const totalAPRBoostReal = totalAPRBoost >= 0 ? totalAPRBoost : 0
   const boost = totalAPRBoostReal / factor
   const total = +base + +boost
