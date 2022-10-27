@@ -5,18 +5,23 @@ export const APRBalance = ({
 }: {
   totalAPRBoost?: number
 }): JSX.Element => {
+  const base = 2.5
+  const factor = 79
+  const totalAPRBoostReal = totalAPRBoost >= 0 ? totalAPRBoost : 0
+  const boost = totalAPRBoostReal / factor
+  const total = +base + +boost
   return (
     <Box d="inline">
       <Text d="inline" fontWeight="700" color="blue.600" fontSize="xl">
-        {`${2.5 + (totalAPRBoost >= 0 ? totalAPRBoost : 0) / 79}%`}
+        {total.toFixed(2)}%
       </Text>
       <Text d="inline" fontWeight="700" fontSize="xl">
         {' '}
-        (2.5% base +{' '}
+        ({base.toFixed(2)}% base +{' '}
       </Text>
       <Skeleton d="inline" isLoaded={totalAPRBoost != -1}>
         <Text d="inline" fontWeight="700" color="green.600" fontSize="xl">
-          {(totalAPRBoost / 79).toFixed(2)}% boosted
+          {boost.toFixed(2)}% boosted
         </Text>
       </Skeleton>
       <Text d="inline" fontWeight="700" fontSize="xl">
