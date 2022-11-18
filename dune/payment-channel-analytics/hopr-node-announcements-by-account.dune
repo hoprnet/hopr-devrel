@@ -1,0 +1,30 @@
+WITH
+  hopr_evt_announcements AS (
+    SELECT
+      account, "publicKey"
+    FROM
+      hopr_protocol."HoprChannels_evt_Announcement"
+  ),
+  hopr_call_channels AS (
+    SELECT
+      contract_address, output_balance
+    FROM
+     hopr_protocol."HoprChannels_call_channels"
+  ),
+  hopr_evt_channelopened AS (
+    SELECT
+        evt_block_time, source, destination
+    FROM
+    hopr_protocol."HoprChannels_evt_ChannelOpened"
+  )
+SELECT
+  account,
+  COUNT(account) AS node_announcements,
+  CONCAT('<a href="https://dune.com/korrrba/hopr-payment-channel-by-node?account=0',SUBSTRING("account"::text,2,42),'" target="_blank"> 🔗 </a>') AS hopr_node_analysis_link,
+  "publicKey"
+FROM
+  hopr_evt_announcements
+GROUP BY
+  account, "publicKey"
+ORDER BY
+  node_announcements DESC

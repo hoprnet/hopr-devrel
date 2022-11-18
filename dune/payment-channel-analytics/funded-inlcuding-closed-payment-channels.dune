@@ -1,0 +1,54 @@
+-- Number of open payment channels that a HOPR node has currently funded (any state, including channels in state CLOSED)
+-- ChannelUpdate -> ChannelUpdated API change: https://github.com/hoprnet/hoprnet/commit/258a8916fe96d4f4aca79bdb408b161f1d184428
+-- FROM https://dune.com/queries/1240177
+-- * Possible channel life cycle:
+-- *      0 -> 1 -> 3 -> 0
+-- *      0 -> 1 -> 2 -> 3 -> 0
+-- *      0 -> 2 -> 3 -> 0
+WITH
+  hopr_evt_announcements AS (
+    SELECT
+      account,
+      "publicKey"
+    FROM
+      hopr_protocol."HoprChannels_evt_Announcement"
+  ),
+  hopr_evt_channelopened AS (
+    SELECT
+      *
+    FROM
+      hopr_protocol."HoprChannels_evt_ChannelOpened"
+    WHERE
+      source = decode(substring(lower('{{account}}'), 3), 'hex')
+  ),
+  hopr_evt_channelfunded AS (
+    SELECT
+      *
+    FROM
+      hopr_protocol."HoprChannels_evt_ChannelFunded"
+    WHERE
+      source = decode(substring(lower('{{account}}'), 3), 'hex')
+  ),
+  hopr_evt_channelupdated AS (
+    SELECT
+      *
+    FROM
+      hopr_protocol."HoprChannels_evt_ChannelUpdated"
+    WHERE
+      source = decode(substring(lower('{{account}}'), 3), 'hex')
+  ),
+  hopr_evt_channelclosurefinalized AS (
+    SELECT
+      *
+    FROM
+      hopr_protocol."HoprChannels_evt_ChannelClosureFinalized"
+    WHERE
+      source = decode(substring(lower('{{account}}'), 3), 'hex')
+  )
+SELECT
+  DISTINCT(hopr_evt_channelfunded.destination) as funded,
+  COUNT(hopr_evt_channelfunded.destination) AS times_funded
+FROM
+  hopr_evt_channelfunded
+GROUP BY
+  hopr_evt_channelfunded.destination
