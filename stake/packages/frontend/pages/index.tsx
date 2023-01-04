@@ -139,6 +139,14 @@ function HomeIndex(): JSX.Element {
         discontinued. New NFTs based on your previous collection will be available soon.
       </Text>
       <ParagraphLinks />
+      <Text mt="2" fontSize="xl">
+        Alternatively, you can convert your HOPR to xHOPR. For a complete list
+        of bridging options, view our{' '}
+        <Link href="https://docs.hoprnet.org/staking/convert-hopr\">
+          docs <ExternalLinkIcon />
+        </Link>
+        .
+      </Text>
       <Text mt="2" fontSize="xl"></Text>
       <Box
         maxWidth="container.l"
