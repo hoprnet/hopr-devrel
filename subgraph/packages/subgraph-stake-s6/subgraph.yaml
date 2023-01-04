@@ -1,0 +1,64 @@
+specVersion: 0.0.4
+description: HOPR Staking program season 6
+repository: https://github.com/hoprnet/hopr-devrel
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: HoprStakeSeason6
+    network: goerli
+    source:
+      abi: HoprStakeSeason6
+      address: "0xcFaAA483aaECf7eC4560D34e1f3D3832B8bdc44b"
+      startBlock: 8250398
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Claimed
+        - Program
+      abis:
+        - name: HoprStakeSeason6
+          file: ./abis/HoprStakeSeason6.json
+      eventHandlers:
+        - event: Claimed(indexed address,indexed uint256)
+          handler: handleClaimed
+        - event: NftAllowed(indexed uint256)
+          handler: handleNftAllowed
+        - event: NftBlocked(indexed uint256)
+          handler: handleNftBlocked
+        - event: Redeemed(indexed address,indexed uint256,indexed bool)
+          handler: handleRedeemed
+        - event: Released(indexed address,indexed uint256)
+          handler: handleReleased
+        - event: RewardFueled(indexed uint256)
+          handler: handleRewardFueled
+        - event: Staked(indexed address,indexed uint256)
+          handler: handleStaked
+        - event: Sync(indexed address,indexed uint256)
+          handler: handleSync
+      callHandlers:
+        - function: batchStakeFor(address[],uint256[])
+          handler: handleBatchStakeFor
+      file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: HoprBoost
+    network: goerli
+    source:
+      abi: HoprBoost
+      address: "0xDA335D985710b80e5BfC697C6Fba0A906Dd4a1CE"
+      startBlock: 7848852
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Boost
+      abis:
+        - name: HoprBoost
+          file: ./abis/HoprBoost.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
