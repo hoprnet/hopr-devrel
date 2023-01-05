@@ -198,15 +198,6 @@ export function handleTransfer(event: Transfer): void {
     nft.boostNumerator = boostDetails.value0
     nft.redeemDeadline = boostDetails.value1
     nft.uri = boostContract.tokenURI(event.params.tokenId)
-    nft.owner = event.params.to
     nft.save()
-  } else {
-    let boost = Boost.load(event.params.tokenId.toString())
-    if (!boost) {
-      log.error('Cannot transfer a non-existing nft', [])
-      return
-    }
-    boost.owner = event.params.to
-    boost.save()
   }
 }

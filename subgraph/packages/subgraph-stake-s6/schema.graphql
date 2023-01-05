@@ -13,7 +13,6 @@ type Account @entity {
 
 type Boost @entity(immutable: true) {
   id: ID!
-  owner: Bytes!
   boostTypeIndex: BigInt!
   uri: String!
   boostNumerator: BigInt!
