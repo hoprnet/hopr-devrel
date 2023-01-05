@@ -68,6 +68,7 @@ export const initializeAccount = (accountId: string): Account => {
     let entity = new Account(accountId)
     entity.actualLockedTokenAmount = zeroBigInt()
     entity.airdropLockedTokenAmount = zeroBigInt()
+    entity.lastSyncTimestamp = zeroBigInt()
     entity.cumulatedRewards = zeroBigInt()
     entity.claimedRewards = zeroBigInt()
     entity.unclaimedRewards = zeroBigInt()
@@ -85,6 +86,7 @@ export const initializeProgram = (programAddress: string): Program => {
     entity.totalCumulatedRewards = zeroBigInt()
     entity.totalClaimedRewards = zeroBigInt()
     entity.totalUnclaimedRewards = zeroBigInt()
+    entity.lastSyncTimestamp = zeroBigInt()
     entity.blockedTypeIndexes = new Array<BigInt>(0);
     return entity;
 }

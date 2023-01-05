@@ -1,7 +1,6 @@
 import { BigInt, log } from "@graphprotocol/graph-ts"
-import { BatchMintCall, HoprBoost, MintCall, Transfer } from "../generated/HoprBoost/HoprBoost"
+import { HoprBoost, Transfer } from "../generated/HoprBoost/HoprBoost"
 import {
-  BatchStakeForCall,
   Claimed,
   NftAllowed,
   NftBlocked,
@@ -144,6 +143,12 @@ export function handleStaked(event: Staked): void {
   }
   account.actualLockedTokenAmount = account.actualLockedTokenAmount.plus(event.params.actualAmount)
   program.totalLocked = program.totalLocked.plus(event.params.actualAmount)
+
+  // when the staking account is not the caller - this implys that the Staked event comes from a `batchStakeFor` event
+  if (!event.params.account.equals(event.transaction.from)) {
+    account.airdropLockedTokenAmount = account.airdropLockedTokenAmount.plus(event.params.actualAmount)
+    program.totalAirdrop = program.totalAirdrop.plus(event.params.actualAmount)
+  }
   account.save()
   program.save()
 }
@@ -166,27 +171,6 @@ export function handleSync(event: Sync): void {
   program.lastSyncTimestamp = event.block.timestamp
   account.save()
   program.save()
-}
-
-export function handleBatchStakeFor(call: BatchStakeForCall): void {
-  let totalStaked = zeroBigInt()
-  for (let i = 0; i < call.inputs._accounts.length; ++i) {
-    let accountId = call.inputs._accounts[i].toHex()
-    let account = Account.load(accountId)
-    if (!account) {
-      account = initializeAccount(accountId)
-    }
-    // only update `airdropLockedTokenAmount` field as Staked event will trigger its handler for `actualLockedTokenAmount`
-    account.airdropLockedTokenAmount = account.airdropLockedTokenAmount.plus(call.inputs._stakes[i])
-    totalStaked = totalStaked.plus(call.inputs._stakes[i])
-    account.save()
-  }
-  // update the total amount
-  let program = Program.load(call.to.toHex())
-  if (!program) {
-    program = initializeProgram(call.to.toHex())
-  }
-  program.totalAirdrop = program.totalAirdrop.plus(totalStaked)
 }
 
 export function handleTransfer(event: Transfer): void {
