@@ -1,7 +1,26 @@
 {
     "type": "Network_registry",
     "rank": "hackathon",
-    "image": "ipfs://QmR5gSf423NPEBJt3RyVvxVTLUuDy3t2LjnfBbJoBoheou/hackathon.jpg",
+    "image": "ipfs://QmU8f7Mb6N73mTdAqv8oYvWYS6B7wnyDV6nN5VADK9AWkm/hackathon.jpg",
     "deadline": 1658840400,
-    "boost": 0
+    "boost": 0,
+    "attributes": [
+        {
+            "trait_type": "NFT type",
+            "value": "Network Registry"
+        },
+        {
+            "trait_type": "NFT rank",
+            "value": "Hackathon"
+        },
+        {
+            "display_type": "boost_percentage",
+            "trait_type": "NFT Boost APR",
+            "value": "0"
+        },
+        {
+            "trait_type": "Staking Season eligibility",
+            "value": "Staking Season 6"
+        }
+    ]
 }
