@@ -2,6 +2,21 @@
     "type": "Meme_master",
     "rank": "silver",
     "image": "ipfs://QmVrkzmDgUi9yGR2x4jnya4R6fcgyHadyxoenELBTFRsgd/silver.jpg",
-    "deadline": 1658840400,
-    "boost": 0.005
+    "deadline": 1650978000,
+    "boost": 0.005,
+    "attributes": [
+        {
+            "trait_type": "NFT type",
+            "value": "Meme Master"
+        },
+        {
+            "trait_type": "NFT rank",
+            "value": "Silver"
+        },
+        {
+            "display_type": "boost_percentage",
+            "trait_type": "NFT Boost APR",
+            "value": "0.5"
+        }
+    ]
 }
