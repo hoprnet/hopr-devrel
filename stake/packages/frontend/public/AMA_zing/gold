@@ -18,5 +18,9 @@
             "trait_type": "NFT Boost APR",
             "value": "1.5"
         }
+        {
+            "trait_type": "Staking Season eligibility",
+            "value": "Discontinued"
+        }
     ]
 }
