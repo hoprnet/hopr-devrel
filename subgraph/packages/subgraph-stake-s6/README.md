@@ -1,4 +1,4 @@
-# Subgraph for Staking Season 5
+# Subgraph for Staking Season 6
 
 ## Installation
 ```sh
