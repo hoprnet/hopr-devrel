@@ -1,0 +1,18 @@
+{
+    "name": "stake-season6",
+    "license": "UNLICENSED",
+    "scripts": {
+      "codegen": "graph codegen",
+      "build": "graph build",
+      "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs hoprnet/stake-season6 --access-token $ACCESS_TOKEN --network $NETWORK",
+      "deploy:dev": "graph deploy --product hosted-service --ipfs https://api.thegraph.com/ipfs hoprnet/stake-season6-development --access-token $ACCESS_TOKEN --network $NETWORK",
+      "create-local": "graph create --node http://localhost:8020/ hoprnet/stake-season6",
+      "remove-local": "graph remove --node http://localhost:8020/ hoprnet/stake-season6",
+      "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 hoprnet/stake-season6"
+    },
+    "dependencies": {
+      "@graphprotocol/graph-cli": "0.37.1",
+      "@graphprotocol/graph-ts": "0.29.1"
+    }
+  }
+  

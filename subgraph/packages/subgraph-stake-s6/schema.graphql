@@ -1,0 +1,32 @@
+type Account @entity {
+  id: ID!
+  actualLockedTokenAmount: BigInt!
+  airdropLockedTokenAmount: BigInt!
+  lastSyncTimestamp: BigInt!
+  cumulatedRewards: BigInt!
+  claimedRewards: BigInt!
+  unclaimedRewards: BigInt!
+  boostRate: BigInt!
+  appliedBoosts: [Boost!]!
+  ignoredBoosts: [Boost!]!
+}
+
+type Boost @entity(immutable: true) {
+  id: ID!
+  boostTypeIndex: BigInt!
+  uri: String!
+  boostNumerator: BigInt!
+  redeemDeadline: BigInt!
+}
+
+type Program @entity {
+  id: ID!
+  availableReward: BigInt!
+  totalLocked: BigInt!
+  totalAirdrop: BigInt!
+  totalCumulatedRewards: BigInt!
+  totalClaimedRewards: BigInt!
+  totalUnclaimedRewards: BigInt!
+  lastSyncTimestamp: BigInt!
+  blockedTypeIndexes: [BigInt!]!
+}

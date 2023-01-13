@@ -1,0 +1,22 @@
+{
+  "gnosis": {
+    "HoprBoost": {
+      "address": "0x43d13D7B83607F14335cF2cB75E87dA369D056c7",
+      "startBlock": 17147149
+    },
+    "HoprStakeSeason6": {
+      "address": "0xA02Af160a280957A8881879Ee9239A614Ab47F0D",
+      "startBlock": 25779704
+    }
+  },
+  "goerli": {
+    "HoprBoost": {
+      "address": "0xDA335D985710b80e5BfC697C6Fba0A906Dd4a1CE",
+      "startBlock": 7848852
+    },
+    "HoprStakeSeason6": {
+      "address": "0xcFaAA483aaECf7eC4560D34e1f3D3832B8bdc44b",
+      "startBlock": 8250398
+    }
+  }
+}
