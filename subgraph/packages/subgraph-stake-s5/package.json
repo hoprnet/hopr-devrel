@@ -3,7 +3,9 @@
     "license": "UNLICENSED",
     "scripts": {
       "codegen": "graph codegen",
-      "build": "graph build",
+      "build": "graph build --network $NETWORK",
+      "deploy:studio": "graph deploy --studio stake-season5 --network gnosis",
+      "deploy:studio:staging": "graph deploy --studio stake-season5-development --network goerli",
       "deploy": "graph deploy --node https://api.thegraph.com/deploy/ hoprnet/stake-season5",
       "create-local": "graph create --node http://localhost:8020/ hoprnet/stake-season5",
       "remove-local": "graph remove --node http://localhost:8020/ hoprnet/stake-season5",
@@ -12,8 +14,8 @@
       "deploy-goerli": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs hoprnet/stake-season5 --access-token $ACCESS_TOKEN"
     },
     "dependencies": {
-      "@graphprotocol/graph-cli": "0.29.0",
-      "@graphprotocol/graph-ts": "0.26.0"
+      "@graphprotocol/graph-cli": "0.37.4",
+      "@graphprotocol/graph-ts": "0.29.1"
     }
   }
   

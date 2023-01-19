@@ -1,6 +1,16 @@
 {
   "gnosis": {
     "HoprBoost": {
+      "address": "0x43575668AC2c5066697101F27b4DC94819e490B7",
+      "startBlock": 25879036
+    },
+    "HoprStakeSeason6": {
+      "address": "0x8d9978466161c2897F483A93f51aDEA9e52d8D32",
+      "startBlock": 25879036
+    }
+  },
+  "prod": {
+    "HoprBoost": {
       "address": "0x43d13D7B83607F14335cF2cB75E87dA369D056c7",
       "startBlock": 17147149
     },
@@ -9,14 +19,14 @@
       "startBlock": 25779704
     }
   },
-  "goerli": {
+  "staging": {
     "HoprBoost": {
-      "address": "0xDA335D985710b80e5BfC697C6Fba0A906Dd4a1CE",
-      "startBlock": 7848852
+      "address": "0x43575668AC2c5066697101F27b4DC94819e490B7",
+      "startBlock": 25879036
     },
     "HoprStakeSeason6": {
-      "address": "0xcFaAA483aaECf7eC4560D34e1f3D3832B8bdc44b",
-      "startBlock": 8250398
+      "address": "0x8d9978466161c2897F483A93f51aDEA9e52d8D32",
+      "startBlock": 25879036
     }
   }
 }

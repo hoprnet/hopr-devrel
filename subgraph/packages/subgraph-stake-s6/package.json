@@ -3,7 +3,10 @@
     "license": "UNLICENSED",
     "scripts": {
       "codegen": "graph codegen",
-      "build": "graph build",
+      "prebuild:env": "jq --argjson inputdata \"$(jq -r \".$ENVIRONMENT_TYPE\" ./networks.json)\" \".gnosis += \\$inputdata\" \"./networks.json\" > \"./networks.json.new\" && mv \"./networks.json.new\" \"./networks.json\"", 
+      "build": "graph build --network $NETWORK",
+      "deploy:studio": "graph deploy --studio stake-season6 --network gnosis",
+      "deploy:studio:staging": "graph deploy --studio stake-season6-development --network gnosis",
       "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs hoprnet/stake-season6 --access-token $ACCESS_TOKEN --network $NETWORK",
       "deploy:dev": "graph deploy --product hosted-service --ipfs https://api.thegraph.com/ipfs hoprnet/stake-season6-development --access-token $ACCESS_TOKEN --network $NETWORK",
       "create-local": "graph create --node http://localhost:8020/ hoprnet/stake-season6",
