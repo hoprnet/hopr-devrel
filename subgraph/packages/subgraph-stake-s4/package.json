@@ -4,6 +4,7 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
+    "deploy:studio": "graph deploy --studio stake-season4",
     "deploy": "graph deploy --node https://api.thegraph.com/deploy/ hoprnet/stake-season4",
     "create-local": "graph create --node http://localhost:8020/ hoprnet/stake-season4",
     "remove-local": "graph remove --node http://localhost:8020/ hoprnet/stake-season4",
@@ -11,7 +12,7 @@
     "deploy-xdai": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs hoprnet/stake-season4 --access-token $ACCESS_TOKEN"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.29.0",
-    "@graphprotocol/graph-ts": "0.26.0"
+    "@graphprotocol/graph-cli": "^0.37.4",
+    "@graphprotocol/graph-ts": "0.29.1"
   }
 }

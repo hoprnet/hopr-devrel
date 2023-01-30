@@ -1,4 +1,4 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
 description: HOPR Staking program season 5
 repository: https://github.com/hoprnet/hopr-devrel
 schema:
@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: HoprStakeSeason5
-    network: xdai
+    network: goerli
     source:
       abi: HoprStakeSeason5
-      address: "0xd80fbBFE9d057254d80eEbB49f17aCA66a238e2D"
-      startBlock: 24536036
+      address: "0xc772eBd959c6e402Be99417b031eb3E38967f0e7"
+      startBlock: 7743835
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -41,11 +41,11 @@ dataSources:
       file: HoprStakeSeason5/HoprStakeSeason5.wasm
   - kind: ethereum/contract
     name: HoprBoost
-    network: xdai
+    network: goerli
     source:
       abi: HoprBoost
-      address: "0x43d13D7B83607F14335cF2cB75E87dA369D056c7"
-      startBlock: 17147149
+      address: "0x1C0C4EFb9a2ccE18d66eaFFc585876d8CA768013"
+      startBlock: 7559051
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

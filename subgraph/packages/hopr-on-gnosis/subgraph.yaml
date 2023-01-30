@@ -1,0 +1,44 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: PermittableToken
+    network: gnosis
+    source:
+      address: "0xD057604A14982FE8D88c5fC25Aac3267eA142a08"
+      startBlock: 14635013
+      abi: PermittableToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Account
+      abis:
+        - name: PermittableToken
+          file: ./abis/PermittableToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleXHoprTransfer
+      file: ./src/mapping.ts
+  - kind: ethereum
+    name: HoprToken
+    network: gnosis
+    source:
+      address: "0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1"
+      startBlock: 14744161
+      abi: HoprToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Account
+      abis:
+        - name: HoprToken
+          file: ./abis/HoprToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleWXHoprTransfer
+      file: ./src/mapping.ts

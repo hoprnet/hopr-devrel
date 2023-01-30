@@ -1,4 +1,4 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
 description: HOPR Staking program season 4
 repository: https://github.com/hoprnet/hopr-devrel
 schema:
@@ -6,7 +6,7 @@ schema:
 dataSources:
   - kind: ethereum
     name: HoprStakeSeason4
-    network: xdai
+    network: gnosis
     source:
       address: "0x5Bb7e435aDa333A6714e27962e4Bb6aFDE1cECd4"
       abi: HoprStakeSeason4
@@ -41,7 +41,7 @@ dataSources:
       file: ./src/mapping.ts
   - kind: ethereum/contract
     name: HoprBoost
-    network: xdai
+    network: gnosis
     source:
       abi: HoprBoost
       address: "0x43d13D7B83607F14335cF2cB75E87dA369D056c7"

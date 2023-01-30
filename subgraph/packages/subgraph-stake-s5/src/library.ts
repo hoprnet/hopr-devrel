@@ -65,8 +65,11 @@ export function computeActualBaseRate(amount: BigInt): BigInt {
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 
 export const initializeAccount = (accountId: string): Account => {
-    let entity = new Account(accountId)
-    entity.actualStake = zeroBigInt()
+  let entity = new Account(accountId)
+    entity.actualLockedTokenAmount = zeroBigInt()
+    entity.lastSyncTimestamp = zeroBigInt()
+    entity.cumulatedRewards = zeroBigInt()
+    entity.claimedRewards = zeroBigInt()
     entity.unclaimedRewards = zeroBigInt()
     entity.boostRate = zeroBigInt()
     entity.appliedBoosts = new Array<string>(0);
@@ -75,10 +78,13 @@ export const initializeAccount = (accountId: string): Account => {
 }
 
 export const initializeProgram = (programAddress: string): Program => {
-    let entity = new Program(programAddress)
-    entity.currentRewardPool = zeroBigInt()
-    entity.totalActualStake = zeroBigInt()
-    entity.totalUnclaimedRewards = zeroBigInt()
-    entity.blockedType = new Array<BigInt>(0);
-    return entity;
+  let entity = new Program(programAddress)
+  entity.availableReward = zeroBigInt()
+  entity.totalLocked = zeroBigInt()
+  entity.totalCumulatedRewards = zeroBigInt()
+  entity.totalClaimedRewards = zeroBigInt()
+  entity.totalUnclaimedRewards = zeroBigInt()
+  entity.lastSyncTimestamp = zeroBigInt()
+  entity.blockedTypeIndexes = new Array<BigInt>(0);
+  return entity;
 }

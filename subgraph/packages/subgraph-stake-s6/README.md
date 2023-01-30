@@ -14,9 +14,9 @@ yarn codegen
 
 ## Deployment
 
-### Production
+### Production (hosted service)
 ```sh
-yarn build --network gnosis
+NETWORK=gnosis yarn build
 ACCESS_TOKEN=<access token> NETWORK=gnosis yarn deploy
 ```
 Deployed to https://thegraph.com/hosted-service/subgraph/hoprnet/staking-season6
@@ -24,11 +24,24 @@ Deployed to https://thegraph.com/hosted-service/subgraph/hoprnet/staking-season6
 Query to https://api.thegraph.com/subgraphs/name/hoprnet/staking-season6
 
 
-### Staging
+### Staging (hosted service)
 ```sh
-yarn build --network goerli
+NETWORK=goerli yarn build
 ACCESS_TOKEN=<access token> NETWORK=goerli yarn deploy:dev
 ```
 Deployed to https://thegraph.com/hosted-service/subgraph/hoprnet/staking-season6-development
 
 Query to https://api.thegraph.com/subgraphs/name/hoprnet/staking-season6-development
+
+### Production
+```sh
+ENVIRONMENT_TYPE=prod yarn prebuild:env
+NETWORK=gnosis yarn build
+yarn deploy:studio
+```
+### Staging
+```sh
+ENVIRONMENT_TYPE=staging yarn prebuild:env
+NETWORK=gnosis yarn build
+yarn deploy:studio:staging
+```

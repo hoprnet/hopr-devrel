@@ -1,7 +1,9 @@
 type Account @entity {
   id: ID!
-  actualStake: BigInt!
+  actualLockedTokenAmount: BigInt!
   lastSyncTimestamp: BigInt!
+  cumulatedRewards: BigInt!
+  claimedRewards: BigInt!
   unclaimedRewards: BigInt!
   boostRate: BigInt!
   appliedBoosts: [Boost!]!
@@ -10,16 +12,19 @@ type Account @entity {
 
 type Boost @entity {
   id: ID!
-  boostType: BigInt!
+  boostTypeIndex: BigInt!
+  uri: String!
   boostNumerator: BigInt!
   redeemDeadline: BigInt!
 }
 
 type Program @entity {
   id: ID!
-  currentRewardPool: BigInt!
-  totalActualStake: BigInt!
+  availableReward: BigInt!
+  totalLocked: BigInt!
+  totalCumulatedRewards: BigInt!
+  totalClaimedRewards: BigInt!
   totalUnclaimedRewards: BigInt!
   lastSyncTimestamp: BigInt!
-  blockedType: [BigInt!]!
+  blockedTypeIndexes: [BigInt!]!
 }

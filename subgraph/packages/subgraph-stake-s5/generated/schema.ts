@@ -16,8 +16,10 @@ export class Account extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
-    this.set("actualStake", Value.fromBigInt(BigInt.zero()));
+    this.set("actualLockedTokenAmount", Value.fromBigInt(BigInt.zero()));
     this.set("lastSyncTimestamp", Value.fromBigInt(BigInt.zero()));
+    this.set("cumulatedRewards", Value.fromBigInt(BigInt.zero()));
+    this.set("claimedRewards", Value.fromBigInt(BigInt.zero()));
     this.set("unclaimedRewards", Value.fromBigInt(BigInt.zero()));
     this.set("boostRate", Value.fromBigInt(BigInt.zero()));
     this.set("appliedBoosts", Value.fromStringArray(new Array(0)));
@@ -49,13 +51,13 @@ export class Account extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get actualStake(): BigInt {
-    let value = this.get("actualStake");
+  get actualLockedTokenAmount(): BigInt {
+    let value = this.get("actualLockedTokenAmount");
     return value!.toBigInt();
   }
 
-  set actualStake(value: BigInt) {
-    this.set("actualStake", Value.fromBigInt(value));
+  set actualLockedTokenAmount(value: BigInt) {
+    this.set("actualLockedTokenAmount", Value.fromBigInt(value));
   }
 
   get lastSyncTimestamp(): BigInt {
@@ -65,6 +67,24 @@ export class Account extends Entity {
 
   set lastSyncTimestamp(value: BigInt) {
     this.set("lastSyncTimestamp", Value.fromBigInt(value));
+  }
+
+  get cumulatedRewards(): BigInt {
+    let value = this.get("cumulatedRewards");
+    return value!.toBigInt();
+  }
+
+  set cumulatedRewards(value: BigInt) {
+    this.set("cumulatedRewards", Value.fromBigInt(value));
+  }
+
+  get claimedRewards(): BigInt {
+    let value = this.get("claimedRewards");
+    return value!.toBigInt();
+  }
+
+  set claimedRewards(value: BigInt) {
+    this.set("claimedRewards", Value.fromBigInt(value));
   }
 
   get unclaimedRewards(): BigInt {
@@ -109,7 +129,8 @@ export class Boost extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
-    this.set("boostType", Value.fromBigInt(BigInt.zero()));
+    this.set("boostTypeIndex", Value.fromBigInt(BigInt.zero()));
+    this.set("uri", Value.fromString(""));
     this.set("boostNumerator", Value.fromBigInt(BigInt.zero()));
     this.set("redeemDeadline", Value.fromBigInt(BigInt.zero()));
   }
@@ -139,13 +160,22 @@ export class Boost extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get boostType(): BigInt {
-    let value = this.get("boostType");
+  get boostTypeIndex(): BigInt {
+    let value = this.get("boostTypeIndex");
     return value!.toBigInt();
   }
 
-  set boostType(value: BigInt) {
-    this.set("boostType", Value.fromBigInt(value));
+  set boostTypeIndex(value: BigInt) {
+    this.set("boostTypeIndex", Value.fromBigInt(value));
+  }
+
+  get uri(): string {
+    let value = this.get("uri");
+    return value!.toString();
+  }
+
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
   }
 
   get boostNumerator(): BigInt {
@@ -172,11 +202,13 @@ export class Program extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
-    this.set("currentRewardPool", Value.fromBigInt(BigInt.zero()));
-    this.set("totalActualStake", Value.fromBigInt(BigInt.zero()));
+    this.set("availableReward", Value.fromBigInt(BigInt.zero()));
+    this.set("totalLocked", Value.fromBigInt(BigInt.zero()));
+    this.set("totalCumulatedRewards", Value.fromBigInt(BigInt.zero()));
+    this.set("totalClaimedRewards", Value.fromBigInt(BigInt.zero()));
     this.set("totalUnclaimedRewards", Value.fromBigInt(BigInt.zero()));
     this.set("lastSyncTimestamp", Value.fromBigInt(BigInt.zero()));
-    this.set("blockedType", Value.fromBigIntArray(new Array(0)));
+    this.set("blockedTypeIndexes", Value.fromBigIntArray(new Array(0)));
   }
 
   save(): void {
@@ -204,22 +236,40 @@ export class Program extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get currentRewardPool(): BigInt {
-    let value = this.get("currentRewardPool");
+  get availableReward(): BigInt {
+    let value = this.get("availableReward");
     return value!.toBigInt();
   }
 
-  set currentRewardPool(value: BigInt) {
-    this.set("currentRewardPool", Value.fromBigInt(value));
+  set availableReward(value: BigInt) {
+    this.set("availableReward", Value.fromBigInt(value));
   }
 
-  get totalActualStake(): BigInt {
-    let value = this.get("totalActualStake");
+  get totalLocked(): BigInt {
+    let value = this.get("totalLocked");
     return value!.toBigInt();
   }
 
-  set totalActualStake(value: BigInt) {
-    this.set("totalActualStake", Value.fromBigInt(value));
+  set totalLocked(value: BigInt) {
+    this.set("totalLocked", Value.fromBigInt(value));
+  }
+
+  get totalCumulatedRewards(): BigInt {
+    let value = this.get("totalCumulatedRewards");
+    return value!.toBigInt();
+  }
+
+  set totalCumulatedRewards(value: BigInt) {
+    this.set("totalCumulatedRewards", Value.fromBigInt(value));
+  }
+
+  get totalClaimedRewards(): BigInt {
+    let value = this.get("totalClaimedRewards");
+    return value!.toBigInt();
+  }
+
+  set totalClaimedRewards(value: BigInt) {
+    this.set("totalClaimedRewards", Value.fromBigInt(value));
   }
 
   get totalUnclaimedRewards(): BigInt {
@@ -240,12 +290,12 @@ export class Program extends Entity {
     this.set("lastSyncTimestamp", Value.fromBigInt(value));
   }
 
-  get blockedType(): Array<BigInt> {
-    let value = this.get("blockedType");
+  get blockedTypeIndexes(): Array<BigInt> {
+    let value = this.get("blockedTypeIndexes");
     return value!.toBigIntArray();
   }
 
-  set blockedType(value: Array<BigInt>) {
-    this.set("blockedType", Value.fromBigIntArray(value));
+  set blockedTypeIndexes(value: Array<BigInt>) {
+    this.set("blockedTypeIndexes", Value.fromBigIntArray(value));
   }
 }

@@ -9,8 +9,8 @@ dataSources:
     network: gnosis
     source:
       abi: HoprStakeSeason6
-      address: "0xA02Af160a280957A8881879Ee9239A614Ab47F0D"
-      startBlock: 25779704
+      address: "0x8d9978466161c2897F483A93f51aDEA9e52d8D32"
+      startBlock: 25879036
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -44,8 +44,8 @@ dataSources:
     network: gnosis
     source:
       abi: HoprBoost
-      address: "0x43d13D7B83607F14335cF2cB75E87dA369D056c7"
-      startBlock: 17147149
+      address: "0x43575668AC2c5066697101F27b4DC94819e490B7"
+      startBlock: 25879036
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

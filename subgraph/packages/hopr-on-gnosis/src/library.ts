@@ -1,5 +1,5 @@
-import { BigInt, BigDecimal } from '@graphprotocol/graph-ts'
-import { Account, Program } from "../generated/schema"
+import { BigInt, BigDecimal, Bytes } from '@graphprotocol/graph-ts'
+import { Account } from "../generated/schema"
 
 /************************************
  ********** General Helpers *********
@@ -64,27 +64,38 @@ export function computeActualBaseRate(amount: BigInt): BigInt {
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 
-export const initializeAccount = (accountId: string): Account => {
-  let entity = new Account(accountId)
-    entity.actualLockedTokenAmount = zeroBigInt()
-    entity.lastSyncTimestamp = zeroBigInt()
-    entity.cumulatedRewards = zeroBigInt()
-    entity.claimedRewards = zeroBigInt()
-    entity.unclaimedRewards = zeroBigInt()
-    entity.boostRate = zeroBigInt()
-    entity.appliedBoosts = new Array<string>(0);
-    entity.ignoredBoosts = new Array<string>(0);
+export const initializeAccount = (accountId: Bytes): Account => {
+    let entity = new Account(accountId)
+    entity.blockNumber = zeroBigInt()
+    entity.blockTimestamp = zeroBigInt()
+    entity.totalBalance = zeroBigInt()
+    entity.wxHoprBalance = zeroBigInt()
+    entity.xHoprBalance = zeroBigInt()
     return entity;
 }
 
-export const initializeProgram = (programAddress: string): Program => {
-  let entity = new Program(programAddress)
-  entity.availableReward = zeroBigInt()
-  entity.totalLocked = zeroBigInt()
-  entity.totalCumulatedRewards = zeroBigInt()
-  entity.totalClaimedRewards = zeroBigInt()
-  entity.totalUnclaimedRewards = zeroBigInt()
-  entity.lastSyncTimestamp = zeroBigInt()
-  entity.blockedTypeIndexes = new Array<BigInt>(0);
-  return entity;
+export const updateXHoprAccount = (accountId: Bytes, val: BigInt, isPos: boolean, blkNum: BigInt, blkTimeStamp: BigInt): void => {
+    let account = Account.load(accountId)
+
+    if (account == null) {
+        account = initializeAccount(accountId)
+    }
+    account.xHoprBalance = isPos ? account.xHoprBalance.plus(val) : account.xHoprBalance.minus(val)
+    account.totalBalance = isPos ? account.totalBalance.plus(val) : account.totalBalance.minus(val)
+    account.blockNumber = blkNum
+    account.blockTimestamp = blkTimeStamp
+    account.save()
+}
+
+export const updateWXHoprAccount = (accountId: Bytes, val: BigInt, isPos: boolean, blkNum: BigInt, blkTimeStamp: BigInt): void => {
+    let account = Account.load(accountId)
+
+    if (account == null) {
+        account = initializeAccount(accountId)
+    }
+    account.wxHoprBalance = isPos ? account.wxHoprBalance.plus(val) : account.wxHoprBalance.minus(val)
+    account.totalBalance = isPos ? account.totalBalance.plus(val) : account.totalBalance.minus(val)
+    account.blockNumber = blkNum
+    account.blockTimestamp = blkTimeStamp
+    account.save()
 }
