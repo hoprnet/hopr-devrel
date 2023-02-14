@@ -1,0 +1,228 @@
+specVersion: 0.0.4
+description: HOPR Staking programs
+repository: https://github.com/hoprnet/hopr-devrel
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: HoprStakeSeason6
+    network: gnosis
+    source:
+      abi: HoprStakeBase
+      address: "0xA02Af160a280957A8881879Ee9239A614Ab47F0D"
+      startBlock: 25779704
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - StakingParticipation
+        - StakeSeason
+      abis:
+        - name: HoprStakeBase
+          file: ./abis/HoprStakeBase.json
+      eventHandlers:
+        - event: Claimed(indexed address,indexed uint256)
+          handler: handleClaimed
+        - event: NftAllowed(indexed uint256)
+          handler: handleNftAllowed
+        - event: NftBlocked(indexed uint256)
+          handler: handleNftBlocked
+        - event: Redeemed(indexed address,indexed uint256,indexed bool)
+          handler: handleRedeemed
+        - event: Released(indexed address,indexed uint256)
+          handler: handleReleased
+        - event: RewardFueled(indexed uint256)
+          handler: handleRewardFueled
+        - event: Staked(indexed address,indexed uint256)
+          handler: handleStaked
+        - event: Sync(indexed address,indexed uint256)
+          handler: handleSync
+      file: ./src/staking.ts
+  - kind: ethereum/contract
+    name: HoprStakeSeason5
+    network: gnosis
+    source:
+      abi: HoprStakeBase
+      address: "0xc772eBd959c6e402Be99417b031eb3E38967f0e7"
+      startBlock: 7743835
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - StakingParticipation
+        - StakeSeason
+      abis:
+        - name: HoprStakeBase
+          file: ./abis/HoprStakeBase.json
+      eventHandlers:
+        - event: Claimed(indexed address,indexed uint256)
+          handler: handleClaimed
+        - event: NftAllowed(indexed uint256)
+          handler: handleNftAllowed
+        - event: NftBlocked(indexed uint256)
+          handler: handleNftBlocked
+        - event: Redeemed(indexed address,indexed uint256,indexed bool)
+          handler: handleRedeemed
+        - event: Released(indexed address,indexed uint256)
+          handler: handleReleased
+        - event: RewardFueled(indexed uint256)
+          handler: handleRewardFueled
+        - event: Staked(indexed address,indexed uint256)
+          handler: handleStaked
+        - event: Sync(indexed address,indexed uint256)
+          handler: handleSync
+      file: ./src/staking.ts
+  - kind: ethereum/contract
+    name: HoprStakeSeason4
+    network: gnosis
+    source:
+      abi: HoprStakeBase
+      address: "0x5Bb7e435aDa333A6714e27962e4Bb6aFDE1cECd4"
+      startBlock: 21819539
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - StakingParticipation
+        - StakeSeason
+      abis:
+        - name: HoprStakeBase
+          file: ./abis/HoprStakeBase.json
+      eventHandlers:
+        - event: Claimed(indexed address,indexed uint256)
+          handler: handleClaimed
+        - event: NftAllowed(indexed uint256)
+          handler: handleNftAllowed
+        - event: NftBlocked(indexed uint256)
+          handler: handleNftBlocked
+        - event: Redeemed(indexed address,indexed uint256,indexed bool)
+          handler: handleRedeemed
+        - event: Released(indexed address,indexed uint256)
+          handler: handleReleased
+        - event: RewardFueled(indexed uint256)
+          handler: handleRewardFueled
+        - event: Staked(indexed address,indexed uint256)
+          handler: handleStaked
+        - event: Sync(indexed address,indexed uint256)
+          handler: handleSync
+      file: ./src/staking.ts
+  - kind: ethereum/contract
+    name: HoprStakeSeason3
+    network: gnosis
+    source:
+      abi: HoprStakeBase
+      address: "0xae933331ef0bE122f9499512d3ed4Fa3896DCf20"
+      startBlock: 21819537
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - StakingParticipation
+        - StakeSeason
+      abis:
+        - name: HoprStakeBase
+          file: ./abis/HoprStakeBase.json
+      eventHandlers:
+        - event: Claimed(indexed address,indexed uint256)
+          handler: handleClaimed
+        - event: NftAllowed(indexed uint256)
+          handler: handleNftAllowed
+        - event: NftBlocked(indexed uint256)
+          handler: handleNftBlocked
+        - event: Redeemed(indexed address,indexed uint256,indexed bool)
+          handler: handleRedeemed
+        - event: Released(indexed address,indexed uint256)
+          handler: handleReleased
+        - event: RewardFueled(indexed uint256)
+          handler: handleRewardFueled
+        - event: Staked(indexed address,indexed uint256)
+          handler: handleStaked
+        - event: Sync(indexed address,indexed uint256)
+          handler: handleSync
+      file: ./src/staking.ts
+  - kind: ethereum/contract
+    name: HoprStakeSeason2
+    network: gnosis
+    source:
+      abi: HoprStakeBase
+      address: "0x2cdd13ddb0346e0f620c8e5826da5d7230341c6e"
+      startBlock: 20087773
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - StakingParticipation
+        - StakeSeason
+      abis:
+        - name: HoprStakeBase
+          file: ./abis/HoprStakeBase.json
+      eventHandlers:
+        - event: Claimed(indexed address,indexed uint256)
+          handler: handleClaimed
+        - event: Redeemed(indexed address,indexed uint256,indexed bool)
+          handler: handleRedeemed
+        - event: Released(indexed address,indexed uint256)
+          handler: handleReleased
+        - event: RewardFueled(indexed uint256)
+          handler: handleRewardFueled
+        - event: Staked(indexed address,indexed uint256)
+          handler: handleStaked
+        - event: Sync(indexed address,indexed uint256)
+          handler: handleSync
+      file: ./src/staking.ts
+  - kind: ethereum/contract
+    name: HoprStakeSeason1
+    network: gnosis
+    source:
+      abi: HoprStake
+      address: "0x912F4d6607160256787a2AD40dA098Ac2aFE57AC"
+      startBlock: 17147181
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - StakingParticipation
+        - StakeSeason
+      abis:
+        - name: HoprStake
+          file: ./abis/HoprStake.json
+      eventHandlers:
+        - event: Claimed(indexed address,indexed uint256)
+          handler: handleClaimed
+        - event: Redeemed(indexed address,indexed uint256,indexed bool)
+          handler: handleRedeemed
+        - event: Released(indexed address,indexed uint256,indexed uint256)
+          handler: handleReleasedWithVirtual
+        - event: RewardFueled(indexed uint256)
+          handler: handleRewardFueled
+        - event: Staked(indexed address,indexed uint256,indexed uint256)
+          handler: handleStakedWithVirtual
+        - event: Sync(indexed address,indexed uint256)
+          handler: handleSync
+      file: ./src/staking.ts
+  - kind: ethereum/contract
+    name: HoprBoost
+    network: gnosis
+    source:
+      abi: HoprBoost
+      address: "0x43d13D7B83607F14335cF2cB75E87dA369D056c7"
+      startBlock: 17147149
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Boost
+      abis:
+        - name: HoprBoost
+          file: ./abis/HoprBoost.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/boost.ts
