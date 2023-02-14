@@ -1,4 +1,4 @@
-type StakingParticipation @entity(immutable: true) {
+type StakingParticipation @entity {
   id: ID!
   account: Account!
   stakingSeason: StakeSeason!
@@ -14,7 +14,7 @@ type StakingParticipation @entity(immutable: true) {
   ignoredBoosts: [Boost!]!
 }
 
-type Boost @entity(immutable: true) {
+type Boost @entity {
   id: ID!
   owner: Account!
   boostTypeIndex: BigInt!
