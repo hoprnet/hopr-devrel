@@ -52,12 +52,12 @@ export function isNullEthValue(value: string): boolean {
  ************************************/
 
 export const StakeSeasonTable = new TypedMap<string, BigInt>();
-StakeSeasonTable.set('0xa02af160a280957a8881879ee9239a614ab47f0d', new BigInt(6))
-StakeSeasonTable.set('0xc772ebd959c6e402be99417b031eb3e38967f0e7', new BigInt(5))
-StakeSeasonTable.set('0x5bb7e435ada333a6714e27962e4bb6afde1cecd4', new BigInt(4))
-StakeSeasonTable.set('0xae933331ef0be122f9499512d3ed4fa3896dcf20', new BigInt(3))
-StakeSeasonTable.set('0x2cdd13ddb0346e0f620c8e5826da5d7230341c6e', new BigInt(2))
-StakeSeasonTable.set('0x912f4d6607160256787a2ad40da098ac2afe57ac', new BigInt(1))
+StakeSeasonTable.set('0xa02af160a280957a8881879ee9239a614ab47f0d', BigInt.fromI32(6))
+StakeSeasonTable.set('0xc772ebd959c6e402be99417b031eb3e38967f0e7', BigInt.fromI32(5))
+StakeSeasonTable.set('0x5bb7e435ada333a6714e27962e4bb6afde1cecd4', BigInt.fromI32(4))
+StakeSeasonTable.set('0xae933331ef0be122f9499512d3ed4fa3896dcf20', BigInt.fromI32(3))
+StakeSeasonTable.set('0x2cdd13ddb0346e0f620c8e5826da5d7230341c6e', BigInt.fromI32(2))
+StakeSeasonTable.set('0x912f4d6607160256787a2ad40da098ac2afe57ac', BigInt.fromI32(1))
 
 export function computeRate(amount: BigInt, numerator: BigInt): BigInt {
   return amount.times(numerator)
@@ -69,6 +69,7 @@ export const getOrInitializeAccount = (accountId: string): Account => {
   let account = Account.load(accountId)
   if (!account) {
     account = new Account(accountId)
+    account.save()
   }
   return account;
 }
@@ -79,11 +80,12 @@ export const getOrInitializeStakeSeason = (stakeContractAddr: string): StakeSeas
     stakeSeason = new StakeSeason(stakeContractAddr)
 
     // get season number
-    let contractAddrLowerCase = stakeContractAddr.toLowerCase()
-    let stakeSeasonNum = StakeSeasonTable.get(contractAddrLowerCase)
+    let stakeSeasonNum = StakeSeasonTable.get(stakeContractAddr)
     if (!stakeSeasonNum) {
       log.error('Cannot find stake season info with address {}',[stakeContractAddr])
-      stakeSeasonNum = new BigInt(0);
+      stakeSeasonNum = zeroBigInt();
+    } else {
+      log.debug('Stake season {} has number {}', [stakeContractAddr, stakeSeasonNum.toString()])
     }
     stakeSeason.seasonNumber = stakeSeasonNum
 

@@ -133,37 +133,40 @@ export function handleRewardFueled(event: RewardFueled): void {
 }
 
 export function handleStaked(event: Staked): void {
-  let stakingParticipation = getOrInitializeStakingParticipation(event.address.toHex(), event.params.account.toHex())
   let stakeSeason = getOrInitializeStakeSeason(event.address.toHex())
-
-  stakingParticipation.actualLockedTokenAmount = stakingParticipation.actualLockedTokenAmount.plus(event.params.actualAmount)
   stakeSeason.totalLocked = stakeSeason.totalLocked.plus(event.params.actualAmount)
-
   // when the staking account is not the caller - this implys that the Staked event comes from a `batchStakeFor` event
   if (!event.params.account.equals(event.transaction.from)) {
-    stakingParticipation.airdropLockedTokenAmount = stakingParticipation.airdropLockedTokenAmount.plus(event.params.actualAmount)
     stakeSeason.totalAirdrop = stakeSeason.totalAirdrop.plus(event.params.actualAmount)
   }
   stakeSeason.save()
+
+  let stakingParticipation = getOrInitializeStakingParticipation(event.address.toHex(), event.params.account.toHex())
+  stakingParticipation.actualLockedTokenAmount = stakingParticipation.actualLockedTokenAmount.plus(event.params.actualAmount)
+  // when the staking account is not the caller - this implys that the Staked event comes from a `batchStakeFor` event
+  if (!event.params.account.equals(event.transaction.from)) {
+    stakingParticipation.airdropLockedTokenAmount = stakingParticipation.airdropLockedTokenAmount.plus(event.params.actualAmount)
+  }
   stakingParticipation.save()
 }
 
 export function handleStakedWithVirtual(event: StakedWithVirtual): void {
-  let stakingParticipation = getOrInitializeStakingParticipation(event.address.toHex(), event.params.account.toHex())
   let stakeSeason = getOrInitializeStakeSeason(event.address.toHex())
-
-  stakingParticipation.actualLockedTokenAmount = stakingParticipation.actualLockedTokenAmount.plus(event.params.actualAmount)
-  stakingParticipation.virtualLockedTokenAmount = stakingParticipation.virtualLockedTokenAmount.plus(event.params.virtualAmount)
-  
   stakeSeason.totalLocked = stakeSeason.totalLocked.plus(event.params.actualAmount)
   stakeSeason.totalVirtual = stakeSeason.totalVirtual.plus(event.params.virtualAmount)
+  // when the staking account is not the caller - this implys that the Staked event comes from a `batchStakeFor` event
+    if (!event.params.account.equals(event.transaction.from)) {
+      stakeSeason.totalAirdrop = stakeSeason.totalAirdrop.plus(event.params.actualAmount)
+    }
+  stakeSeason.save()
 
+  let stakingParticipation = getOrInitializeStakingParticipation(event.address.toHex(), event.params.account.toHex())
+  stakingParticipation.actualLockedTokenAmount = stakingParticipation.actualLockedTokenAmount.plus(event.params.actualAmount)
+  stakingParticipation.virtualLockedTokenAmount = stakingParticipation.virtualLockedTokenAmount.plus(event.params.virtualAmount)
   // when the staking account is not the caller - this implys that the Staked event comes from a `batchStakeFor` event
   if (!event.params.account.equals(event.transaction.from)) {
     stakingParticipation.airdropLockedTokenAmount = stakingParticipation.airdropLockedTokenAmount.plus(event.params.actualAmount)
-    stakeSeason.totalAirdrop = stakeSeason.totalAirdrop.plus(event.params.actualAmount)
   }
-  stakeSeason.save()
   stakingParticipation.save()
 }
 
