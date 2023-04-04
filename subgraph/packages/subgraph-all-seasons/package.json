@@ -1,0 +1,14 @@
+{
+    "name": "hopr-stake-all-seasons",
+    "license": "UNLICENSED",
+    "scripts": {
+      "codegen": "graph codegen",
+      "build": "graph build",
+      "deploy:studio": "graph deploy --studio hopr-stake-all-seasons"
+    },
+    "dependencies": {
+      "@graphprotocol/graph-cli": "0.37.1",
+      "@graphprotocol/graph-ts": "0.29.1"
+    }
+  }
+  

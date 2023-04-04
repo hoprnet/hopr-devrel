@@ -1,0 +1,45 @@
+type StakingParticipation @entity {
+  id: ID!
+  account: Account!
+  stakingSeason: StakeSeason!
+  actualLockedTokenAmount: BigInt!
+  virtualLockedTokenAmount: BigInt!
+  airdropLockedTokenAmount: BigInt!
+  lastSyncTimestamp: BigInt!
+  cumulatedRewards: BigInt!
+  claimedRewards: BigInt!
+  unclaimedRewards: BigInt!
+  boostRate: BigInt!
+  appliedBoosts: [Boost!]!
+  ignoredBoosts: [Boost!]!
+}
+
+type Boost @entity {
+  id: ID!
+  owner: Account!
+  boostTypeIndex: BigInt!
+  uri: String!
+  boostNumerator: BigInt!
+  redeemDeadline: BigInt!
+}
+
+type StakeSeason @entity {
+  id: ID!
+  seasonNumber: BigInt! 
+  availableReward: BigInt!
+  totalLocked: BigInt!
+  totalVirtual: BigInt!
+  totalAirdrop: BigInt!
+  totalCumulatedRewards: BigInt!
+  totalClaimedRewards: BigInt!
+  totalUnclaimedRewards: BigInt!
+  lastSyncTimestamp: BigInt!
+  blockedTypeIndexes: [BigInt!]!
+  stakingParticipation: [StakingParticipation!]! @derivedFrom(field: "stakingSeason")
+}
+
+type Account @entity {
+  id: ID!
+  stakingParticipation: [StakingParticipation!]! @derivedFrom(field: "account")
+  ownedBoosts: [Boost!]! @derivedFrom(field: "owner")
+}
