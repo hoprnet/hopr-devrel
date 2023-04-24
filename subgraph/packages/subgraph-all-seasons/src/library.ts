@@ -52,6 +52,7 @@ export function isNullEthValue(value: string): boolean {
  ************************************/
 
 export const StakeSeasonTable = new TypedMap<string, BigInt>();
+StakeSeasonTable.set('0x65c39e6bd97f80b5ae5d2120a47644578fd2b8dc', BigInt.fromI32(7))
 StakeSeasonTable.set('0xa02af160a280957a8881879ee9239a614ab47f0d', BigInt.fromI32(6))
 StakeSeasonTable.set('0xc772ebd959c6e402be99417b031eb3e38967f0e7', BigInt.fromI32(5))
 StakeSeasonTable.set('0x5bb7e435ada333a6714e27962e4bb6afde1cecd4', BigInt.fromI32(4))
