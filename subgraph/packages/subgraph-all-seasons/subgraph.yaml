@@ -79,8 +79,8 @@ dataSources:
     network: gnosis
     source:
       abi: HoprStakeBase
-      address: "0xc772eBd959c6e402Be99417b031eb3E38967f0e7"
-      startBlock: 7743835
+      address: "0xd80fbbfe9d057254d80eebb49f17aca66a238e2d"
+      startBlock: 24536036
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
