@@ -5,6 +5,41 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
+    name: HoprStakeSeason8
+    network: gnosis
+    source:
+      abi: HoprStakeBase
+      address: "0xdc8f03f19986859362d15c3d5ed74f26518870b9"
+      startBlock: 28930303
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - StakingParticipation
+        - StakeSeason
+      abis:
+        - name: HoprStakeBase
+          file: ./abis/HoprStakeBase.json
+      eventHandlers:
+        - event: Claimed(indexed address,indexed uint256)
+          handler: handleClaimed
+        - event: NftAllowed(indexed uint256)
+          handler: handleNftAllowed
+        - event: NftBlocked(indexed uint256)
+          handler: handleNftBlocked
+        - event: Redeemed(indexed address,indexed uint256,indexed bool)
+          handler: handleRedeemed
+        - event: Released(indexed address,indexed uint256)
+          handler: handleReleased
+        - event: RewardFueled(indexed uint256)
+          handler: handleRewardFueled
+        - event: Staked(indexed address,indexed uint256)
+          handler: handleStaked
+        - event: Sync(indexed address,indexed uint256)
+          handler: handleSync
+      file: ./src/staking.ts
+  - kind: ethereum/contract
     name: HoprStakeSeason7
     network: gnosis
     source:
