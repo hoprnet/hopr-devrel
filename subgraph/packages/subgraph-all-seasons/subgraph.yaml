@@ -10,7 +10,7 @@ dataSources:
     source:
       abi: HoprStakeBase
       address: "0xdc8f03f19986859362d15c3d5ed74f26518870b9"
-      startBlock: 28930303
+      startBlock: 28909156
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
