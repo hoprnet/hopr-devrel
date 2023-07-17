@@ -52,6 +52,7 @@ export function isNullEthValue(value: string): boolean {
  ************************************/
 
 export const StakeSeasonTable = new TypedMap<string, BigInt>();
+StakeSeasonTable.set('0xdc8f03f19986859362d15c3d5ed74f26518870b9', BigInt.fromI32(8))
 StakeSeasonTable.set('0x65c39e6bd97f80b5ae5d2120a47644578fd2b8dc', BigInt.fromI32(7))
 StakeSeasonTable.set('0xa02af160a280957a8881879ee9239a614ab47f0d', BigInt.fromI32(6))
 StakeSeasonTable.set('0xd80fbbfe9d057254d80eebb49f17aca66a238e2d', BigInt.fromI32(5))
@@ -83,7 +84,7 @@ export const getOrInitializeStakeSeason = (stakeContractAddr: string): StakeSeas
     // get season number
     let stakeSeasonNum = StakeSeasonTable.get(stakeContractAddr)
     if (!stakeSeasonNum) {
-      log.error('Cannot find stake season info with address {}',[stakeContractAddr])
+      log.error('Cannot find stake season info with address {}', [stakeContractAddr])
       stakeSeasonNum = zeroBigInt();
     } else {
       log.debug('Stake season {} has number {}', [stakeContractAddr, stakeSeasonNum.toString()])
