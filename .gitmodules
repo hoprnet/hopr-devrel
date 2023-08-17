@@ -4,3 +4,6 @@
 [submodule "stake/packages/hopr-stake"]
 	path = stake/packages/hopr-stake
 	url = https://github.com/hoprnet/hopr-stake
+[submodule "subgraph/packages/subgraph/packages/subgraph-dufour"]
+	path = subgraph/packages/subgraph/packages/subgraph-dufour
+	url = https://github.com/hoprnet/hopr-devrel
