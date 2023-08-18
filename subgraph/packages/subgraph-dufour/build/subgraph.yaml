@@ -1,0 +1,44 @@
+specVersion: 0.0.5
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: HoprToken
+    network: gnosis
+    source:
+      address: "0x66225dE86Cac02b32f34992eb3410F59DE416698"
+      abi: HoprToken
+      startBlock: 29503400
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+      abis:
+        - name: HoprToken
+          file: HoprToken/abis/HoprToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: HoprToken/HoprToken.wasm
+  - kind: ethereum
+    name: Contract
+    network: gnosis
+    source:
+      address: "0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1"
+      abi: Contract
+      startBlock: 29508000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+      abis:
+        - name: Contract
+          file: Contract/abis/Contract.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: Contract/Contract.wasm

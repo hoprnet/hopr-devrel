@@ -1,0 +1,23 @@
+type TokenBalance @entity {
+  id: ID!
+  token: Token!
+  address: Bytes!
+  balance: BigInt!
+}
+
+type Token @entity {
+  id: ID!
+  tokenAddress: Bytes!
+}
+
+type ContractTokenBalance @entity {
+  id: ID!
+  token: ContractToken!
+  address: Bytes!
+  balance: BigInt!
+}
+
+type ContractToken @entity {
+  id: ID!
+  tokenAddress: Bytes!
+}
