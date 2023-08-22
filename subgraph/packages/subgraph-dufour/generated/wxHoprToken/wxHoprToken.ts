@@ -264,7 +264,7 @@ export class Transfer__Params {
   }
 }
 
-export class Contract__accountSnapshotsResult {
+export class wxHoprToken__accountSnapshotsResult {
   value0: BigInt;
   value1: BigInt;
 
@@ -289,7 +289,7 @@ export class Contract__accountSnapshotsResult {
   }
 }
 
-export class Contract__totalSupplySnapshotsResult {
+export class wxHoprToken__totalSupplySnapshotsResult {
   value0: BigInt;
   value1: BigInt;
 
@@ -314,9 +314,9 @@ export class Contract__totalSupplySnapshotsResult {
   }
 }
 
-export class Contract extends ethereum.SmartContract {
-  static bind(address: Address): Contract {
-    return new Contract("Contract", address);
+export class wxHoprToken extends ethereum.SmartContract {
+  static bind(address: Address): wxHoprToken {
+    return new wxHoprToken("wxHoprToken", address);
   }
 
   DEFAULT_ADMIN_ROLE(): Bytes {
@@ -360,7 +360,7 @@ export class Contract extends ethereum.SmartContract {
   accountSnapshots(
     param0: Address,
     param1: BigInt
-  ): Contract__accountSnapshotsResult {
+  ): wxHoprToken__accountSnapshotsResult {
     let result = super.call(
       "accountSnapshots",
       "accountSnapshots(address,uint256):(uint128,uint128)",
@@ -370,7 +370,7 @@ export class Contract extends ethereum.SmartContract {
       ]
     );
 
-    return new Contract__accountSnapshotsResult(
+    return new wxHoprToken__accountSnapshotsResult(
       result[0].toBigInt(),
       result[1].toBigInt()
     );
@@ -379,7 +379,7 @@ export class Contract extends ethereum.SmartContract {
   try_accountSnapshots(
     param0: Address,
     param1: BigInt
-  ): ethereum.CallResult<Contract__accountSnapshotsResult> {
+  ): ethereum.CallResult<wxHoprToken__accountSnapshotsResult> {
     let result = super.tryCall(
       "accountSnapshots",
       "accountSnapshots(address,uint256):(uint128,uint128)",
@@ -393,7 +393,7 @@ export class Contract extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new Contract__accountSnapshotsResult(
+      new wxHoprToken__accountSnapshotsResult(
         value[0].toBigInt(),
         value[1].toBigInt()
       )
@@ -745,14 +745,16 @@ export class Contract extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  totalSupplySnapshots(param0: BigInt): Contract__totalSupplySnapshotsResult {
+  totalSupplySnapshots(
+    param0: BigInt
+  ): wxHoprToken__totalSupplySnapshotsResult {
     let result = super.call(
       "totalSupplySnapshots",
       "totalSupplySnapshots(uint256):(uint128,uint128)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
-    return new Contract__totalSupplySnapshotsResult(
+    return new wxHoprToken__totalSupplySnapshotsResult(
       result[0].toBigInt(),
       result[1].toBigInt()
     );
@@ -760,7 +762,7 @@ export class Contract extends ethereum.SmartContract {
 
   try_totalSupplySnapshots(
     param0: BigInt
-  ): ethereum.CallResult<Contract__totalSupplySnapshotsResult> {
+  ): ethereum.CallResult<wxHoprToken__totalSupplySnapshotsResult> {
     let result = super.tryCall(
       "totalSupplySnapshots",
       "totalSupplySnapshots(uint256):(uint128,uint128)",
@@ -771,7 +773,7 @@ export class Contract extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new Contract__totalSupplySnapshotsResult(
+      new wxHoprToken__totalSupplySnapshotsResult(
         value[0].toBigInt(),
         value[1].toBigInt()
       )

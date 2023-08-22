@@ -1,23 +1,23 @@
-type TokenBalance @entity {
+type mHoprTokenBalance @entity {
   id: ID!
-  token: Token!
+  token: mHoprToken!
   address: Bytes!
   balance: BigInt!
 }
 
-type Token @entity {
+type mHoprToken @entity {
   id: ID!
   tokenAddress: Bytes!
 }
 
-type ContractTokenBalance @entity {
+type wxHoprTokenBalance @entity {
   id: ID!
-  token: ContractToken!
+  token: wxHoprToken!
   address: Bytes!
   balance: BigInt!
 }
 
-type ContractToken @entity {
+type wxHoprToken @entity {
   id: ID!
   tokenAddress: Bytes!
 }

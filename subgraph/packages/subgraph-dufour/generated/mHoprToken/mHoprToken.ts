@@ -290,7 +290,7 @@ export class Transfer__Params {
   }
 }
 
-export class HoprToken__accountSnapshotsResult {
+export class mHoprToken__accountSnapshotsResult {
   value0: BigInt;
   value1: BigInt;
 
@@ -315,7 +315,7 @@ export class HoprToken__accountSnapshotsResult {
   }
 }
 
-export class HoprToken__totalSupplySnapshotsResult {
+export class mHoprToken__totalSupplySnapshotsResult {
   value0: BigInt;
   value1: BigInt;
 
@@ -340,9 +340,9 @@ export class HoprToken__totalSupplySnapshotsResult {
   }
 }
 
-export class HoprToken extends ethereum.SmartContract {
-  static bind(address: Address): HoprToken {
-    return new HoprToken("HoprToken", address);
+export class mHoprToken extends ethereum.SmartContract {
+  static bind(address: Address): mHoprToken {
+    return new mHoprToken("mHoprToken", address);
   }
 
   DEFAULT_ADMIN_ROLE(): Bytes {
@@ -386,7 +386,7 @@ export class HoprToken extends ethereum.SmartContract {
   accountSnapshots(
     param0: Address,
     param1: BigInt
-  ): HoprToken__accountSnapshotsResult {
+  ): mHoprToken__accountSnapshotsResult {
     let result = super.call(
       "accountSnapshots",
       "accountSnapshots(address,uint256):(uint128,uint128)",
@@ -396,7 +396,7 @@ export class HoprToken extends ethereum.SmartContract {
       ]
     );
 
-    return new HoprToken__accountSnapshotsResult(
+    return new mHoprToken__accountSnapshotsResult(
       result[0].toBigInt(),
       result[1].toBigInt()
     );
@@ -405,7 +405,7 @@ export class HoprToken extends ethereum.SmartContract {
   try_accountSnapshots(
     param0: Address,
     param1: BigInt
-  ): ethereum.CallResult<HoprToken__accountSnapshotsResult> {
+  ): ethereum.CallResult<mHoprToken__accountSnapshotsResult> {
     let result = super.tryCall(
       "accountSnapshots",
       "accountSnapshots(address,uint256):(uint128,uint128)",
@@ -419,7 +419,7 @@ export class HoprToken extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new HoprToken__accountSnapshotsResult(
+      new mHoprToken__accountSnapshotsResult(
         value[0].toBigInt(),
         value[1].toBigInt()
       )
@@ -771,14 +771,14 @@ export class HoprToken extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  totalSupplySnapshots(param0: BigInt): HoprToken__totalSupplySnapshotsResult {
+  totalSupplySnapshots(param0: BigInt): mHoprToken__totalSupplySnapshotsResult {
     let result = super.call(
       "totalSupplySnapshots",
       "totalSupplySnapshots(uint256):(uint128,uint128)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
-    return new HoprToken__totalSupplySnapshotsResult(
+    return new mHoprToken__totalSupplySnapshotsResult(
       result[0].toBigInt(),
       result[1].toBigInt()
     );
@@ -786,7 +786,7 @@ export class HoprToken extends ethereum.SmartContract {
 
   try_totalSupplySnapshots(
     param0: BigInt
-  ): ethereum.CallResult<HoprToken__totalSupplySnapshotsResult> {
+  ): ethereum.CallResult<mHoprToken__totalSupplySnapshotsResult> {
     let result = super.tryCall(
       "totalSupplySnapshots",
       "totalSupplySnapshots(uint256):(uint128,uint128)",
@@ -797,7 +797,7 @@ export class HoprToken extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new HoprToken__totalSupplySnapshotsResult(
+      new mHoprToken__totalSupplySnapshotsResult(
         value[0].toBigInt(),
         value[1].toBigInt()
       )

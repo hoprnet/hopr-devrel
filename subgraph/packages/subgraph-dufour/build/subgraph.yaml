@@ -3,11 +3,11 @@ schema:
   file: schema.graphql
 dataSources:
   - kind: ethereum
-    name: HoprToken
+    name: mHoprToken
     network: gnosis
     source:
       address: "0x66225dE86Cac02b32f34992eb3410F59DE416698"
-      abi: HoprToken
+      abi: mHoprToken
       startBlock: 29503400
     mapping:
       kind: ethereum/events
@@ -16,18 +16,18 @@ dataSources:
       entities:
         - Transfer
       abis:
-        - name: HoprToken
-          file: HoprToken/abis/HoprToken.json
+        - name: mHoprToken
+          file: mHoprToken/abis/mHoprToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-      file: HoprToken/HoprToken.wasm
+      file: mHoprToken/mHoprToken.wasm
   - kind: ethereum
-    name: Contract
+    name: wxHoprToken
     network: gnosis
     source:
       address: "0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1"
-      abi: Contract
+      abi: wxHoprToken
       startBlock: 29508000
     mapping:
       kind: ethereum/events
@@ -36,9 +36,9 @@ dataSources:
       entities:
         - Transfer
       abis:
-        - name: Contract
-          file: Contract/abis/Contract.json
+        - name: wxHoprToken
+          file: wxHoprToken/abis/wxHoprToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-      file: Contract/Contract.wasm
+      file: wxHoprToken/wxHoprToken.wasm

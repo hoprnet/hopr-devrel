@@ -11,7 +11,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class TokenBalance extends Entity {
+export class mHoprTokenBalance extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -19,24 +19,26 @@ export class TokenBalance extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save TokenBalance entity without an ID");
+    assert(id != null, "Cannot save mHoprTokenBalance entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type TokenBalance must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type mHoprTokenBalance must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("TokenBalance", id.toString(), this);
+      store.set("mHoprTokenBalance", id.toString(), this);
     }
   }
 
-  static loadInBlock(id: string): TokenBalance | null {
-    return changetype<TokenBalance | null>(
-      store.get_in_block("TokenBalance", id)
+  static loadInBlock(id: string): mHoprTokenBalance | null {
+    return changetype<mHoprTokenBalance | null>(
+      store.get_in_block("mHoprTokenBalance", id)
     );
   }
 
-  static load(id: string): TokenBalance | null {
-    return changetype<TokenBalance | null>(store.get("TokenBalance", id));
+  static load(id: string): mHoprTokenBalance | null {
+    return changetype<mHoprTokenBalance | null>(
+      store.get("mHoprTokenBalance", id)
+    );
   }
 
   get id(): string {
@@ -92,7 +94,7 @@ export class TokenBalance extends Entity {
   }
 }
 
-export class Token extends Entity {
+export class mHoprToken extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -100,22 +102,22 @@ export class Token extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save Token entity without an ID");
+    assert(id != null, "Cannot save mHoprToken entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Token must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type mHoprToken must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Token", id.toString(), this);
+      store.set("mHoprToken", id.toString(), this);
     }
   }
 
-  static loadInBlock(id: string): Token | null {
-    return changetype<Token | null>(store.get_in_block("Token", id));
+  static loadInBlock(id: string): mHoprToken | null {
+    return changetype<mHoprToken | null>(store.get_in_block("mHoprToken", id));
   }
 
-  static load(id: string): Token | null {
-    return changetype<Token | null>(store.get("Token", id));
+  static load(id: string): mHoprToken | null {
+    return changetype<mHoprToken | null>(store.get("mHoprToken", id));
   }
 
   get id(): string {
@@ -145,7 +147,7 @@ export class Token extends Entity {
   }
 }
 
-export class ContractTokenBalance extends Entity {
+export class wxHoprTokenBalance extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -153,25 +155,25 @@ export class ContractTokenBalance extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save ContractTokenBalance entity without an ID");
+    assert(id != null, "Cannot save wxHoprTokenBalance entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type ContractTokenBalance must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type wxHoprTokenBalance must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("ContractTokenBalance", id.toString(), this);
+      store.set("wxHoprTokenBalance", id.toString(), this);
     }
   }
 
-  static loadInBlock(id: string): ContractTokenBalance | null {
-    return changetype<ContractTokenBalance | null>(
-      store.get_in_block("ContractTokenBalance", id)
+  static loadInBlock(id: string): wxHoprTokenBalance | null {
+    return changetype<wxHoprTokenBalance | null>(
+      store.get_in_block("wxHoprTokenBalance", id)
     );
   }
 
-  static load(id: string): ContractTokenBalance | null {
-    return changetype<ContractTokenBalance | null>(
-      store.get("ContractTokenBalance", id)
+  static load(id: string): wxHoprTokenBalance | null {
+    return changetype<wxHoprTokenBalance | null>(
+      store.get("wxHoprTokenBalance", id)
     );
   }
 
@@ -228,7 +230,7 @@ export class ContractTokenBalance extends Entity {
   }
 }
 
-export class ContractToken extends Entity {
+export class wxHoprToken extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -236,24 +238,24 @@ export class ContractToken extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save ContractToken entity without an ID");
+    assert(id != null, "Cannot save wxHoprToken entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type ContractToken must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type wxHoprToken must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("ContractToken", id.toString(), this);
+      store.set("wxHoprToken", id.toString(), this);
     }
   }
 
-  static loadInBlock(id: string): ContractToken | null {
-    return changetype<ContractToken | null>(
-      store.get_in_block("ContractToken", id)
+  static loadInBlock(id: string): wxHoprToken | null {
+    return changetype<wxHoprToken | null>(
+      store.get_in_block("wxHoprToken", id)
     );
   }
 
-  static load(id: string): ContractToken | null {
-    return changetype<ContractToken | null>(store.get("ContractToken", id));
+  static load(id: string): wxHoprToken | null {
+    return changetype<wxHoprToken | null>(store.get("wxHoprToken", id));
   }
 
   get id(): string {
