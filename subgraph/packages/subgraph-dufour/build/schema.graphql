@@ -1,23 +1,5 @@
-type mHoprTokenBalance @entity {
+type AccountBalance @entity {
   id: ID!
-  token: mHoprToken!
-  address: Bytes!
-  balance: BigInt!
-}
-
-type mHoprToken @entity {
-  id: ID!
-  tokenAddress: Bytes!
-}
-
-type wxHoprTokenBalance @entity {
-  id: ID!
-  token: wxHoprToken!
-  address: Bytes!
-  balance: BigInt!
-}
-
-type wxHoprToken @entity {
-  id: ID!
-  tokenAddress: Bytes!
+  mHOPRbalance: BigInt!
+  wxHOPRbalance: BigInt!
 }

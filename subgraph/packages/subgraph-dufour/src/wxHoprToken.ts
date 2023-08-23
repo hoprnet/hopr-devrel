@@ -1,38 +1,35 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 import { Transfer } from "../generated/wxHoprToken/wxHoprToken";
-import { wxHoprToken, wxHoprTokenBalance } from "../generated/schema";
+import { AccountBalance } from "../generated/schema";
 
-export function handleTransfer(event: Transfer): void {
-  let token = wxHoprToken.load(event.address.toHex());
-  if (token == null) {
-    token = new wxHoprToken(event.address.toHex());
-    token.tokenAddress = event.address;
-    token.save();
+// TODO: please check type for inputs and return values
+export function initiateAccountBalance(accountAddress: string): AccountBalance {
+  let account = new AccountBalance(accountAddress);
+  account.wxHOPRbalance = BigInt.fromI32(0);
+  account.mHOPRbalance = BigInt.fromI32(0);
+  return account
+}
+
+export function handleTransfer_wxHopr(event: Transfer): void {
+  // update balance for `from` account
+  let fromAccount = AccountBalance.load(event.params.from.toHex());
+  if (fromAccount == null) {
+    fromAccount = initiateAccountBalance(event.params.from.toHex());
   }
-
-  // Load or create a ContractTokenBalance entity for the sender (from) address
-  let fromBalance = wxHoprTokenBalance.load(token.id + "-" + event.params.from.toHex());
-  if (fromBalance == null) {
-    fromBalance = new wxHoprTokenBalance(token.id + "-" + event.params.from.toHex());
-    fromBalance.token = token.id;
-    fromBalance.address = event.params.from;
-    fromBalance.balance = BigInt.fromI32(0);
-  }
-
-  // Load or create a ContractTokenBalance entity for the recipient (to) address
-  let toBalance = wxHoprTokenBalance.load(token.id + "-" + event.params.to.toHex());
-  if (toBalance == null) {
-    toBalance = new wxHoprTokenBalance(token.id + "-" + event.params.to.toHex());
-    toBalance.token = token.id;
-    toBalance.address = event.params.to;
-    toBalance.balance = BigInt.fromI32(0);
+  // update balance for `to` account
+  let toAccount = AccountBalance.load(event.params.to.toHex());
+  if (toAccount == null) {
+    toAccount = initiateAccountBalance(event.params.to.toHex());
   }
 
   // Update the balances based on the transfer event
-  fromBalance.balance = fromBalance.balance.minus(event.params.value);
-  toBalance.balance = toBalance.balance.plus(event.params.value);
+  let value = event.params.value;
+  if (value.gt(BigInt.fromI32(0))) {
+    toAccount.wxHOPRbalance = toAccount.wxHOPRbalance.plus(value);
+    fromAccount.wxHOPRbalance = fromAccount.wxHOPRbalance.minus(value);
+  }
 
   // Save the updated balances back to the store
-  fromBalance.save();
-  toBalance.save();
+  fromAccount.save();
+  toAccount.save();
 }

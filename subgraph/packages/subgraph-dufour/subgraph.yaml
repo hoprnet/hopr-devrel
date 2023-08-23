@@ -20,7 +20,7 @@ dataSources:
           file: ./abis/mHoprToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
+          handler: handleTransfer_mHopr
       file: ./src/mHoprToken.ts
   - kind: ethereum
     name: wxHoprToken
@@ -40,5 +40,5 @@ dataSources:
           file: ./abis/wxHoprToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
+          handler: handleTransfer_wxHopr
       file: ./src/wxHoprToken.ts
