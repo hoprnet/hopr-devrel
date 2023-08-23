@@ -4,3 +4,20 @@ type AccountBalance @entity {
   wxHOPRbalance: BigInt!
   xHOPRbalance: BigInt!
 }
+type Dergistered @entity {
+  id: ID!
+  safeAddress: Bytes!
+  nodeAddress: Bytes!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Registered @entity {
+  id: ID!
+  safeAddress: Bytes!
+  nodeAddress: Bytes!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}

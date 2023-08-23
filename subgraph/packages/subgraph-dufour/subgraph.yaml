@@ -62,3 +62,26 @@ dataSources:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer_xHopr
       file: ./src/xHoprToken.ts
+  - kind: ethereum
+    name: NodeSafeRegistry
+    network: gnosis
+    source:
+      address: "0x3E7c4720934ff6A9FE122Cb761f36a11E9b848D9"
+      abi: NodeSafeRegistry
+      startBlock: 29508000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - DergisteredNodeSafe
+        - RegisteredNodeSafe
+      abis:
+        - name: NodeSafeRegistry
+          file: ./abis/NodeSafeRegistry.json
+      eventHandlers:
+        - event: DergisteredNodeSafe(indexed address,indexed address)
+          handler: handleDergisteredNodeSafe
+        - event: RegisteredNodeSafe(indexed address,indexed address)
+          handler: handleRegisteredNodeSafe
+      file: ./src/NodeSafeRegistry.ts

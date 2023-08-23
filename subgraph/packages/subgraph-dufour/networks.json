@@ -8,6 +8,9 @@
     },
     "xHoprToken": {
       "address": "0xD057604A14982FE8D88c5fC25Aac3267eA142a08"
+    },
+    "NodeSafeRegistry": {
+      "address": "0x3E7c4720934ff6A9FE122Cb761f36a11E9b848D9"
     }
   }
 }
