@@ -1,5 +1,5 @@
 import { BigInt } from "@graphprotocol/graph-ts";
-import { Transfer } from "../generated/wxHoprToken/wxHoprToken";
+import { Transfer } from "../generated/xHoprToken/xHoprToken";
 import { AccountBalance } from "../generated/schema";
 
 export const getOrInitializeAccountBalance = (accountAddress: string): AccountBalance => {
@@ -14,7 +14,7 @@ export const getOrInitializeAccountBalance = (accountAddress: string): AccountBa
   return account;
 }
 
-export function handleTransfer_wxHopr(event: Transfer): void {
+export function handleTransfer_xHopr(event: Transfer): void {
   // update balance for `from` account
   let fromAccount = getOrInitializeAccountBalance(event.params.from.toHex());
   // update balance for `to` account
@@ -23,8 +23,8 @@ export function handleTransfer_wxHopr(event: Transfer): void {
   // Update the balances based on the transfer event
   let value = event.params.value;
   if (value.gt(BigInt.fromI32(0))) {
-    toAccount.wxHOPRbalance = toAccount.wxHOPRbalance.plus(value);
-    fromAccount.wxHOPRbalance = fromAccount.wxHOPRbalance.minus(value);
+    toAccount.xHOPRbalance = toAccount.xHOPRbalance.plus(value);
+    fromAccount.xHOPRbalance = fromAccount.xHOPRbalance.minus(value);
   }
 
   // Save the updated balances back to the store

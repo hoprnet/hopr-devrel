@@ -2,4 +2,5 @@ type AccountBalance @entity {
   id: ID!
   mHOPRbalance: BigInt!
   wxHOPRbalance: BigInt!
+  xHOPRbalance: BigInt!
 }

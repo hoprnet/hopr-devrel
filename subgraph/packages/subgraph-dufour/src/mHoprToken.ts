@@ -8,6 +8,7 @@ export const getOrInitializeAccountBalance = (accountAddress: string): AccountBa
     account = new AccountBalance(accountAddress);
     account.wxHOPRbalance = BigInt.fromI32(0);
     account.mHOPRbalance = BigInt.fromI32(0);
+    account.xHOPRbalance = BigInt.fromI32(0);
     account.save()
   }
   return account;

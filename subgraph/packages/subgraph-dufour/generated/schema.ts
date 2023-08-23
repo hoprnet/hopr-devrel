@@ -77,4 +77,17 @@ export class AccountBalance extends Entity {
   set wxHOPRbalance(value: BigInt) {
     this.set("wxHOPRbalance", Value.fromBigInt(value));
   }
+
+  get xHOPRbalance(): BigInt {
+    let value = this.get("xHOPRbalance");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set xHOPRbalance(value: BigInt) {
+    this.set("xHOPRbalance", Value.fromBigInt(value));
+  }
 }

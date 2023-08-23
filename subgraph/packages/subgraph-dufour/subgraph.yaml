@@ -42,3 +42,23 @@ dataSources:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer_wxHopr
       file: ./src/wxHoprToken.ts
+  - kind: ethereum
+    name: xHoprToken
+    network: gnosis
+    source:
+      address: "0xD057604A14982FE8D88c5fC25Aac3267eA142a08"
+      abi: xHoprToken
+      startBlock: 29508000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+      abis:
+        - name: xHoprToken
+          file: ./abis/xHoprToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer_xHopr
+      file: ./src/xHoprToken.ts
