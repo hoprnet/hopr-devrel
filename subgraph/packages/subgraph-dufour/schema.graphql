@@ -1,23 +1,11 @@
-type AccountBalance @entity {
+type Balances @entity {
   id: ID!
-  mHOPRbalance: BigInt!
-  wxHOPRbalance: BigInt!
-  xHOPRbalance: BigInt!
-}
-type Dergistered @entity {
-  id: ID!
-  safeAddress: Bytes!
-  nodeAddress: Bytes!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type Registered @entity {
-  id: ID!
-  safeAddress: Bytes!
-  nodeAddress: Bytes!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+  "Address of the Wallet"
+  walletAddress: Bytes!
+  "mHOPR token balance of the wallet"
+	mHoprBalance: BigInt!, 
+  "wxHOPR token balance of the wallet"
+	wxHoprBalance: BigInt!,
+  "'xHOPR token balance of the wallet"
+	xHoprBalance: BigInt!
 }
