@@ -3,65 +3,89 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: mHoprToken
+    name: NodeStakeFactory
     network: gnosis
     source:
-      address: "0x66225dE86Cac02b32f34992eb3410F59DE416698"
-      abi: mHoprToken
-      startBlock: 24097265
+      address: "0x6E078019EEE40B249fa3A876E7a6b089B77cFf9b"
+      abi: NodeStakeFactory
+      startBlock: 29519146
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Transfer
+        - Safe
+        - NodeManagementModule
       abis:
-        - name: mHoprToken
-          file: ./abis/mHoprToken.json
+        - name: NodeStakeFactory
+          file: ./abis/NodeStakeFactory.json
       eventHandlers:
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleMHoprTokenTransfer
-      file: ./src/tokens.ts
-  - kind: ethereum
-    name: wxHoprToken
-    network: gnosis
-    source:
-      address: "0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1"
-      abi: wxHoprToken
-      startBlock: 14744161
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - Transfer
-      abis:
-        - name: wxHoprToken
-          file: ./abis/wxHoprToken.json
-      eventHandlers:
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleWXHoprTokenTransfer
-      file: ./src/tokens.ts
-  - kind: ethereum
-    name: xHoprToken
-    network: gnosis
-    source:
-      address: "0xD057604A14982FE8D88c5fC25Aac3267eA142a08"
-      abi: xHoprToken
-      startBlock: 14635013
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - Transfer
-      abis:
-        - name: xHoprToken
-          file: ./abis/xHoprToken.json
-      eventHandlers:
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleXHoprTokenTransfer
-      file: ./src/tokens.ts
+        - event: NewHoprNodeStakeModule(indexed address,address)
+          handler: handleNewModule
+        - event: "NewHoprNodeStakeSafe(address)"
+          handler: handleNewSafe
+      file: ./src/factory.ts
+  # - kind: ethereum
+  #   name: mHoprToken
+  #   network: gnosis
+  #   source:
+  #     address: "0x66225dE86Cac02b32f34992eb3410F59DE416698"
+  #     abi: mHoprToken
+  #     startBlock: 24097265
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.7
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - Transfer
+  #     abis:
+  #       - name: mHoprToken
+  #         file: ./abis/mHoprToken.json
+  #     eventHandlers:
+  #       - event: Transfer(indexed address,indexed address,uint256)
+  #         handler: handleMHoprTokenTransfer
+  #     file: ./src/tokens.ts
+  # - kind: ethereum
+  #   name: wxHoprToken
+  #   network: gnosis
+  #   source:
+  #     address: "0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1"
+  #     abi: wxHoprToken
+  #     startBlock: 14744161
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.7
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - Transfer
+  #     abis:
+  #       - name: wxHoprToken
+  #         file: ./abis/wxHoprToken.json
+  #     eventHandlers:
+  #       - event: Transfer(indexed address,indexed address,uint256)
+  #         handler: handleWXHoprTokenTransfer
+  #     file: ./src/tokens.ts
+  # - kind: ethereum
+  #   name: xHoprToken
+  #   network: gnosis
+  #   source:
+  #     address: "0xD057604A14982FE8D88c5fC25Aac3267eA142a08"
+  #     abi: xHoprToken
+  #     startBlock: 14635013
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.7
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - Transfer
+  #     abis:
+  #       - name: xHoprToken
+  #         file: ./abis/xHoprToken.json
+  #     eventHandlers:
+  #       - event: Transfer(indexed address,indexed address,uint256)
+  #         handler: handleXHoprTokenTransfer
+  #     file: ./src/tokens.ts
+  
   # - kind: ethereum
   #   name: NodeSafeRegistry
   #   network: gnosis
@@ -85,3 +109,54 @@ dataSources:
   #       - event: RegisteredNodeSafe(indexed address,indexed address)
   #         handler: handleRegisteredNodeSafe
   #     file: ./src/NodeSafeRegistry.ts
+templates:
+  - name: Safe
+    kind: ethereum/contract
+    network: gnosis
+    source:
+      abi: Safe
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/safe.ts
+      entities:
+        - Safe
+      abis:
+        - name: Safe
+          file: ./abis/Safe.json
+      eventHandlers:
+        - event: SafeSetup(indexed address,address[],uint256,address,address)
+          handler: handleSafeSetup
+        - event: AddedOwner(indexed address)
+          handler: handleAddOwner
+        - event: RemovedOwner(indexed address)
+          handler: handleRemoveOwner
+        - event: ChangedThreshold(uint256)
+          handler: handleChangeThreshold
+  - name: NodeManagementModule
+    kind: ethereum/contract
+    network: gnosis
+    source:
+      abi: NodeManagementModule
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/module.ts
+      entities:
+        - NodeManagementModule
+      abis:
+        - name: NodeManagementModule
+          file: ./abis/NodeManagementModule.json
+      eventHandlers:
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleTransferOwnership
+        - event: SetMultisendAddress(indexed address)
+          handler: handleSetMultiSendAddress
+        - event: NodeAdded(indexed address)
+          handler: handleAddNode
+        - event: NodeRemoved(indexed address)
+          handler: handleRemoveNode
+        - event: Upgraded(indexed address)
+          handler: handleUpgrade

@@ -9,3 +9,46 @@ type Balances @entity {
   "'xHOPR token balance of the wallet"
 	xHoprBalance: BigInt!
 }
+
+type Safe @entity {
+  "Address of the Safe; safeAddress: Bytes!"
+  id: ID!
+  "Threshold of the multisig"
+  threshold: BigInt!
+  "Array of owner addresses"
+  owners: [SafeOwnerPair!]! @derivedFrom(field: "safe")
+  "Array of node management modules that targets to the current safe"
+  targetedModule: [NodeManagementModule!]! @derivedFrom(field: "target")
+  "Flag for the place of creation of Safe"
+  isCreatedByNodeStakeFactory: Boolean
+}
+
+type SafeOwnerPair @entity {
+  "id: safeAddress-ownerAddress"
+  id: ID!
+  safe: Safe!
+  owner: Account!
+}
+
+type NodeManagementModule @entity {
+  id: ID!
+  "Address of the implementation"
+  implementation: Bytes!
+  "Address of the module target"
+  target: Safe!
+  "Address of the multisend contract"
+  multiSend: Bytes!
+  includedNodes: [ModuleNodePair!]! @derivedFrom(field: "module")
+}
+
+type ModuleNodePair @entity {
+  "id: moduleAddress-nodeAddress"
+  id: ID!
+  module: NodeManagementModule!
+  node: Account!
+}
+
+type Account @entity {
+  "Account address"
+  id: ID!
+}
