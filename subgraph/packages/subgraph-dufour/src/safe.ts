@@ -4,20 +4,20 @@ import { getOrInitializeSafe, getOrInitializeSafeOwnerPair } from "./helper";
 
 export function handleSafeSetup(event: SafeSetup): void {
     // get the safe instance
-    let safe = getOrInitializeSafe(event.address.toHex())
+    let safe = getOrInitializeSafe(event.address, event.block.number)
     safe.threshold = event.params.threshold
     safe.isCreatedByNodeStakeFactory = true
     safe.save()
     
     let owners = event.params.owners
     for (let i = 0; i < owners.length; i++) {
-      let safeOwnerPair = getOrInitializeSafeOwnerPair(event.address.toHex(), owners[i].toHex())
+      let safeOwnerPair = getOrInitializeSafeOwnerPair(event.address, owners[i].toHex(), event.block.number)
       safeOwnerPair.save()
     }
 }
 
 export function handleAddOwner(event: AddedOwner): void {
-    let safeOwnerPair = getOrInitializeSafeOwnerPair(event.address.toHex(), event.params.owner.toHex())
+    let safeOwnerPair = getOrInitializeSafeOwnerPair(event.address, event.params.owner.toHex(), event.block.number)
     safeOwnerPair.save()
 }
 
@@ -29,7 +29,7 @@ export function handleRemoveOwner(event: RemovedOwner): void {
 
 export function handleChangeThreshold(event: ChangedThreshold): void {
     // get the safe instance
-    let safe = getOrInitializeSafe(event.address.toHex())
+    let safe = getOrInitializeSafe(event.address, event.block.number)
     safe.threshold = event.params.threshold
     safe.save()
 }

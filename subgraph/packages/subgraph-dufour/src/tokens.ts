@@ -1,6 +1,6 @@
-import { BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { TokenType } from "./types";
-import { getOrInitializeBalances } from "./helper";
+import { decimalBase, getOrInitializeBalances } from "./helper";
 import { Transfer as MHoprTransfer } from "../generated/mHoprToken/mHoprToken";
 import { Transfer as WXHoprTransfer } from "../generated/wxHoprToken/wxHoprToken";
 import { Transfer as XHoprTransfer } from "../generated/xHoprToken/xHoprToken";
@@ -10,12 +10,9 @@ import { Transfer as XHoprTransfer } from "../generated/xHoprToken/xHoprToken";
  * @param event mHOPR Token `Transfer` event
  */
 export function handleMHoprTokenTransfer(event: MHoprTransfer): void {
-    return handleErc20TokenTransfer(
-        event.params.from.toHex(), 
-        event.params.to.toHex(), 
-        event.params.value,
-        TokenType.MHOPR
-    );
+    // let amountInDecimal = event.params.value.divDecimal(decimalBase)
+    // handleErc20TokenTransferFrom(event.params.from, amountInDecimal, event.block.number, TokenType.MHOPR)
+    // handleErc20TokenTransferTo(event.params.to, amountInDecimal, event.block.number, TokenType.MHOPR)
 }
 
 /**
@@ -23,63 +20,93 @@ export function handleMHoprTokenTransfer(event: MHoprTransfer): void {
  * @param event wxHOPR Token `Transfer` event
  */
 export function handleWXHoprTokenTransfer(event: WXHoprTransfer): void {
-    return handleErc20TokenTransfer(
-        event.params.from.toHex(), 
-        event.params.to.toHex(), 
-        event.params.value,
-        TokenType.WXHOPR
-    );
+    // let amountInDecimal = event.params.value.divDecimal(decimalBase)
+    // handleErc20TokenTransferFrom(event.params.from, amountInDecimal, event.block.number, TokenType.WXHOPR)
+    // handleErc20TokenTransferTo(event.params.to, amountInDecimal, event.block.number, TokenType.WXHOPR)
 }
 
 /**
  * Handler for update xHOPR token balances
  * @param event xHOPR Token `Transfer` event
- */
+*/
 export function handleXHoprTokenTransfer(event: XHoprTransfer): void {
-    return handleErc20TokenTransfer(
-        event.params.from.toHex(), 
-        event.params.to.toHex(), 
-        event.params.value,
-        TokenType.XHOPR
-    );
+    // let amountInDecimal = event.params.value.divDecimal(decimalBase)
+    // handleErc20TokenTransferFrom(event.params.from, amountInDecimal, event.block.number, TokenType.XHOPR)
+    // handleErc20TokenTransferTo(event.params.to, amountInDecimal, event.block.number, TokenType.XHOPR)
 }
 
 /**
- * Basic handler for update ERC20 token balances
- * @param event Token `Transfer` event
+ * Basic handler for update ERC20 token balances for from account
  */
-export function handleErc20TokenTransfer(
-    fromAddress: string,
-    toAddress: string,
-    amount: BigInt,
+export function handleErc20TokenTransferFrom(
+    fromAccount: Address,
+    amount: BigDecimal,
+    blockNumber: BigInt,
     tokenType: TokenType
 ): void {
-  // update balance for `fromAddress` account
-  let fromWallet = getOrInitializeBalances(fromAddress)
-  // update balance for `toAddress` account
-  let toWallet = getOrInitializeBalances(toAddress);
+  let fromAccountBalance = getOrInitializeBalances(fromAccount, blockNumber)
+  if (fromAccountBalance.lastCompletedProcessedBlock.ge(blockNumber)) {
+    // skip handling for fromAccount
+    return
+  }
 
+  // handling fromAccount
   // Update the balances based on the transfer event
-  if (amount.gt(BigInt.fromI32(0))) {
+  if (amount.gt(BigDecimal.zero())) {
     switch (tokenType) {
         case TokenType.MHOPR:
-            toWallet.mHoprBalance = toWallet.mHoprBalance.plus(amount);
-            fromWallet.mHoprBalance = fromWallet.mHoprBalance.minus(amount);
+            fromAccountBalance.mHoprBalance = fromAccountBalance.mHoprBalance.minus(amount);
             break;
         case TokenType.WXHOPR:
-            toWallet.wxHoprBalance = toWallet.wxHoprBalance.plus(amount);
-            fromWallet.wxHoprBalance = fromWallet.wxHoprBalance.minus(amount);
+            fromAccountBalance.wxHoprBalance = fromAccountBalance.wxHoprBalance.minus(amount);
             break;
         case TokenType.XHOPR:
-            toWallet.xHoprBalance = toWallet.xHoprBalance.plus(amount);
-            fromWallet.xHoprBalance = fromWallet.xHoprBalance.minus(amount);
+            fromAccountBalance.xHoprBalance = fromAccountBalance.xHoprBalance.minus(amount);
             break;
         default:
             break;
     }
   }
 
+  fromAccountBalance.lastCompletedProcessedBlock = blockNumber.minus(BigInt.fromI32(1))
   // Save the updated balances back to the store
-  fromWallet.save();
-  toWallet.save();
+  fromAccountBalance.save();
+}
+
+/**
+ * Basic handler for update ERC20 token balances for to account
+ */
+export function handleErc20TokenTransferTo(
+    toAccount: Address,
+    amount: BigDecimal,
+    blockNumber: BigInt,
+    tokenType: TokenType
+): void {
+  let toAccountBalance = getOrInitializeBalances(toAccount, blockNumber)
+  if (toAccountBalance.lastCompletedProcessedBlock.ge(blockNumber)) {
+    // skip handling for fromAccount
+    return
+  }
+
+  // handling fromAccount
+  // Update the balances based on the transfer event
+  if (amount.gt(BigDecimal.zero())) {
+    switch (tokenType) {
+        case TokenType.MHOPR:
+            toAccountBalance.mHoprBalance = toAccountBalance.mHoprBalance.plus(amount);
+            break;
+        case TokenType.WXHOPR:
+            toAccountBalance.wxHoprBalance = toAccountBalance.wxHoprBalance.plus(amount);
+            break;
+        case TokenType.XHOPR:
+            toAccountBalance.xHoprBalance = toAccountBalance.xHoprBalance.plus(amount);
+            break;
+        default:
+            break;
+    }
+  }
+
+  toAccountBalance.lastCompletedProcessedBlock = blockNumber.minus(BigInt.fromI32(1))
+  // Save the updated balances back to the store
+  toAccountBalance.save();
 }

@@ -1,18 +1,21 @@
 type Balances @entity {
+  "Address of the account"
   id: ID!
-  "Address of the Wallet"
-  walletAddress: Bytes!
-  "mHOPR token balance of the wallet"
-	mHoprBalance: BigInt!, 
-  "wxHOPR token balance of the wallet"
-	wxHoprBalance: BigInt!,
-  "'xHOPR token balance of the wallet"
-	xHoprBalance: BigInt!
+  "mHOPR token balance"
+	mHoprBalance: BigDecimal!, 
+  "wxHOPR token balance"
+	wxHoprBalance: BigDecimal!,
+  "xHOPR token balance"
+	xHoprBalance: BigDecimal!
+  "Flag to mark the block number where transfer events are completed processed"
+  lastCompletedProcessedBlock: BigInt!
 }
 
 type Safe @entity {
   "Address of the Safe; safeAddress: Bytes!"
   id: ID!
+  "Token balances"
+  balances: Balances!
   "Threshold of the multisig"
   threshold: BigInt!
   "Array of owner addresses"
@@ -49,6 +52,6 @@ type ModuleNodePair @entity {
 }
 
 type Account @entity {
-  "Account address"
+  "Address of the account"
   id: ID!
 }
