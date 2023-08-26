@@ -1,5 +1,5 @@
 import { Address, BigDecimal, BigInt, dataSource, log } from "@graphprotocol/graph-ts";
-import { Balances, Safe, NodeManagementModule, ModuleNodePair, Account, SafeOwnerPair, Allowances, SafeModulePair, NodeSafeRegistration, NetworkRegistration } from "../generated/schema";
+import { Balance, Safe, NodeManagementModule, ModuleNodePair, Account, SafeOwnerPair, Allowance, SafeModulePair, NodeSafeRegistration, NetworkRegistration } from "../generated/schema";
 import { ERC20Token } from "../generated/wxHoprToken/ERC20Token";
 import { ALL_THE_SAFES_KEY, CHANNELS_CONTRACT_ADDRESS, DECIMALS, MHOPR_TOKEN_ADDRESS, WXHOPR_TOKEN_ADDRESS, XHOPR_TOKEN_ADDRESS } from "./constants";
 import { TokenType } from "./types";
@@ -15,16 +15,16 @@ const tryGetBalanceOfContractOrZero = (tokenContractAddress: string, account: Ad
   return getBalanceCallResult.value.divDecimal(decimalBase)
 }
 
-export const getOrInitializeBalances = (account: Address, blockNumber: BigInt): Balances => {
-  let balance = Balances.load(account.toHex());
+export const getOrInitializeBalance = (account: Address, blockNumber: BigInt): Balance => {
+  let balance = Balance.load(account.toHex());
   if (!balance) {
-    balance = new Balances(account.toHex());
+    balance = new Balance(account.toHex());
     // get the latest balance of current block
-    log.debug("tryGetBalanceOfContractOrZero mHoprContract at block %s", [blockNumber.toString()])
+    log.debug("tryGetBalanceOfContractOrZero mHoprContract at block {}", [blockNumber.toString()])
     balance.mHoprBalance = tryGetBalanceOfContractOrZero(MHOPR_TOKEN_ADDRESS, account);
-    log.debug("tryGetBalanceOfContractOrZero wxHoprContract at block %s", [blockNumber.toString()])
+    log.debug("tryGetBalanceOfContractOrZero wxHoprContract at block {}", [blockNumber.toString()])
     balance.wxHoprBalance = tryGetBalanceOfContractOrZero(WXHOPR_TOKEN_ADDRESS, account);
-    log.debug("tryGetBalanceOfContractOrZero xHoprContract at block %s", [blockNumber.toString()])
+    log.debug("tryGetBalanceOfContractOrZero xHoprContract at block {}", [blockNumber.toString()])
     balance.xHoprBalance = tryGetBalanceOfContractOrZero(XHOPR_TOKEN_ADDRESS, account);
     // update the `lastCompletedProcessedBlock` with current block number
     // this prevents further handling `Transfer` events on the current block
@@ -34,10 +34,10 @@ export const getOrInitializeBalances = (account: Address, blockNumber: BigInt): 
   return balance;
 }
 
-export const getOrInitializeBalancesTrackerForSafes = (): Balances => {
-  let balancesTracker = Balances.load(ALL_THE_SAFES_KEY)
+export const getOrInitializeBalancesTrackerForSafes = (): Balance => {
+  let balancesTracker = Balance.load(ALL_THE_SAFES_KEY)
   if (!balancesTracker) {
-    balancesTracker = new Balances(ALL_THE_SAFES_KEY)
+    balancesTracker = new Balance(ALL_THE_SAFES_KEY)
     balancesTracker.mHoprBalance = BigDecimal.zero()
     balancesTracker.wxHoprBalance = BigDecimal.zero()
     balancesTracker.xHoprBalance = BigDecimal.zero()
@@ -53,12 +53,12 @@ export const increaseBalancesTrackerForSafes = (accountAddress: string, amount: 
   // check if it's a tracked safe
   let safe = Safe.load(accountAddress);
   if (!safe ) {
-    log.debug("increaseBalancesTrackerForSafes of account %s does not have safe record", [accountAddress])
+    log.debug("increaseBalancesTrackerForSafes of account {} does not have safe record", [accountAddress])
     return
   }
   
   if (!safe.isCreatedByNodeStakeFactory) {
-    log.debug("increaseBalancesTrackerForSafes of safe %s was not created by the factory", [accountAddress])
+    log.debug("increaseBalancesTrackerForSafes of safe {} was not created by the factory", [accountAddress])
     return
   }
   // FIXME: TODO: Replace by
@@ -83,10 +83,11 @@ export const increaseBalancesTrackerForSafes = (accountAddress: string, amount: 
 
 export const decreaseBalancesTrackerForSafes = (accountAddress: string, amount: BigDecimal, tokenType: TokenType): void => {
   let balancesTracker = getOrInitializeBalancesTrackerForSafes();
+
   // check if it's a tracked safe
   let safe = Safe.load(accountAddress);
   if (!safe ) {
-    log.debug("increaseBalancesTrackerForSafes of account %s does not have safe record", [accountAddress])
+    log.debug("increaseBalancesTrackerForSafes of account {} does not have safe record", [accountAddress])
     return
   }
   
@@ -132,10 +133,10 @@ const tryGetAllowanceContractOrZero = (tokenContractAddress: string, owner: Addr
   return getBalanceCallResult.value.divDecimal(decimalBase)
 }
 
-export const getOrInitializeAllowances = (account: Address): Allowances => {
-  let allowance = Allowances.load(account.toHex());
+export const getOrInitializeAllowance = (account: Address): Allowance => {
+  let allowance = Allowance.load(account.toHex());
   if (!allowance) {
-    allowance = new Allowances(account.toHex());
+    allowance = new Allowance(account.toHex());
     let channelsContract = Address.fromString(CHANNELS_CONTRACT_ADDRESS)
     allowance.grantedToChannelsContract = channelsContract
     // get the latest allowance of current block
@@ -154,15 +155,15 @@ export const getOrInitializeAllowances = (account: Address): Allowances => {
 // get or initialize Safe
 export const getOrInitializeSafe = (safeAddress: Address, blockNumber: BigInt): Safe => {
   let safe = Safe.load(safeAddress.toHex());
-  log.debug("getOrInitializeSafe of safe %s at block %s", [safeAddress.toHex(), blockNumber.toString()])
+  log.debug("getOrInitializeSafe of safe {} at block {}", [safeAddress.toHex(), blockNumber.toString()])
   if (!safe) {
     safe = new Safe(safeAddress.toHex());
-    let balances = getOrInitializeBalances(safeAddress, blockNumber);
-    balances.save()
-    safe.balances = balances.id
-    let allowances = getOrInitializeAllowances(safeAddress)
-    allowances.save()
-    safe.allowances = allowances.id
+    let balance = getOrInitializeBalance(safeAddress, blockNumber);
+    balance.save()
+    safe.balance = balance.id
+    let allowance = getOrInitializeAllowance(safeAddress)
+    allowance.save()
+    safe.allowance = allowance.id
     safe.threshold = BigInt.zero();
     safe.isCreatedByNodeStakeFactory = false;
     safe.isEligibleOnNetworkRegistry = false;

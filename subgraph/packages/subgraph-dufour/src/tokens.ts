@@ -1,6 +1,6 @@
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { TokenType } from "./types";
-import { decimalBase, decreaseBalancesTrackerForSafes, getOrInitializeAllowances, getOrInitializeBalances, increaseBalancesTrackerForSafes } from "./helper";
+import { decimalBase, decreaseBalancesTrackerForSafes, getOrInitializeAllowance, getOrInitializeBalance, increaseBalancesTrackerForSafes } from "./helper";
 import { Approval as MHoprApproval, Transfer as MHoprTransfer } from "../generated/mHoprToken/ERC20Token";
 import { Approval as WXHoprApproval, Transfer as WXHoprTransfer } from "../generated/wxHoprToken/ERC20Token";
 import { Approval as XHoprApproval, Transfer as XHoprTransfer } from "../generated/xHoprToken/ERC20Token";
@@ -56,7 +56,7 @@ export function handleErc20TokenTransferFrom(
     blockNumber: BigInt,
     tokenType: TokenType
 ): void {
-  let fromAccountBalance = getOrInitializeBalances(fromAccount, blockNumber)
+  let fromAccountBalance = getOrInitializeBalance(fromAccount, blockNumber)
   if (fromAccountBalance.lastCompletedProcessedBlock.ge(blockNumber)) {
     // skip handling for fromAccount
     return
@@ -93,7 +93,7 @@ export function handleErc20TokenTransferTo(
     blockNumber: BigInt,
     tokenType: TokenType
 ): void {
-  let toAccountBalance = getOrInitializeBalances(toAccount, blockNumber)
+  let toAccountBalance = getOrInitializeBalance(toAccount, blockNumber)
   if (toAccountBalance.lastCompletedProcessedBlock.ge(blockNumber)) {
     // skip handling for fromAccount
     return
@@ -128,7 +128,7 @@ export function handleErc20TokenTransferTo(
  * @param event mHOPR Token `Approval` event
  */
 export function handleMHoprTokenApproval(event: MHoprApproval): void {
-    let allowance = getOrInitializeAllowances(event.params.owner)
+    let allowance = getOrInitializeAllowance(event.params.owner)
     allowance.mHoprAllowance = event.params.value.divDecimal(decimalBase)
     allowance.save()
 }
@@ -138,7 +138,7 @@ export function handleMHoprTokenApproval(event: MHoprApproval): void {
  * @param event wxHOPR Token `Approval` event
  */
 export function handleWXHoprTokenApproval(event: WXHoprApproval): void {
-    let allowance = getOrInitializeAllowances(event.params.owner)
+    let allowance = getOrInitializeAllowance(event.params.owner)
     allowance.wxHoprAllowance = event.params.value.divDecimal(decimalBase)
     allowance.save()
 }
@@ -148,7 +148,7 @@ export function handleWXHoprTokenApproval(event: WXHoprApproval): void {
  * @param event xHOPR Token `Approval` event
  */
 export function handleXHoprTokenApproval(event: XHoprApproval): void {
-    let allowance = getOrInitializeAllowances(event.params.owner)
+    let allowance = getOrInitializeAllowance(event.params.owner)
     allowance.xHoprAllowance = event.params.value.divDecimal(decimalBase)
     allowance.save()
 }

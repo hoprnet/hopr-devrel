@@ -1,7 +1,7 @@
 import { store, log } from "@graphprotocol/graph-ts";
 import { AddedOwner, ChangedThreshold, DisabledModule, EnabledModule, RemovedOwner, SafeSetup } from "../generated/templates/Safe/Safe";
 import { getOrInitializeSafe, getOrInitializeSafeModulePair, getOrInitializeSafeOwnerPair, increaseBalancesTrackerForSafes } from "./helper";
-import { Balances } from "../generated/schema";
+import { Balance } from "../generated/schema";
 import { TokenType } from "./types";
 
 export function handleSafeSetup(event: SafeSetup): void {
@@ -12,9 +12,9 @@ export function handleSafeSetup(event: SafeSetup): void {
     safe.save()
     
     // add token balance to total tracker
-    let safeBalances = Balances.load(safe.balances);
+    let safeBalances = Balance.load(safe.balance);
     if (!safeBalances) {
-        log.debug("handleSafeSetup cannot read safe balance of %s", [safe.balances])
+        log.debug("handleSafeSetup cannot read safe balance of %s", [safe.balance])
     } else {
         increaseBalancesTrackerForSafes(event.address.toHex(), safeBalances.mHoprBalance, TokenType.MHOPR)
         increaseBalancesTrackerForSafes(event.address.toHex(), safeBalances.wxHoprBalance, TokenType.WXHOPR)

@@ -124,5 +124,11 @@ A sample query:
       id
     }
   }
+  balances(where: {id: "all_the_safes"}) {
+    mHoprBalance
+    wxHoprBalance
+    xHoprBalance
+    id
+  }
 }
 ```

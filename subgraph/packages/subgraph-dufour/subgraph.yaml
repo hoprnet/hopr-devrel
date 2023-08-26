@@ -15,8 +15,8 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Safe
-        - Balances
-        - Allowances
+        - Balance
+        - Allowance
         - SafeOwnerPair
         - NodeManagementModule
         - ModuleNodePair
@@ -44,7 +44,7 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Balances
+        - Balance
       abis:
         - name: ERC20Token
           file: ./abis/ERC20Token.json
@@ -66,7 +66,7 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Balances
+        - Balance
       abis:
         - name: ERC20Token
           file: ./abis/ERC20Token.json
@@ -88,7 +88,7 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Balances
+        - Balance
       abis:
         - name: ERC20Token
           file: ./abis/ERC20Token.json
@@ -112,8 +112,8 @@ dataSources:
       entities:
         - NodeSafeRegistration
         - Safe
-        - Balances
-        - Allowances
+        - Balance
+        - Allowance
         - Account
       abis:
         - name: NodeSafeRegistry
@@ -140,8 +140,8 @@ dataSources:
       entities:
         - NodeSafeRegistration
         - Safe
-        - Balances
-        - Allowances
+        - Balance
+        - Allowance
         - Account
       abis:
         - name: NetworkRegistry
@@ -173,8 +173,8 @@ templates:
       file: ./src/safe.ts
       entities:
         - Safe
-        - Balances
-        - Allowances
+        - Balance
+        - Allowance
         - SafeOwnerPair
         - NodeManagementModule
         - ModuleNodePair
@@ -209,7 +209,7 @@ templates:
       file: ./src/module.ts
       entities:
         - Safe
-        - Balances
+        - Balance
         - SafeOwnerPair
         - NodeManagementModule
         - ModuleNodePair

@@ -1,4 +1,4 @@
-type Balances @entity {
+type Balance @entity {
   "Address of the account"
   id: ID!
   "mHOPR token balance"
@@ -11,7 +11,7 @@ type Balances @entity {
   lastCompletedProcessedBlock: BigInt!
 }
 
-type Allowances @entity {
+type Allowance @entity {
   "Address of the account"
   id: ID!
   "Channels contract address that token allowances are granted to"
@@ -28,9 +28,9 @@ type Safe @entity {
   "Address of the Safe; safeAddress: Bytes!"
   id: ID!
   "Token balances"
-  balances: Balances!
+  balance: Balance!
   "Allowance of transferring tokens granted to Channel contract"
-  allowances: Allowances!
+  allowance: Allowance!
   "Threshold of the multisig"
   threshold: BigInt!
   "Array of owner addresses"
