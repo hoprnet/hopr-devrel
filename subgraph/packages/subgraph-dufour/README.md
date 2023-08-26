@@ -69,7 +69,7 @@ A sample query:
 {
   safes(first: 5, where: {isCreatedByNodeStakeFactory: true}) {
     id
-    balances {
+    balance {
       mHoprBalance
       wxHoprBalance
       xHoprBalance
@@ -84,7 +84,7 @@ A sample query:
     targetedModules {
       id
     }
-    allowances {
+    allowance {
       xHoprAllowance
       wxHoprAllowance
       mHoprAllowance
