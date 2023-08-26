@@ -40,7 +40,13 @@ type Safe @entity {
   "Array of all the modules (not necessarily node management module) that are enabled"
   addedModules: [SafeModulePair!]! @derivedFrom(field: "safe")
   "Flag for the place of creation of Safe"
-  isCreatedByNodeStakeFactory: Boolean
+  isCreatedByNodeStakeFactory: Boolean!
+  "Flag for the eligibility of safe"
+  isEligibleOnNetworkRegistry: Boolean!
+  "Nodes associated with the safe on NodeSafeRegistry"
+  registeredNodesInSafeRegistry: [NodeSafeRegistration!]! @derivedFrom(field: "safe")
+  "Nodes associated with the safe on NetworkRegistry"
+  registeredNodesInNetworkRegistry: [NetworkRegistration!]! @derivedFrom(field: "safe")
 }
 
 type SafeOwnerPair @entity {
@@ -79,4 +85,18 @@ type ModuleNodePair @entity {
 type Account @entity {
   "Address of the account"
   id: ID!
+}
+
+type NodeSafeRegistration @entity {
+  "id: nodeAddress-safeAddres"
+  id: ID!
+  safe: Safe!
+  node: Account!
+}
+
+type NetworkRegistration @entity {
+  "id: nodeAddress-safeAddres"
+  id: ID!
+  safe: Safe!
+  node: Account!
 }

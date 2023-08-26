@@ -1,5 +1,5 @@
 import { Address, BigDecimal, BigInt, dataSource, log } from "@graphprotocol/graph-ts";
-import { Balances, Safe, NodeManagementModule, ModuleNodePair, Account, SafeOwnerPair, Allowances, SafeModulePair } from "../generated/schema";
+import { Balances, Safe, NodeManagementModule, ModuleNodePair, Account, SafeOwnerPair, Allowances, SafeModulePair, NodeSafeRegistration, NetworkRegistration } from "../generated/schema";
 import { wxHoprToken as ERC20Token } from "../generated/wxHoprToken/wxHoprToken";
 import { ALL_THE_SAFES_KEY, CHANNELS_CONTRACT_ADDRESS, DECIMALS, MHOPR_TOKEN_ADDRESS, WXHOPR_TOKEN_ADDRESS, XHOPR_TOKEN_ADDRESS } from "./constants";
 import { TokenType } from "./types";
@@ -165,6 +165,7 @@ export const getOrInitializeSafe = (safeAddress: Address, blockNumber: BigInt): 
     safe.allowances = allowances.id
     safe.threshold = BigInt.zero();
     safe.isCreatedByNodeStakeFactory = false;
+    safe.isEligibleOnNetworkRegistry = false;
     safe.save()
   }
   return safe;
@@ -226,4 +227,28 @@ export const getOrInitializeSafeModulePair = (safeAddress: Address, moduleAddres
     safeModulePair.save();
   }
   return safeModulePair
+}
+
+export const getOrInitializeNodeSafeRegistration = (safeAddress: Address, nodeAddress: string, blockNumber: BigInt): NodeSafeRegistration => {
+  let key = safeAddress.toHex() + "-" + nodeAddress;
+  let nodeSafeRegistration = NodeSafeRegistration.load(key);
+  if (!nodeSafeRegistration) {
+    nodeSafeRegistration = new NodeSafeRegistration(key);
+    nodeSafeRegistration.safe = getOrInitializeSafe(safeAddress, blockNumber).id;
+    nodeSafeRegistration.node = getOrInitializeAccount(nodeAddress).id;
+    nodeSafeRegistration.save();
+  }
+  return nodeSafeRegistration
+}
+
+export const getOrInitializeNetworkRegistration = (safeAddress: Address, nodeAddress: string, blockNumber: BigInt): NetworkRegistration => {
+  let key = safeAddress.toHex() + "-" + nodeAddress;
+  let networkRegistration = NetworkRegistration.load(key);
+  if (!networkRegistration) {
+    networkRegistration = new NetworkRegistration(key);
+    networkRegistration.safe = getOrInitializeSafe(safeAddress, blockNumber).id;
+    networkRegistration.node = getOrInitializeAccount(nodeAddress).id;
+    networkRegistration.save();
+  }
+  return networkRegistration
 }

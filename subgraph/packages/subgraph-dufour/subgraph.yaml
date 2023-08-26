@@ -102,29 +102,56 @@ dataSources:
         - event: Approval(indexed address,indexed address,uint256)
           handler: handleXHoprTokenApproval
       file: ./src/tokens.ts
-  # - kind: ethereum
-  #   name: NodeSafeRegistry
-  #   network: gnosis
-  #   source:
-  #     address: "0x3E7c4720934ff6A9FE122Cb761f36a11E9b848D9"
-  #     abi: NodeSafeRegistry
-  #     startBlock: 29508000
-  #   mapping:
-  #     kind: ethereum/events
-  #     apiVersion: 0.0.7
-  #     language: wasm/assemblyscript
-  #     entities:
-  #       - DergisteredNodeSafe
-  #       - RegisteredNodeSafe
-  #     abis:
-  #       - name: NodeSafeRegistry
-  #         file: ./abis/NodeSafeRegistry.json
-  #     eventHandlers:
-  #       - event: DergisteredNodeSafe(indexed address,indexed address)
-  #         handler: handleDergisteredNodeSafe
-  #       - event: RegisteredNodeSafe(indexed address,indexed address)
-  #         handler: handleRegisteredNodeSafe
-  #     file: ./src/NodeSafeRegistry.ts
+  - kind: ethereum
+    name: NodeSafeRegistry
+    network: gnosis
+    source:
+      address: "0x715978DC28c44410A187C7D3d5a308c7d7b1096d"
+      abi: NodeSafeRegistry
+      startBlock: 29487396
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - NodeSafeRegistration
+      abis:
+        - name: NodeSafeRegistry
+          file: ./abis/NodeSafeRegistry.json
+      eventHandlers:
+        - event: DergisteredNodeSafe(indexed address,indexed address)
+          handler: handleDergisteredNodeSafe
+        - event: RegisteredNodeSafe(indexed address,indexed address)
+          handler: handleRegisteredNodeSafe
+      file: ./src/registry.ts
+  - kind: ethereum
+    name: NetworkRegistry
+    network: gnosis
+    source:
+      address: "0xfFB525604eaF206fdeF48e199DBA377f7FE1DEEC"
+      abi: NetworkRegistry
+      startBlock: 29487396
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - NodeSafeRegistration
+      abis:
+        - name: NetworkRegistry
+          file: ./abis/NetworkRegistry.json
+      eventHandlers:
+        - event: Registered(indexed address,indexed address)
+          handler: handleRegisterNetworkRegistry
+        - event: Deregistered(indexed address,indexed address)
+          handler: handleDeregisterNetworkRegistry
+        - event: RegisteredByManager(indexed address,indexed address)
+          handler: handleRegisterByManangerNetworkRegistry
+        - event: DeregisteredByManager(indexed address,indexed address)
+          handler: handleDeregisterByManangerNetworkRegistry
+        - event: EligibilityUpdated(indexed address,indexed bool)
+          handler: handleUpdateEligibility
+      file: ./src/registry.ts
 templates:
   - name: Safe
     kind: ethereum/contract

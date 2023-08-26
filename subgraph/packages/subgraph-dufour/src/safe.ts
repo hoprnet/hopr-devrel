@@ -55,6 +55,6 @@ export function handleEnableModule(event: EnabledModule): void {
 
 export function handleDisableModule(event: DisabledModule): void {
     let key = event.address.toHex() + "-" + event.params.module.toHex();
-    // remove the SafeOwnerPair entity
+    // remove the SafeModulePair entity
     store.remove('SafeModulePair', key);
 }
