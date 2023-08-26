@@ -1,0 +1,28 @@
+{
+  "gnosis": {
+    "NodeStakeFactory": {
+      "address": "0x6E078019EEE40B249fa3A876E7a6b089B77cFf9b",
+      "startBlock": 29487396
+    },
+    "mHoprToken": {
+      "address": "0x66225dE86Cac02b32f34992eb3410F59DE416698",
+      "startBlock": 29487396
+    },
+    "wxHoprToken": {
+      "address": "0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1",
+      "startBlock": 29487396
+    },
+    "xHoprToken": {
+      "address": "0xD057604A14982FE8D88c5fC25Aac3267eA142a08",
+      "startBlock": 29487396
+    },
+    "NodeSafeRegistry": {
+      "address": "0x715978DC28c44410A187C7D3d5a308c7d7b1096d",
+      "startBlock": 29487396
+    },
+    "NetworkRegistry": {
+      "address": "0xfFB525604eaF206fdeF48e199DBA377f7FE1DEEC",
+      "startBlock": 29487396
+    }
+  }
+}

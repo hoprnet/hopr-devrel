@@ -1,6 +1,6 @@
 import { Address, BigDecimal, BigInt, dataSource, log } from "@graphprotocol/graph-ts";
 import { Balances, Safe, NodeManagementModule, ModuleNodePair, Account, SafeOwnerPair, Allowances, SafeModulePair, NodeSafeRegistration, NetworkRegistration } from "../generated/schema";
-import { wxHoprToken as ERC20Token } from "../generated/wxHoprToken/wxHoprToken";
+import { ERC20Token } from "../generated/wxHoprToken/ERC20Token";
 import { ALL_THE_SAFES_KEY, CHANNELS_CONTRACT_ADDRESS, DECIMALS, MHOPR_TOKEN_ADDRESS, WXHOPR_TOKEN_ADDRESS, XHOPR_TOKEN_ADDRESS } from "./constants";
 import { TokenType } from "./types";
 

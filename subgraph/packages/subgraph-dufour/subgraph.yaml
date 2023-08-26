@@ -6,9 +6,9 @@ dataSources:
     name: NodeStakeFactory
     network: gnosis
     source:
-      address: "0x6E078019EEE40B249fa3A876E7a6b089B77cFf9b"
       abi: NodeStakeFactory
-      startBlock: 29519146
+      address: "0xa2e2F71f687914f5DC2010632bC2dEbB1B9FC1D5"
+      startBlock: 29472596
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -24,21 +24,21 @@ dataSources:
       abis:
         - name: NodeStakeFactory
           file: ./abis/NodeStakeFactory.json
-        - name: wxHoprToken
-          file: ./abis/wxHoprToken.json
+        - name: ERC20Token
+          file: ./abis/ERC20Token.json
       eventHandlers:
         - event: NewHoprNodeStakeModule(indexed address,address)
           handler: handleNewModule
-        - event: "NewHoprNodeStakeSafe(address)"
+        - event: NewHoprNodeStakeSafe(address)
           handler: handleNewSafe
       file: ./src/factory.ts
   - kind: ethereum
     name: mHoprToken
     network: gnosis
     source:
+      abi: ERC20Token
       address: "0x66225dE86Cac02b32f34992eb3410F59DE416698"
-      abi: mHoprToken
-      startBlock: 29519146 # 24097265
+      startBlock: 29472596
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -46,10 +46,8 @@ dataSources:
       entities:
         - Balances
       abis:
-        - name: mHoprToken
-          file: ./abis/mHoprToken.json
-        - name: wxHoprToken
-          file: ./abis/wxHoprToken.json
+        - name: ERC20Token
+          file: ./abis/ERC20Token.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleMHoprTokenTransfer
@@ -60,9 +58,9 @@ dataSources:
     name: wxHoprToken
     network: gnosis
     source:
+      abi: ERC20Token
       address: "0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1"
-      abi: wxHoprToken
-      startBlock: 29519146 # 14744161
+      startBlock: 29472596
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -70,8 +68,8 @@ dataSources:
       entities:
         - Balances
       abis:
-        - name: wxHoprToken
-          file: ./abis/wxHoprToken.json
+        - name: ERC20Token
+          file: ./abis/ERC20Token.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleWXHoprTokenTransfer
@@ -82,9 +80,9 @@ dataSources:
     name: xHoprToken
     network: gnosis
     source:
+      abi: ERC20Token
       address: "0xD057604A14982FE8D88c5fC25Aac3267eA142a08"
-      abi: xHoprToken
-      startBlock: 29519146 # 14635013
+      startBlock: 29472596
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -92,10 +90,8 @@ dataSources:
       entities:
         - Balances
       abis:
-        - name: xHoprToken
-          file: ./abis/xHoprToken.json
-        - name: wxHoprToken
-          file: ./abis/wxHoprToken.json
+        - name: ERC20Token
+          file: ./abis/ERC20Token.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleXHoprTokenTransfer
@@ -106,9 +102,9 @@ dataSources:
     name: NodeSafeRegistry
     network: gnosis
     source:
-      address: "0x715978DC28c44410A187C7D3d5a308c7d7b1096d"
       abi: NodeSafeRegistry
-      startBlock: 29487396
+      address: "0x3E7c4720934ff6A9FE122Cb761f36a11E9b848D9"
+      startBlock: 29472596
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -128,9 +124,9 @@ dataSources:
     name: NetworkRegistry
     network: gnosis
     source:
-      address: "0xfFB525604eaF206fdeF48e199DBA377f7FE1DEEC"
       abi: NetworkRegistry
-      startBlock: 29487396
+      address: "0x2f3243adC9805F6dd3E01C9E9ED31675A5B16902"
+      startBlock: 29472596
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -174,8 +170,8 @@ templates:
       abis:
         - name: Safe
           file: ./abis/Safe.json
-        - name: wxHoprToken
-          file: ./abis/wxHoprToken.json
+        - name: ERC20Token
+          file: ./abis/ERC20Token.json
       eventHandlers:
         - event: SafeSetup(indexed address,address[],uint256,address,address)
           handler: handleSafeSetup
@@ -209,8 +205,8 @@ templates:
       abis:
         - name: NodeManagementModule
           file: ./abis/NodeManagementModule.json
-        - name: wxHoprToken
-          file: ./abis/wxHoprToken.json
+        - name: ERC20Token
+          file: ./abis/ERC20Token.json
       eventHandlers:
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleTransferOwnership
