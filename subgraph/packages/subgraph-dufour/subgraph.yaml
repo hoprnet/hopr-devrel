@@ -16,6 +16,7 @@ dataSources:
       entities:
         - Safe
         - Balances
+        - Allowances
         - SafeOwnerPair
         - NodeManagementModule
         - ModuleNodePair
@@ -52,6 +53,8 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleMHoprTokenTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleMHoprTokenApproval
       file: ./src/tokens.ts
   - kind: ethereum
     name: wxHoprToken
@@ -72,6 +75,8 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleWXHoprTokenTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleWXHoprTokenApproval
       file: ./src/tokens.ts
   - kind: ethereum
     name: xHoprToken
@@ -94,8 +99,9 @@ dataSources:
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleXHoprTokenTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleXHoprTokenApproval
       file: ./src/tokens.ts
-  
   # - kind: ethereum
   #   name: NodeSafeRegistry
   #   network: gnosis
@@ -133,6 +139,7 @@ templates:
       entities:
         - Safe
         - Balances
+        - Allowances
         - SafeOwnerPair
         - NodeManagementModule
         - ModuleNodePair
@@ -151,6 +158,10 @@ templates:
           handler: handleRemoveOwner
         - event: ChangedThreshold(uint256)
           handler: handleChangeThreshold
+        - event: EnabledModule(indexed address)
+          handler: handleEnableModule
+        - event: DisabledModule(indexed address)
+          handler: handleDisableModule
   - name: NodeManagementModule
     kind: ethereum/contract
     network: gnosis

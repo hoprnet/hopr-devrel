@@ -1,6 +1,6 @@
 import { BigDecimal, store } from "@graphprotocol/graph-ts";
-import { AddedOwner, ChangedThreshold, RemovedOwner, SafeSetup } from "../generated/templates/Safe/Safe";
-import { getOrInitializeSafe, getOrInitializeSafeOwnerPair, increaseBalancesTrackerForSafes } from "./helper";
+import { AddedOwner, ChangedThreshold, DisabledModule, EnabledModule, RemovedOwner, SafeSetup } from "../generated/templates/Safe/Safe";
+import { getOrInitializeSafe, getOrInitializeSafeModulePair, getOrInitializeSafeOwnerPair, increaseBalancesTrackerForSafes } from "./helper";
 import { Balances } from "../generated/schema";
 import { TokenType } from "./types";
 import { log } from '@graphprotocol/graph-ts'
@@ -46,4 +46,15 @@ export function handleChangeThreshold(event: ChangedThreshold): void {
     let safe = getOrInitializeSafe(event.address, event.block.number)
     safe.threshold = event.params.threshold
     safe.save()
+}
+
+export function handleEnableModule(event: EnabledModule): void {
+    let safeModulePair = getOrInitializeSafeModulePair(event.address, event.params.module.toHex(), event.block.number);
+    safeModulePair.save()
+}
+
+export function handleDisableModule(event: DisabledModule): void {
+    let key = event.address.toHex() + "-" + event.params.module.toHex();
+    // remove the SafeOwnerPair entity
+    store.remove('SafeModulePair', key);
 }

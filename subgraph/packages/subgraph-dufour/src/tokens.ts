@@ -1,9 +1,9 @@
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { TokenType } from "./types";
-import { decimalBase, decreaseBalancesTrackerForSafes, getOrInitializeBalances, increaseBalancesTrackerForSafes } from "./helper";
-import { Transfer as MHoprTransfer } from "../generated/mHoprToken/mHoprToken";
-import { Transfer as WXHoprTransfer } from "../generated/wxHoprToken/wxHoprToken";
-import { Transfer as XHoprTransfer } from "../generated/xHoprToken/xHoprToken";
+import { decimalBase, decreaseBalancesTrackerForSafes, getOrInitializeAllowances, getOrInitializeBalances, increaseBalancesTrackerForSafes } from "./helper";
+import { Approval as MHoprApproval, Transfer as MHoprTransfer } from "../generated/mHoprToken/mHoprToken";
+import { Approval as WXHoprApproval, Transfer as WXHoprTransfer } from "../generated/wxHoprToken/wxHoprToken";
+import { Approval as XHoprApproval, Transfer as XHoprTransfer } from "../generated/xHoprToken/xHoprToken";
 
 /**
  * Handler for update mHOPR token balances
@@ -121,4 +121,34 @@ export function handleErc20TokenTransferTo(
     }
   // Save the updated balances back to the store
   toAccountBalance.save();
+}
+
+/**
+ * Handler for update mHOPR token approval
+ * @param event mHOPR Token `Approval` event
+ */
+export function handleMHoprTokenApproval(event: MHoprApproval): void {
+    let allowance = getOrInitializeAllowances(event.params.owner)
+    allowance.mHoprAllowance = event.params.value.divDecimal(decimalBase)
+    allowance.save()
+}
+
+/**
+ * Handler for update wxHOPR token approval
+ * @param event wxHOPR Token `Approval` event
+ */
+export function handleWXHoprTokenApproval(event: WXHoprApproval): void {
+    let allowance = getOrInitializeAllowances(event.params.owner)
+    allowance.wxHoprAllowance = event.params.value.divDecimal(decimalBase)
+    allowance.save()
+}
+
+/**
+ * Handler for update xHOPR token approval
+ * @param event xHOPR Token `Approval` event
+ */
+export function handleXHoprTokenApproval(event: XHoprApproval): void {
+    let allowance = getOrInitializeAllowances(event.params.owner)
+    allowance.xHoprAllowance = event.params.value.divDecimal(decimalBase)
+    allowance.save()
 }

@@ -1,7 +1,7 @@
 import { Address, BigDecimal, BigInt, dataSource, log } from "@graphprotocol/graph-ts";
-import { Balances, Safe, NodeManagementModule, ModuleNodePair, Account, SafeOwnerPair } from "../generated/schema";
+import { Balances, Safe, NodeManagementModule, ModuleNodePair, Account, SafeOwnerPair, Allowances, SafeModulePair } from "../generated/schema";
 import { wxHoprToken as ERC20Token } from "../generated/wxHoprToken/wxHoprToken";
-import { ALL_THE_SAFES_KEY, DECIMALS, MHOPR_TOKEN_ADDRESS, WXHOPR_TOKEN_ADDRESS, XHOPR_TOKEN_ADDRESS } from "./constants";
+import { ALL_THE_SAFES_KEY, CHANNELS_CONTRACT_ADDRESS, DECIMALS, MHOPR_TOKEN_ADDRESS, WXHOPR_TOKEN_ADDRESS, XHOPR_TOKEN_ADDRESS } from "./constants";
 import { TokenType } from "./types";
 
 export const decimalBase = BigDecimal.fromString(DECIMALS)
@@ -114,51 +114,6 @@ export const decreaseBalancesTrackerForSafes = (accountAddress: string, amount: 
   balancesTracker.save()
 }
 
-// export const increaseBalances = (balances: Balances, delta: BigDecimal, tokenType: TokenType): Balances => {
-//   let newBalances = balances
-//   if (delta.gt(BigDecimal.zero())) {
-//       switch (tokenType) {
-//           case TokenType.MHOPR:
-//             newBalances.mHoprBalance = balances.mHoprBalance.plus(delta);
-//             break;
-//           case TokenType.WXHOPR:
-//             newBalances.wxHoprBalance = balances.wxHoprBalance.plus(delta);
-//             break;
-//           case TokenType.XHOPR:
-//             newBalances.xHoprBalance = balances.xHoprBalance.plus(delta);
-//             break;
-//           default:
-//             break;
-//       }
-//   }
-//   newBalances.save()
-//   return newBalances
-// }
-
-// export const decreaseBalances = (balanceId: string, delta: BigDecimal, tokenType: TokenType): void => {
-//   let  balances = Balances.load(balanceId)
-//   if (!balances) {
-//     log.debug("decreaseBalances of id %s does not have Balances record", [balanceId])
-//     return
-//   }
-//   if (delta.gt(BigDecimal.zero())) {
-//       switch (tokenType) {
-//           case TokenType.MHOPR:
-//               balances.mHoprBalance = balances.mHoprBalance.minus(delta);
-//               break;
-//           case TokenType.WXHOPR:
-//               balances.wxHoprBalance = balances.wxHoprBalance.minus(delta);
-//               break;
-//           case TokenType.XHOPR:
-//               balances.xHoprBalance = balances.xHoprBalance.minus(delta);
-//               break;
-//           default:
-//               break;
-//       }
-//   }
-//   balances.save()
-// }
-
 export const getOrInitializeAccount = (accountAddress: string): Account => {
   let account = Account.load(accountAddress);
   if (!account) {
@@ -166,6 +121,34 @@ export const getOrInitializeAccount = (accountAddress: string): Account => {
     account.save();
   }
   return account;
+}
+
+const tryGetAllowanceContractOrZero = (tokenContractAddress: string, owner: Address, spener: Address): BigDecimal => {
+  let tokenContract = ERC20Token.bind(Address.fromString(tokenContractAddress))
+  let getBalanceCallResult = tokenContract.try_allowance(owner, spener)
+  if (getBalanceCallResult.reverted) {
+    return BigInt.zero().toBigDecimal();
+  }
+  return getBalanceCallResult.value.divDecimal(decimalBase)
+}
+
+export const getOrInitializeAllowances = (account: Address): Allowances => {
+  let allowance = Allowances.load(account.toHex());
+  if (!allowance) {
+    allowance = new Allowances(account.toHex());
+    let channelsContract = Address.fromString(CHANNELS_CONTRACT_ADDRESS)
+    allowance.grantedToChannelsContract = channelsContract
+    // get the latest allowance of current block
+    log.debug("tryGetAllowanceOfContractOrZero mHoprContract", [])
+    allowance.mHoprAllowance = tryGetAllowanceContractOrZero(MHOPR_TOKEN_ADDRESS, account, channelsContract);
+    log.debug("tryGetAllowanceOfContractOrZero wxHoprContract", [])
+    allowance.wxHoprAllowance = tryGetAllowanceContractOrZero(WXHOPR_TOKEN_ADDRESS, account, channelsContract);
+    log.debug("tryGetAllowanceOfContractOrZero xHoprContract", [])
+    allowance.xHoprAllowance = tryGetAllowanceContractOrZero(XHOPR_TOKEN_ADDRESS, account, channelsContract);
+    // this prevents further handling `Transfer` events on the current block
+    allowance.save()
+  }
+  return allowance;
 }
 
 // get or initialize Safe
@@ -177,6 +160,9 @@ export const getOrInitializeSafe = (safeAddress: Address, blockNumber: BigInt): 
     let balances = getOrInitializeBalances(safeAddress, blockNumber);
     balances.save()
     safe.balances = balances.id
+    let allowances = getOrInitializeAllowances(safeAddress)
+    allowances.save()
+    safe.allowances = allowances.id
     safe.threshold = BigInt.zero();
     safe.isCreatedByNodeStakeFactory = false;
     safe.save()
@@ -228,4 +214,16 @@ export const getOrInitializeSafeOwnerPair = (safeAddress: Address, ownerAddress:
     safeOwnerPair.save();
   }
   return safeOwnerPair
+}
+
+export const getOrInitializeSafeModulePair = (safeAddress: Address, moduleAddress: string, blockNumber: BigInt): SafeModulePair => {
+  let key = safeAddress.toHex() + "-" + moduleAddress;
+  let safeModulePair = SafeModulePair.load(key);
+  if (!safeModulePair) {
+    safeModulePair = new SafeModulePair(key);
+    safeModulePair.safe = getOrInitializeSafe(safeAddress, blockNumber).id;
+    safeModulePair.module = getOrInitializeAccount(moduleAddress).id;
+    safeModulePair.save();
+  }
+  return safeModulePair
 }

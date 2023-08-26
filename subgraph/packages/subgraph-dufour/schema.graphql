@@ -11,17 +11,34 @@ type Balances @entity {
   lastCompletedProcessedBlock: BigInt!
 }
 
+type Allowances @entity {
+  "Address of the account"
+  id: ID!
+  "Channels contract address that token allowances are granted to"
+  grantedToChannelsContract: Bytes!
+  "mHOPR token allowance granted to channel contract"
+	mHoprAllowance: BigDecimal!, 
+  "wxHOPR token allowance granted to channel contract"
+	wxHoprAllowance: BigDecimal!,
+  "xHOPR token allowance granted to channel contract"
+	xHoprAllowance: BigDecimal!
+}
+
 type Safe @entity {
   "Address of the Safe; safeAddress: Bytes!"
   id: ID!
   "Token balances"
   balances: Balances!
+  "Allowance of transferring tokens granted to Channel contract"
+  allowances: Allowances!
   "Threshold of the multisig"
   threshold: BigInt!
   "Array of owner addresses"
   owners: [SafeOwnerPair!]! @derivedFrom(field: "safe")
   "Array of node management modules that targets to the current safe"
-  targetedModule: [NodeManagementModule!]! @derivedFrom(field: "target")
+  targetedModules: [NodeManagementModule!]! @derivedFrom(field: "target")
+  "Array of all the modules (not necessarily node management module) that are enabled"
+  addedModules: [SafeModulePair!]! @derivedFrom(field: "safe")
   "Flag for the place of creation of Safe"
   isCreatedByNodeStakeFactory: Boolean
 }
@@ -33,6 +50,13 @@ type SafeOwnerPair @entity {
   owner: Account!
 }
 
+type SafeModulePair @entity {
+  "id: safeAddress-moduleAddress"
+  id: ID!
+  safe: Safe!
+  module: Account!
+}
+
 type NodeManagementModule @entity {
   id: ID!
   "Address of the implementation"
@@ -41,6 +65,7 @@ type NodeManagementModule @entity {
   target: Safe!
   "Address of the multisend contract"
   multiSend: Bytes!
+  "Nodes that are included to the node management module"
   includedNodes: [ModuleNodePair!]! @derivedFrom(field: "module")
 }
 
