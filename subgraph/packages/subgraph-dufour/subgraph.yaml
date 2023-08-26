@@ -47,6 +47,8 @@ dataSources:
       abis:
         - name: mHoprToken
           file: ./abis/mHoprToken.json
+        - name: wxHoprToken
+          file: ./abis/wxHoprToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleMHoprTokenTransfer
@@ -87,6 +89,8 @@ dataSources:
       abis:
         - name: xHoprToken
           file: ./abis/xHoprToken.json
+        - name: wxHoprToken
+          file: ./abis/wxHoprToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleXHoprTokenTransfer

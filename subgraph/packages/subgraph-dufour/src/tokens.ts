@@ -1,6 +1,6 @@
 import { Address, BigDecimal, BigInt } from "@graphprotocol/graph-ts";
 import { TokenType } from "./types";
-import { decimalBase, getOrInitializeBalances } from "./helper";
+import { decimalBase, decreaseBalancesTrackerForSafes, getOrInitializeBalances, increaseBalancesTrackerForSafes } from "./helper";
 import { Transfer as MHoprTransfer } from "../generated/mHoprToken/mHoprToken";
 import { Transfer as WXHoprTransfer } from "../generated/wxHoprToken/wxHoprToken";
 import { Transfer as XHoprTransfer } from "../generated/xHoprToken/xHoprToken";
@@ -10,9 +10,13 @@ import { Transfer as XHoprTransfer } from "../generated/xHoprToken/xHoprToken";
  * @param event mHOPR Token `Transfer` event
  */
 export function handleMHoprTokenTransfer(event: MHoprTransfer): void {
-    // let amountInDecimal = event.params.value.divDecimal(decimalBase)
-    // handleErc20TokenTransferFrom(event.params.from, amountInDecimal, event.block.number, TokenType.MHOPR)
-    // handleErc20TokenTransferTo(event.params.to, amountInDecimal, event.block.number, TokenType.MHOPR)
+    let amountInDecimal = event.params.value.divDecimal(decimalBase)
+    handleErc20TokenTransferFrom(event.params.from, amountInDecimal, event.block.number, TokenType.MHOPR)
+    handleErc20TokenTransferTo(event.params.to, amountInDecimal, event.block.number, TokenType.MHOPR)
+
+    // add token balance to total tracker, if applicable
+    increaseBalancesTrackerForSafes(event.params.to.toHex(), amountInDecimal, TokenType.MHOPR)
+    decreaseBalancesTrackerForSafes(event.params.from.toHex(), amountInDecimal, TokenType.MHOPR)
 }
 
 /**
@@ -20,9 +24,13 @@ export function handleMHoprTokenTransfer(event: MHoprTransfer): void {
  * @param event wxHOPR Token `Transfer` event
  */
 export function handleWXHoprTokenTransfer(event: WXHoprTransfer): void {
-    // let amountInDecimal = event.params.value.divDecimal(decimalBase)
-    // handleErc20TokenTransferFrom(event.params.from, amountInDecimal, event.block.number, TokenType.WXHOPR)
-    // handleErc20TokenTransferTo(event.params.to, amountInDecimal, event.block.number, TokenType.WXHOPR)
+    let amountInDecimal = event.params.value.divDecimal(decimalBase)
+    handleErc20TokenTransferFrom(event.params.from, amountInDecimal, event.block.number, TokenType.WXHOPR)
+    handleErc20TokenTransferTo(event.params.to, amountInDecimal, event.block.number, TokenType.WXHOPR)
+
+    // add token balance to total tracker, if applicable
+    increaseBalancesTrackerForSafes(event.params.to.toHex(), amountInDecimal, TokenType.WXHOPR)
+    decreaseBalancesTrackerForSafes(event.params.from.toHex(), amountInDecimal, TokenType.WXHOPR)
 }
 
 /**
@@ -30,9 +38,13 @@ export function handleWXHoprTokenTransfer(event: WXHoprTransfer): void {
  * @param event xHOPR Token `Transfer` event
 */
 export function handleXHoprTokenTransfer(event: XHoprTransfer): void {
-    // let amountInDecimal = event.params.value.divDecimal(decimalBase)
-    // handleErc20TokenTransferFrom(event.params.from, amountInDecimal, event.block.number, TokenType.XHOPR)
-    // handleErc20TokenTransferTo(event.params.to, amountInDecimal, event.block.number, TokenType.XHOPR)
+    let amountInDecimal = event.params.value.divDecimal(decimalBase)
+    handleErc20TokenTransferFrom(event.params.from, amountInDecimal, event.block.number, TokenType.XHOPR)
+    handleErc20TokenTransferTo(event.params.to, amountInDecimal, event.block.number, TokenType.XHOPR)
+
+    // add token balance to total tracker, if applicable
+    increaseBalancesTrackerForSafes(event.params.to.toHex(), amountInDecimal, TokenType.XHOPR)
+    decreaseBalancesTrackerForSafes(event.params.from.toHex(), amountInDecimal, TokenType.XHOPR)
 }
 
 /**
@@ -51,24 +63,23 @@ export function handleErc20TokenTransferFrom(
   }
 
   // handling fromAccount
+  fromAccountBalance.lastCompletedProcessedBlock = blockNumber.minus(BigInt.fromI32(1))
   // Update the balances based on the transfer event
   if (amount.gt(BigDecimal.zero())) {
-    switch (tokenType) {
-        case TokenType.MHOPR:
-            fromAccountBalance.mHoprBalance = fromAccountBalance.mHoprBalance.minus(amount);
-            break;
-        case TokenType.WXHOPR:
-            fromAccountBalance.wxHoprBalance = fromAccountBalance.wxHoprBalance.minus(amount);
-            break;
-        case TokenType.XHOPR:
-            fromAccountBalance.xHoprBalance = fromAccountBalance.xHoprBalance.minus(amount);
-            break;
-        default:
-            break;
+        switch (tokenType) {
+            case TokenType.MHOPR:
+                fromAccountBalance.mHoprBalance = fromAccountBalance.mHoprBalance.minus(amount);
+                break;
+            case TokenType.WXHOPR:
+                fromAccountBalance.wxHoprBalance = fromAccountBalance.wxHoprBalance.minus(amount);
+                break;
+            case TokenType.XHOPR:
+                fromAccountBalance.xHoprBalance = fromAccountBalance.xHoprBalance.minus(amount);
+                break;
+            default:
+                break;
+        }
     }
-  }
-
-  fromAccountBalance.lastCompletedProcessedBlock = blockNumber.minus(BigInt.fromI32(1))
   // Save the updated balances back to the store
   fromAccountBalance.save();
 }
@@ -88,25 +99,26 @@ export function handleErc20TokenTransferTo(
     return
   }
 
-  // handling fromAccount
-  // Update the balances based on the transfer event
-  if (amount.gt(BigDecimal.zero())) {
-    switch (tokenType) {
-        case TokenType.MHOPR:
-            toAccountBalance.mHoprBalance = toAccountBalance.mHoprBalance.plus(amount);
-            break;
-        case TokenType.WXHOPR:
-            toAccountBalance.wxHoprBalance = toAccountBalance.wxHoprBalance.plus(amount);
-            break;
-        case TokenType.XHOPR:
-            toAccountBalance.xHoprBalance = toAccountBalance.xHoprBalance.plus(amount);
-            break;
-        default:
-            break;
+    // handling fromAccount
+    toAccountBalance.lastCompletedProcessedBlock = blockNumber.minus(BigInt.fromI32(1))
+    // Update the balances based on the transfer event
+    // FIXME: TODO: Replace by
+    //   toAccountBalance = increaseBalances(toAccountBalance, amount, tokenType)
+    if (amount.gt(BigDecimal.zero())) {
+        switch (tokenType) {
+            case TokenType.MHOPR:
+                toAccountBalance.mHoprBalance = toAccountBalance.mHoprBalance.plus(amount);
+                break;
+            case TokenType.WXHOPR:
+                toAccountBalance.wxHoprBalance = toAccountBalance.wxHoprBalance.plus(amount);
+                break;
+            case TokenType.XHOPR:
+                toAccountBalance.xHoprBalance = toAccountBalance.xHoprBalance.plus(amount);
+                break;
+            default:
+                break;
+        }
     }
-  }
-
-  toAccountBalance.lastCompletedProcessedBlock = blockNumber.minus(BigInt.fromI32(1))
   // Save the updated balances back to the store
   toAccountBalance.save();
 }

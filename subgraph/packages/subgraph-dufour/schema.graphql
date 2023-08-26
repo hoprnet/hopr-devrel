@@ -7,7 +7,7 @@ type Balances @entity {
 	wxHoprBalance: BigDecimal!,
   "xHOPR token balance"
 	xHoprBalance: BigDecimal!
-  "Flag to mark the block number where transfer events are completed processed"
+  "Flag to mark the block number where transfer events are completed processed. Not needed for global value"
   lastCompletedProcessedBlock: BigInt!
 }
 

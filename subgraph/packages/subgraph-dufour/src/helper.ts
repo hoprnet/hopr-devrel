@@ -1,7 +1,8 @@
 import { Address, BigDecimal, BigInt, dataSource, log } from "@graphprotocol/graph-ts";
 import { Balances, Safe, NodeManagementModule, ModuleNodePair, Account, SafeOwnerPair } from "../generated/schema";
 import { wxHoprToken as ERC20Token } from "../generated/wxHoprToken/wxHoprToken";
-import { DECIMALS, MHOPR_TOKEN_ADDRESS, WXHOPR_TOKEN_ADDRESS, XHOPR_TOKEN_ADDRESS } from "./constants";
+import { ALL_THE_SAFES_KEY, DECIMALS, MHOPR_TOKEN_ADDRESS, WXHOPR_TOKEN_ADDRESS, XHOPR_TOKEN_ADDRESS } from "./constants";
+import { TokenType } from "./types";
 
 export const decimalBase = BigDecimal.fromString(DECIMALS)
 
@@ -32,6 +33,131 @@ export const getOrInitializeBalances = (account: Address, blockNumber: BigInt): 
   }
   return balance;
 }
+
+export const getOrInitializeBalancesTrackerForSafes = (): Balances => {
+  let balancesTracker = Balances.load(ALL_THE_SAFES_KEY)
+  if (!balancesTracker) {
+    balancesTracker = new Balances(ALL_THE_SAFES_KEY)
+    balancesTracker.mHoprBalance = BigDecimal.zero()
+    balancesTracker.wxHoprBalance = BigDecimal.zero()
+    balancesTracker.xHoprBalance = BigDecimal.zero()
+    // `lastCompletedProcessedBlock` is not important for total balance tracker
+    balancesTracker.lastCompletedProcessedBlock = BigInt.zero()
+    balancesTracker.save()
+  }
+  return balancesTracker
+}
+
+export const increaseBalancesTrackerForSafes = (accountAddress: string, amount: BigDecimal, tokenType: TokenType): void => {
+  let balancesTracker = getOrInitializeBalancesTrackerForSafes();
+  // check if it's a tracked safe
+  let safe = Safe.load(accountAddress);
+  if (!safe ) {
+    log.debug("increaseBalancesTrackerForSafes of account %s does not have safe record", [accountAddress])
+    return
+  }
+  
+  if (!safe.isCreatedByNodeStakeFactory) {
+    log.debug("increaseBalancesTrackerForSafes of safe %s was not created by the factory", [accountAddress])
+    return
+  }
+  // FIXME: TODO: Replace by
+  // balancesTracker = increaseBalances(balancesTracker, amount, tokenType);
+  if (amount.gt(BigDecimal.zero())) {
+    switch (tokenType) {
+        case TokenType.MHOPR:
+          balancesTracker.mHoprBalance = balancesTracker.mHoprBalance.plus(amount);
+          break;
+        case TokenType.WXHOPR:
+          balancesTracker.wxHoprBalance = balancesTracker.wxHoprBalance.plus(amount);
+          break;
+        case TokenType.XHOPR:
+          balancesTracker.xHoprBalance = balancesTracker.xHoprBalance.plus(amount);
+          break;
+        default:
+          break;
+    }
+  }
+  balancesTracker.save()
+}
+
+export const decreaseBalancesTrackerForSafes = (accountAddress: string, amount: BigDecimal, tokenType: TokenType): void => {
+  let balancesTracker = getOrInitializeBalancesTrackerForSafes();
+  // check if it's a tracked safe
+  let safe = Safe.load(accountAddress);
+  if (!safe ) {
+    log.debug("increaseBalancesTrackerForSafes of account %s does not have safe record", [accountAddress])
+    return
+  }
+  
+  if (!safe.isCreatedByNodeStakeFactory) {
+    log.debug("increaseBalancesTrackerForSafes of safe %s was not created by the factory", [accountAddress])
+    return
+  }
+  
+  // update balances
+  if (amount.gt(BigDecimal.zero())) {
+    switch (tokenType) {
+        case TokenType.MHOPR:
+          balancesTracker.mHoprBalance = balancesTracker.mHoprBalance.minus(amount);
+          break;
+        case TokenType.WXHOPR:
+          balancesTracker.wxHoprBalance = balancesTracker.wxHoprBalance.minus(amount);
+          break;
+        case TokenType.XHOPR:
+          balancesTracker.xHoprBalance = balancesTracker.xHoprBalance.minus(amount);
+          break;
+        default:
+          break;
+    }
+}
+  balancesTracker.save()
+}
+
+// export const increaseBalances = (balances: Balances, delta: BigDecimal, tokenType: TokenType): Balances => {
+//   let newBalances = balances
+//   if (delta.gt(BigDecimal.zero())) {
+//       switch (tokenType) {
+//           case TokenType.MHOPR:
+//             newBalances.mHoprBalance = balances.mHoprBalance.plus(delta);
+//             break;
+//           case TokenType.WXHOPR:
+//             newBalances.wxHoprBalance = balances.wxHoprBalance.plus(delta);
+//             break;
+//           case TokenType.XHOPR:
+//             newBalances.xHoprBalance = balances.xHoprBalance.plus(delta);
+//             break;
+//           default:
+//             break;
+//       }
+//   }
+//   newBalances.save()
+//   return newBalances
+// }
+
+// export const decreaseBalances = (balanceId: string, delta: BigDecimal, tokenType: TokenType): void => {
+//   let  balances = Balances.load(balanceId)
+//   if (!balances) {
+//     log.debug("decreaseBalances of id %s does not have Balances record", [balanceId])
+//     return
+//   }
+//   if (delta.gt(BigDecimal.zero())) {
+//       switch (tokenType) {
+//           case TokenType.MHOPR:
+//               balances.mHoprBalance = balances.mHoprBalance.minus(delta);
+//               break;
+//           case TokenType.WXHOPR:
+//               balances.wxHoprBalance = balances.wxHoprBalance.minus(delta);
+//               break;
+//           case TokenType.XHOPR:
+//               balances.xHoprBalance = balances.xHoprBalance.minus(delta);
+//               break;
+//           default:
+//               break;
+//       }
+//   }
+//   balances.save()
+// }
 
 export const getOrInitializeAccount = (accountAddress: string): Account => {
   let account = Account.load(accountAddress);
