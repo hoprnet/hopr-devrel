@@ -1,9 +1,8 @@
-import { BigDecimal, store } from "@graphprotocol/graph-ts";
+import { store, log } from "@graphprotocol/graph-ts";
 import { AddedOwner, ChangedThreshold, DisabledModule, EnabledModule, RemovedOwner, SafeSetup } from "../generated/templates/Safe/Safe";
 import { getOrInitializeSafe, getOrInitializeSafeModulePair, getOrInitializeSafeOwnerPair, increaseBalancesTrackerForSafes } from "./helper";
 import { Balances } from "../generated/schema";
 import { TokenType } from "./types";
-import { log } from '@graphprotocol/graph-ts'
 
 export function handleSafeSetup(event: SafeSetup): void {
     // get the safe instance

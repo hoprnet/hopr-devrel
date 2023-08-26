@@ -5,4 +5,7 @@ export const DECIMALS = "1000000000000000000"
 export const ALL_THE_SAFES_KEY = "all_the_safes"
 
 // network sepcific
+// rotsee
 export const CHANNELS_CONTRACT_ADDRESS = "0x4c3bb6470b72A749Db1bB394c024A92AB60a793e"
+// test
+// export const CHANNELS_CONTRACT_ADDRESS = "0x51b0BDA0aF2d760302cA433aDEdd3858f9Bfb4C4"

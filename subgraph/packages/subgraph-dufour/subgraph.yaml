@@ -111,9 +111,15 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - NodeSafeRegistration
+        - Safe
+        - Balances
+        - Allowances
+        - Account
       abis:
         - name: NodeSafeRegistry
           file: ./abis/NodeSafeRegistry.json
+        - name: ERC20Token
+          file: ./abis/ERC20Token.json
       eventHandlers:
         - event: DergisteredNodeSafe(indexed address,indexed address)
           handler: handleDergisteredNodeSafe
@@ -133,9 +139,15 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - NodeSafeRegistration
+        - Safe
+        - Balances
+        - Allowances
+        - Account
       abis:
         - name: NetworkRegistry
           file: ./abis/NetworkRegistry.json
+        - name: ERC20Token
+          file: ./abis/ERC20Token.json
       eventHandlers:
         - event: Registered(indexed address,indexed address)
           handler: handleRegisterNetworkRegistry
