@@ -1,0 +1,102 @@
+type Balance @entity {
+  "Address of the account"
+  id: ID!
+  "mHOPR token balance"
+	mHoprBalance: BigDecimal!, 
+  "wxHOPR token balance"
+	wxHoprBalance: BigDecimal!,
+  "xHOPR token balance"
+	xHoprBalance: BigDecimal!
+  "Flag to mark the block number where transfer events are completed processed. Not needed for global value"
+  lastCompletedProcessedBlock: BigInt!
+}
+
+type Allowance @entity {
+  "Address of the account"
+  id: ID!
+  "Channels contract address that token allowances are granted to"
+  grantedToChannelsContract: Bytes!
+  "mHOPR token allowance granted to channel contract"
+	mHoprAllowance: BigDecimal!, 
+  "wxHOPR token allowance granted to channel contract"
+	wxHoprAllowance: BigDecimal!,
+  "xHOPR token allowance granted to channel contract"
+	xHoprAllowance: BigDecimal!
+}
+
+type Safe @entity {
+  "Address of the Safe; safeAddress: Bytes!"
+  id: ID!
+  "Token balances"
+  balance: Balance!
+  "Allowance of transferring tokens granted to Channel contract"
+  allowance: Allowance!
+  "Threshold of the multisig"
+  threshold: BigInt!
+  "Array of owner addresses"
+  owners: [SafeOwnerPair!]! @derivedFrom(field: "safe")
+  "Array of node management modules that targets to the current safe"
+  targetedModules: [NodeManagementModule!]! @derivedFrom(field: "target")
+  "Array of all the modules (not necessarily node management module) that are enabled"
+  addedModules: [SafeModulePair!]! @derivedFrom(field: "safe")
+  "Flag for the place of creation of Safe"
+  isCreatedByNodeStakeFactory: Boolean!
+  "Flag for the eligibility of safe"
+  isEligibleOnNetworkRegistry: Boolean!
+  "Nodes associated with the safe on NodeSafeRegistry"
+  registeredNodesInSafeRegistry: [NodeSafeRegistration!]! @derivedFrom(field: "safe")
+  "Nodes associated with the safe on NetworkRegistry"
+  registeredNodesInNetworkRegistry: [NetworkRegistration!]! @derivedFrom(field: "safe")
+}
+
+type SafeOwnerPair @entity {
+  "id: safeAddress-ownerAddress"
+  id: ID!
+  safe: Safe!
+  owner: Account!
+}
+
+type SafeModulePair @entity {
+  "id: safeAddress-moduleAddress"
+  id: ID!
+  safe: Safe!
+  module: Account!
+}
+
+type NodeManagementModule @entity {
+  id: ID!
+  "Address of the implementation"
+  implementation: Bytes!
+  "Address of the module target"
+  target: Safe!
+  "Address of the multisend contract"
+  multiSend: Bytes!
+  "Nodes that are included to the node management module"
+  includedNodes: [ModuleNodePair!]! @derivedFrom(field: "module")
+}
+
+type ModuleNodePair @entity {
+  "id: moduleAddress-nodeAddress"
+  id: ID!
+  module: NodeManagementModule!
+  node: Account!
+}
+
+type Account @entity {
+  "Address of the account"
+  id: ID!
+}
+
+type NodeSafeRegistration @entity {
+  "id: nodeAddress-safeAddres"
+  id: ID!
+  safe: Safe!
+  node: Account!
+}
+
+type NetworkRegistration @entity {
+  "id: nodeAddress-safeAddres"
+  id: ID!
+  safe: Safe!
+  node: Account!
+}
