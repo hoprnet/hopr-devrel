@@ -61,6 +61,11 @@ Note:
 - legacy `test` network (with mHOPR) is deployed at version `v0.0.x`
 - `rotsee` network (with wxHOPR) is deployed at version `v0.1.x`
 
+
+## Deployment
+- Rotsee: QmQJMMWn8DWXuoX4B2kEUj4Ld3czrrnVZ4xuFH7Z7v4X8u
+- Dufour: QmU9EryV27sDD9RDRdE6QEvw8QYx5gdp6MSRSxk9j4NG43
+
 ## Query
 
 A sample query: 
