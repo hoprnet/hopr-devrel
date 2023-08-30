@@ -32,7 +32,7 @@ Although Node Safe Registry (NR) primarily registers Safes created by the NodeSt
 
 ```sh
 yarn install && yarn codegen
-export DUFOUR_SUBGRAPH_NAME=subgraph-dufour
+export DUFOUR_SUBGRAPH_NAME=hopr-nodes-dufour
 ```
 
 2. Create a project in Subgraph studio, if not done
