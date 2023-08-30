@@ -7,8 +7,8 @@ dataSources:
     network: gnosis
     source:
       abi: NodeStakeFactory
-      address: "0xa2e2F71f687914f5DC2010632bC2dEbB1B9FC1D5"
-      startBlock: 29472596
+      address: "0x791d190b2c95397F4BcE7bD8032FD67dCEA7a5F2"
+      startBlock: 29690371
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -103,8 +103,8 @@ dataSources:
     network: gnosis
     source:
       abi: NodeSafeRegistry
-      address: "0x3E7c4720934ff6A9FE122Cb761f36a11E9b848D9"
-      startBlock: 29472596
+      address: "0x4F7C7dE3BA2B29ED8B2448dF2213cA43f94E45c0"
+      startBlock: 29690371
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -132,7 +132,7 @@ dataSources:
     source:
       abi: NetworkRegistry
       address: "0x2f3243adC9805F6dd3E01C9E9ED31675A5B16902"
-      startBlock: 29472596
+      startBlock: 29690371
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7

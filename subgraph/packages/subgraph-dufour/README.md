@@ -32,7 +32,7 @@ Although Node Safe Registry (NR) primarily registers Safes created by the NodeSt
 
 ```sh
 yarn install && yarn codegen
-export DUFOUR_SUBGRAPH_NAME=subgraph-dufour
+export DUFOUR_SUBGRAPH_NAME=hopr-nodes-dufour
 ```
 
 2. Create a project in Subgraph studio, if not done
@@ -60,6 +60,11 @@ npx graph deploy --studio $DUFOUR_SUBGRAPH_NAME
 Note: 
 - legacy `test` network (with mHOPR) is deployed at version `v0.0.x`
 - `rotsee` network (with wxHOPR) is deployed at version `v0.1.x`
+
+
+## Deployment
+- Rotsee: QmQJMMWn8DWXuoX4B2kEUj4Ld3czrrnVZ4xuFH7Z7v4X8u
+- Dufour: QmU9EryV27sDD9RDRdE6QEvw8QYx5gdp6MSRSxk9j4NG43
 
 ## Query
 
