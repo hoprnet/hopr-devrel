@@ -3,7 +3,7 @@
 ## Scope
 
 ### Safe
-In `Dufour` release network, nodes will no longer directly hold HOPR tokens but rather have assets held in a Multisig (Safe). 
+In `Dufour` release network, nodes will no longer directly hold HOPR tokens but rather have assets held in a Multisig (Safe).
 Only the following Safe are indexed by the subgraph:
 - All the Safe instances created by the `NodeStakeFactory` contract (flagged with `isCreatedByNodeStakeFactory`)
 - Safe instances (could also be EOAs or an arbitrary contract) added to the `NetworkRegistry` contract
@@ -18,7 +18,7 @@ Note that field `addedModules` of `Safe` may contain generic modules. Addresses 
 ### Token balance
 `wxHOPR`, `mHOPR` and `xHOPR` balances of aforementioned Safes are tracked. Balances are tracked with a base balance queried at the creation block of each Safe, and get updated upon receiving relevant `Transfer` events.
 
-#### Allowance
+### Allowance
 `allowances` in `Safe` refer to respecitive token allowances granted to the given `grantedToChannelsContract` address. This value is set as `CHANNELS_CONTRACT_ADDRESS` in `subgraph/packages/subgraph-dufour/src/constants.ts`
 
 ### Network Registry
@@ -43,9 +43,9 @@ npx graph auth --studio
 ```
 
 3. Configure contract addresses for networks
-- Find if a network configuration file is created under `./networks/*-networks.json`. If not, create one. Here we take the `rotsee-networks.json` as an example. 
+- Find if a network configuration file is created under `./networks/*-networks.json`. If not, create one. Here we take the `rotsee-networks.json` as an example.
 - Update `NodeStakeFactory`, `NodeSafeRegistry` and `NetworkRegistry` contract addresses. Use the smallest "contract creation block number" of those aforementioned three contracts for ALL THE `startBlock`, including those for HOPR tokens.
-- Update the `CHANNELS_CONTRACT_ADDRESS` in `./src/constants.ts` with the "HoprChannels" contract address for the selected network
+- Update the `CHANNELS_CONTRACT_ADDRESS` in `./src/constants.ts` with the "HoprChannels" contract address for the selected network. The `CHANNELS_CONTRACT_ADDRESS`  for the production network is the default.
 - Once all the changes are saved, run
 
 ```sh
@@ -57,7 +57,7 @@ yarn build --network gnosis --network-file <path to the configuration file, e.g.
 npx graph deploy --studio $DUFOUR_SUBGRAPH_NAME
 ```
 
-Note: 
+Note:
 - legacy `test` network (with mHOPR) is deployed at version `v0.0.x`
 - `rotsee` network (with wxHOPR) is deployed at version `v0.1.x`
 
@@ -68,7 +68,7 @@ Note:
 
 ## Query
 
-A sample query: 
+A sample query:
 
 ```graphql
 {
