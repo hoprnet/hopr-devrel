@@ -1,28 +1,28 @@
 {
-    "gnosis": {
-      "NodeStakeFactory": {
-        "address": "0x791d190b2c95397F4BcE7bD8032FD67dCEA7a5F2",
-        "startBlock": 29690371
-      },
-      "mHoprToken": {
-        "address": "0x66225dE86Cac02b32f34992eb3410F59DE416698",
-        "startBlock": 29472596
-      },
-      "wxHoprToken": {
-        "address": "0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1",
-        "startBlock": 29472596
-      },
-      "xHoprToken": {
-        "address": "0xD057604A14982FE8D88c5fC25Aac3267eA142a08",
-        "startBlock": 29472596
-      },
-      "NodeSafeRegistry": {
-        "address": "0x4F7C7dE3BA2B29ED8B2448dF2213cA43f94E45c0",
-        "startBlock": 29690371
-      },
-      "NetworkRegistry": {
-        "address": "0x2f3243adC9805F6dd3E01C9E9ED31675A5B16902",
-        "startBlock": 29690371
-      }
+  "gnosis": {
+    "NodeStakeFactory": {
+      "address": "0x791d190b2c95397F4BcE7bD8032FD67dCEA7a5F2",
+      "startBlock": 29690371
+    },
+    "mHoprToken": {
+      "address": "0x66225dE86Cac02b32f34992eb3410F59DE416698",
+      "startBlock": 29472596
+    },
+    "wxHoprToken": {
+      "address": "0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1",
+      "startBlock": 29472596
+    },
+    "xHoprToken": {
+      "address": "0xD057604A14982FE8D88c5fC25Aac3267eA142a08",
+      "startBlock": 29472596
+    },
+    "NodeSafeRegistry": {
+      "address": "0x4F7C7dE3BA2B29ED8B2448dF2213cA43f94E45c0",
+      "startBlock": 29690371
+    },
+    "NetworkRegistry": {
+      "address": "0x15a315E1320cFF0de84671c0139042EE320CE38d",
+      "startBlock": 29690371
     }
+  }
 }
