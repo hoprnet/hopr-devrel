@@ -7,10 +7,10 @@ export const ALL_THE_SAFES_KEY = "all_the_safes"
 // network sepcific
 
 // dufour (production)
-export const CHANNELS_CONTRACT_ADDRESS = "0x693Bac5ce61c720dDC68533991Ceb41199D8F8ae"
+// export const CHANNELS_CONTRACT_ADDRESS = "0x693Bac5ce61c720dDC68533991Ceb41199D8F8ae"
 
 // rotsee (staging)
-// export const CHANNELS_CONTRACT_ADDRESS = "0x77C9414043d27fdC98A6A2d73fc77b9b383092a7"
+export const CHANNELS_CONTRACT_ADDRESS = "0x77C9414043d27fdC98A6A2d73fc77b9b383092a7"
 
 // test
 // export const CHANNELS_CONTRACT_ADDRESS = "0x51b0BDA0aF2d760302cA433aDEdd3858f9Bfb4C4"
