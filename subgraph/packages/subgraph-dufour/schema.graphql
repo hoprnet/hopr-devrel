@@ -100,3 +100,11 @@ type NetworkRegistration @entity {
   safe: Safe!
   node: Account!
 }
+
+type Transaction @entity{
+  id: ID!
+  txHash: String!
+  from: String!
+  to: String!
+  amount: BigDecimal!
+}
