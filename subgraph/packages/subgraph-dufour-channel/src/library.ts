@@ -1,7 +1,7 @@
 import { BigInt, BigDecimal, Address, crypto, Bytes, ethereum } from '@graphprotocol/graph-ts'
 import { concat } from '@graphprotocol/graph-ts/helper-functions'
 import { TicketRedeemed__Params, ChannelBalanceDecreased, ChannelBalanceIncreased, ChannelClosed, ChannelOpened, OutgoingChannelClosureInitiated } from '../generated/HoprChannels/HoprChannels'
-import { Account, Channel, StatusSnapshot } from '../generated/schema'
+import { Account, Channel, Ticket } from '../generated/schema'
 
 
 /************************************
@@ -94,4 +94,18 @@ export function initiateChannel(channelId: string, sourceId: string, destination
   channel.redeemedTicketCount = zeroBigInt()
 
   return channel;
+}
+
+export function initiateTicket(ticketId: string, channelId: string): Ticket {
+  let ticket = new Ticket(ticketId)
+  ticket.channel = channelId
+  ticket.ticketEpoch = zeroBigInt()
+  ticket.ticketIndex = zeroBigInt()
+  ticket.proofOfRelaySecret = zeroBytes()
+  ticket.amount = zeroBD()
+  ticket.winProb = zeroBigInt()
+  ticket.signature = zeroBytes()
+  ticket.redeemedAt
+
+  return ticket
 }

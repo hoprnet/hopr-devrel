@@ -1,7 +1,7 @@
 import { log } from '@graphprotocol/graph-ts'
 import { ChannelBalanceDecreased, ChannelBalanceIncreased, ChannelClosed, ChannelOpened, OutgoingChannelClosureInitiated, TicketRedeemed, HoprChannels, RedeemTicketCall } from '../generated/HoprChannels/HoprChannels'
 import { Channel, Ticket } from '../generated/schema'
-import { convertEthToDecimal, convertStatusToEnum, getChannelId, getOrInitiateAccount, initiateChannel, oneBigInt, zeroBD } from './library';
+import { convertEthToDecimal, convertStatusToEnum, getChannelId, getOrInitiateAccount, initiateChannel, initiateTicket, oneBigInt, zeroBD } from './library';
 
 
 export function handleChannelBalanceDecreased(event: ChannelBalanceDecreased): void {
@@ -87,32 +87,25 @@ export function handleOutgoingChannelClosureInitiated(event: OutgoingChannelClos
 
 export function handleTicketRedeemed(event: TicketRedeemed): void {
     // get the channel epoch, which is not part of the event
-    let channelContract = HoprChannels.bind(event.address)
     let channelId = event.params.channelId
-    let channelEpoch = channelContract.channels(channelId).getEpoch()
-
-    let transaction = event.transaction
 
     // let ticketEpoch = event.params.ticketEpoch
     let ticketIndex = event.params.newTicketIndex
 
     // create new ticket
-    let ticketId = channelId.toHex() + "-" + channelEpoch.toString() + "-" + ticketIndex.toString()
+    let ticketId = channelId.toHex() + "-" + ticketIndex.toString()
     // let ticketId = channelId.toHex() + "-" + channelEpoch.toString() + "-" + ticketEpoch.toString() + "-" + ticketIndex.toString()
 
-    let ticket = new Ticket(ticketId)
-    ticket.channel = channelId.toHex()
-    ticket.ticketIndex = ticketIndex
-    // TODO: Missing ticketEpoch
+    let ticket = Ticket.load(ticketId)
+
+    if (ticket == null) {
+        log.error("Redeem non-existing ticket", [])
+        return
+    }
+
+    ticket.redeemedAt = event.block.timestamp
+
     // TODO: Missing proofOfRelaySecre
-    // TODO: Missing amount
-
-
-    // ticket.ticketEpoch = ticketEpoch
-    // ticket.proofOfRelaySecret = event.params.proofOfRelaySecret
-    // ticket.amount = convertEthToDecimal(event.params.amount)
-    // ticket.winProb = event.params.winProb
-    // ticket.signature = event.params.signature
     ticket.save()
 
 
@@ -124,9 +117,29 @@ export function handleTicketRedeemed(event: TicketRedeemed): void {
     }
 
     channel.redeemedTicketCount = channel.redeemedTicketCount.plus(oneBigInt())
+    channel.ticketEpoch = ticket.ticketEpoch
+    channel.ticketIndex = ticket.ticketIndex
+
     channel.save()
 }
 
 export function handleRedeemTicketCall(call: RedeemTicketCall): void {
+    let epoch = call.inputs.redeemable.data.epoch
+    let winProb = call.inputs.redeemable.data.winProb
+    let channelId = call.inputs.redeemable.data.channelId
+    let amount = call.inputs.redeemable.data.amount
+    let ticketIndex = call.inputs.redeemable.data.ticketIndex
+    let signature = call.inputs.redeemable.signature
 
+    let ticketId = channelId.toHex() + "-" + ticketIndex.toString()
+
+    let ticket = initiateTicket(ticketId, channelId.toHex())
+
+    ticket.ticketIndex = ticketIndex
+    ticket.ticketEpoch = epoch
+    ticket.amount = convertEthToDecimal(amount)
+    ticket.winProb = winProb
+    ticket.signature = signature.vs
+
+    ticket.save()
 }

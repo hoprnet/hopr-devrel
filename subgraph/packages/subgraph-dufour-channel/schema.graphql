@@ -34,6 +34,7 @@ type Ticket @entity {
   amount: BigDecimal!
   winProb: BigInt!
   signature: Bytes!
+  redeemedAt: BigInt!
 }
 
 type Channel @entity {
@@ -46,7 +47,6 @@ type Channel @entity {
   ticketEpoch: BigInt!
   ticketIndex: BigInt!
   status: ChannelStatus!
-  statusHistory: [StatusSnapshot!]! @derivedFrom(field: "channel")
   "timestamp when it was opened last time"
   lastOpenedAt: BigInt!
   "timestamp when it was closed last time"
