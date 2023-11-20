@@ -8,7 +8,7 @@ export function handleAnnouncement(event: Announcement): void {
     let accountId = event.params.account.toHex();
     let account = getOrInitiateAccount(accountId)
     let multiaddr = account.multiaddr
-    
+
     if (multiaddr.indexOf(event.params.multiaddr) == -1) {
         multiaddr.push(event.params.multiaddr)
     }
@@ -16,7 +16,7 @@ export function handleAnnouncement(event: Announcement): void {
     account.publicKey = event.params.publicKey;
     account.hasAnnounced = true;
     account.save()
-}8
+}
 
 export function handleChannelUpdated(event: ChannelUpdated): void {
     log.info(`[ info ] Handle channel update: start {}`, [event.transaction.hash.toHex()]);
@@ -30,7 +30,7 @@ export function handleChannelUpdated(event: ChannelUpdated): void {
     let destination = getOrInitiateAccount(destinationId)
     log.info(`[ info ] Handle channel update: destination {}`, [event.transaction.hash.toHex()]);
 
-    
+
     let channelId = getChannelId(event.params.source, event.params.destination).toHex()
     let channel = Channel.load(channelId)
     log.info(`[ info ] Address of the account updating the channel: {}`, [channelId]);
@@ -45,7 +45,7 @@ export function handleChannelUpdated(event: ChannelUpdated): void {
     log.info(`[ info ] Channel commiment: {}`, [event.params.newState.commitment.toHexString()]);
     let oldChannelBalance = channel.balance
     let newChannelBalance = convertEthToDecimal(event.params.newState.balance);
-    
+
     log.info(`[ info ] Status: {}`, [event.params.newState.status as string]);
     channel.balance = newChannelBalance;
     channel.commitment = event.params.newState.commitment;

@@ -3,7 +3,7 @@ type Account @entity {
   id: ID!
   "account's public key"
   publicKey: Bytes
-  multiaddr: [Bytes!]!
+  multiaddr: [String!]!
   "channels where the Account is the source"
   fromChannels: [Channel!]! @derivedFrom(field: "source")
   "channels where the Account is the destination"
@@ -20,24 +20,14 @@ type Account @entity {
 
 enum ChannelStatus {
   CLOSED
-  WAITING_FOR_COMMITMENT
   OPEN
   PENDING_TO_CLOSE
-}
-
-type StatusSnapshot @entity {
-  "tx hash - tx index"
-  id: ID!
-  channel: Channel!
-  status: ChannelStatus!
-  timestamp: BigInt!
 }
 
 type Ticket @entity {
   "channel epoch - ticket epoch - ticket index"
   id: ID!
   channel: Channel!
-  nextCommitment: Bytes!
   ticketEpoch: BigInt!
   ticketIndex: BigInt!
   proofOfRelaySecret: Bytes!
@@ -52,12 +42,10 @@ type Channel @entity {
   source: Account!
   destination: Account!
   balance: BigDecimal!
-  commitment: Bytes!
   channelEpoch: BigInt!
   ticketEpoch: BigInt!
   ticketIndex: BigInt!
   status: ChannelStatus!
-  commitmentHistory: [Bytes!]!
   statusHistory: [StatusSnapshot!]! @derivedFrom(field: "channel")
   "timestamp when it was opened last time"
   lastOpenedAt: BigInt!
