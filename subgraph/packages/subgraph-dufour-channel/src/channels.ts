@@ -1,8 +1,7 @@
-import { log } from '@graphprotocol/graph-ts'
+import { BigInt, log } from '@graphprotocol/graph-ts'
 import { ChannelBalanceDecreased, ChannelBalanceIncreased, ChannelClosed, ChannelOpened, OutgoingChannelClosureInitiated, TicketRedeemed, HoprChannels, RedeemTicketCall } from '../generated/HoprChannels/HoprChannels'
 import { Channel, Ticket } from '../generated/schema'
 import { convertEthToDecimal, convertStatusToEnum, getChannelId, getOrInitiateAccount, initiateChannel, initiateTicket, oneBigInt, zeroBD } from './library';
-
 
 export function handleChannelBalanceDecreased(event: ChannelBalanceDecreased): void {
     let channelId = event.params.channelId.toHex()
@@ -15,7 +14,7 @@ export function handleChannelBalanceDecreased(event: ChannelBalanceDecreased): v
     }
 
     channel.balance = convertEthToDecimal(event.params.newBalance)
-    channel.lastOpenedAt = event.block.timestamp
+    channel.lastUpdatedAt = event.block.timestamp
 
     channel.save()
 }
@@ -31,7 +30,7 @@ export function handleChannelBalanceIncreased(event: ChannelBalanceIncreased): v
     }
 
     channel.balance = convertEthToDecimal(event.params.newBalance)
-    channel.lastOpenedAt = event.block.timestamp
+    channel.lastUpdatedAt = event.block.timestamp
     channel.save()
 }
 
@@ -69,8 +68,9 @@ export function handleChannelOpened(event: ChannelOpened): void {
 
     let channel = initiateChannel(channelId, sourceId, destinationId)
     channel.lastOpenedAt = event.block.timestamp
-    channel.save()
-}
+    
+    // TODO: update channel.channelEpoch 
+} 
 
 
 export function handleOutgoingChannelClosureInitiated(event: OutgoingChannelClosureInitiated): void {
@@ -104,8 +104,8 @@ export function handleTicketRedeemed(event: TicketRedeemed): void {
     }
 
     ticket.redeemedAt = event.block.timestamp
-
-    // TODO: Missing proofOfRelaySecre
+    // TODO: set ticket.ticketOffset
+    // TODO: Missing proofOfRelaySecret
     ticket.save()
 
 
@@ -136,7 +136,7 @@ export function handleRedeemTicketCall(call: RedeemTicketCall): void {
     let ticket = initiateTicket(ticketId, channelId.toHex())
 
     ticket.ticketIndex = ticketIndex
-    ticket.ticketEpoch = epoch
+    ticket.ticketEpoch = BigInt.fromI32(epoch)
     ticket.amount = convertEthToDecimal(amount)
     ticket.winProb = winProb
     ticket.signature = signature.vs

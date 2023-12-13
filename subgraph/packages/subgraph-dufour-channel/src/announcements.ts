@@ -1,6 +1,6 @@
 import { log } from '@graphprotocol/graph-ts'
 import { RevokeAnnouncement, KeyBinding, AddressAnnouncement } from '../generated/HoprAnnouncements/HoprAnnouncements'
-import { Channel, Ticket, Account } from '../generated/schema'
+import { Account, Announcement } from '../generated/schema'
 import { getOrInitiateAccount } from './library';
 
 export function handleRevokeAnnoucement(event: RevokeAnnouncement): void {
@@ -17,12 +17,12 @@ export function handleRevokeAnnoucement(event: RevokeAnnouncement): void {
 }
 
 export function handleKeyBinding(event: KeyBinding): void {
-    let accountId = "foo"
+    let announcement = new Announcement(event.transaction.hash.toHex())
+    announcement.ed25519_sig = [event.params.ed25519_sig_0, event.params.ed25519_sig_1]
+    announcement.publicKey = event.params.ed25519_pub_key
+    announcement.multiaddr = event.params.chain_key
 
-    let account = getOrInitiateAccount(accountId)
-    account.publicKey = event.params.ed25519_pub_key
-    event.params.chain_key
-    account.save()
+    announcement.save()
 }
 
 export function handleAddressAnnouncement(event: AddressAnnouncement): void {

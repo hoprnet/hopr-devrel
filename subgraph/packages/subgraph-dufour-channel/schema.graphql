@@ -30,6 +30,7 @@ type Ticket @entity {
   channel: Channel!
   ticketEpoch: BigInt!
   ticketIndex: BigInt!
+  indexOffset: BigInt!
   proofOfRelaySecret: Bytes!
   amount: BigDecimal!
   winProb: BigInt!
@@ -51,7 +52,17 @@ type Channel @entity {
   lastOpenedAt: BigInt!
   "timestamp when it was closed last time"
   lastClosedAt: BigInt!
+  "timestamp when it was updated last time"
+  lastUpdatedAt: BigInt!
   tickets: [Ticket!]! @derivedFrom(field: "channel")
   "number of redeemed tickes"
   redeemedTicketCount: BigInt!
+}
+
+type Announcement @entity {
+  id: ID!
+  publicKey: Bytes!
+  multiaddr: Bytes!
+  ed25519_sig: [Bytes!]!
+  hasAnnouced: Boolean!
 }
