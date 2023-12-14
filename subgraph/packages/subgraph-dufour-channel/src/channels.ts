@@ -1,7 +1,7 @@
 import { BigInt, log } from '@graphprotocol/graph-ts'
 import { ChannelBalanceDecreased, ChannelBalanceIncreased, ChannelClosed, ChannelOpened, OutgoingChannelClosureInitiated, TicketRedeemed, HoprChannels, RedeemTicketCall } from '../generated/HoprChannels/HoprChannels'
 import { Channel, Ticket } from '../generated/schema'
-import { convertEthToDecimal, convertStatusToEnum, getChannelId, getOrInitiateAccount, initiateChannel, initiateTicket, oneBigInt, zeroBD } from './library';
+import { amountInTicketFromHash, convertEthToDecimal, convertStatusToEnum, getChannelId, getOrInitiateAccount, indexOffsetOffTicketFromHash, initiateChannel, initiateTicket, oneBigInt, ticketEpochFromHash, ticketIndexFromHash, ticketSecretFromHash, ticketSignatureFromHash, winProbOfTicketFromHash, zeroBD } from './library';
 
 export function handleChannelBalanceDecreased(event: ChannelBalanceDecreased): void {
     let channelId = event.params.channelId.toHex()
@@ -94,7 +94,6 @@ export function handleTicketRedeemed(event: TicketRedeemed): void {
 
     // create new ticket
     let ticketId = channelId.toHex() + "-" + ticketIndex.toString()
-    // let ticketId = channelId.toHex() + "-" + channelEpoch.toString() + "-" + ticketEpoch.toString() + "-" + ticketIndex.toString()
 
     let ticket = Ticket.load(ticketId)
 
@@ -102,12 +101,26 @@ export function handleTicketRedeemed(event: TicketRedeemed): void {
         log.error("Redeem non-existing ticket", [])
         return
     }
+    
+    let hashString = event.transaction.input.toString()
 
+    let amount = amountInTicketFromHash(hashString)
+    let indexOffset = indexOffsetOffTicketFromHash(hashString)
+    let ticketEpoch = ticketEpochFromHash(hashString)
+    let winProb = winProbOfTicketFromHash(hashString)
+    let signature = ticketSignatureFromHash(hashString)
+    let secret = ticketSecretFromHash(hashString)
+    
+    ticket.amount = convertEthToDecimal(amount)
+    ticket.indexOffset = indexOffset
+    ticket.winProb = winProb // should be 1/winProb as 0xfffffffff is the denominator ?
+    ticket.ticketEpoch = ticketEpoch
+    ticket.ticketIndex = ticketIndex
+    ticket.proofOfRelaySecret = secret
+    ticket.signature = signature
     ticket.redeemedAt = event.block.timestamp
-    // TODO: set ticket.ticketOffset
-    // TODO: Missing proofOfRelaySecret
-    ticket.save()
 
+    ticket.save()
 
     // update channel
     let channel = Channel.load(channelId.toHex())
@@ -121,25 +134,4 @@ export function handleTicketRedeemed(event: TicketRedeemed): void {
     channel.ticketIndex = ticket.ticketIndex
 
     channel.save()
-}
-
-export function handleRedeemTicketCall(call: RedeemTicketCall): void {
-    let epoch = call.inputs.redeemable.data.epoch
-    let winProb = call.inputs.redeemable.data.winProb
-    let channelId = call.inputs.redeemable.data.channelId
-    let amount = call.inputs.redeemable.data.amount
-    let ticketIndex = call.inputs.redeemable.data.ticketIndex
-    let signature = call.inputs.redeemable.signature
-
-    let ticketId = channelId.toHex() + "-" + ticketIndex.toString()
-
-    let ticket = initiateTicket(ticketId, channelId.toHex())
-
-    ticket.ticketIndex = ticketIndex
-    ticket.ticketEpoch = BigInt.fromI32(epoch)
-    ticket.amount = convertEthToDecimal(amount)
-    ticket.winProb = winProb
-    ticket.signature = signature.vs
-
-    ticket.save()
 }
