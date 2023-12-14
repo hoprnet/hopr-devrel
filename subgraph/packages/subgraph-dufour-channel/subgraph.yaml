@@ -1,0 +1,67 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: HoprAnnouncements
+    network: gnosis
+    source:
+      abi: HoprAnnouncements
+      address: "0x619eabE23FD0E2291B50a507719aa633fE6069b8"
+      startBlock: 31000000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Announcement
+        - Account
+      abis:
+        - name: HoprAnnouncements
+          file: ./abis/HoprAnnouncements.json
+      eventHandlers:
+        - event: AddressAnnouncement(address,string)
+          handler: handleAddressAnnouncement
+        - event: KeyBinding(bytes32,bytes32,bytes32,address)
+          handler: handleKeyBinding
+        - event: RevokeAnnouncement(address)
+          handler: handleRevokeAnnouncement
+      file: ./src/announcements.ts
+  - kind: ethereum
+    name: HoprChannels
+    network: gnosis
+    source:
+      abi: HoprChannels
+      address: "0x693Bac5ce61c720dDC68533991Ceb41199D8F8ae"
+      startBlock: 31000000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Announcement
+        - Account
+        - Ticket
+        - Channel
+      abis:
+        - name: HoprChannels
+          file: ./abis/HoprChannels.json
+      eventHandlers:
+        - event: ChannelBalanceDecreased(indexed bytes32,uint96)
+          handler: handleChannelBalanceDecreased
+        - event: ChannelBalanceIncreased(indexed bytes32,uint96)
+          handler: handleChannelBalanceIncreased
+        - event: ChannelClosed(indexed bytes32)
+          handler: handleChannelClosed
+        - event: ChannelOpened(indexed address,indexed address)
+          handler: handleChannelOpened
+        - event: DomainSeparatorUpdated(indexed bytes32)
+          handler: handleDomainSeparatorUpdated
+        - event: LedgerDomainSeparatorUpdated(indexed bytes32)
+          handler: handleLedgerDomainSeparatorUpdated
+        - event: OutgoingChannelClosureInitiated(indexed bytes32,uint32)
+          handler: handleOutgoingChannelClosureInitiated
+        - event: TicketRedeemed(indexed bytes32,uint48)
+          handler: handleTicketRedeemed
+        
+      file: ./src/channels.ts
