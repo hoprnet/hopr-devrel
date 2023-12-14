@@ -96,6 +96,7 @@ export function initiateChannel(channelId: string, sourceId: string, destination
   channel.status = convertI32ToEnum(0)
   channel.lastOpenedAt = zeroBigInt()
   channel.lastClosedAt = zeroBigInt()
+  channel.lastUpdatedAt = zeroBigInt()
   channel.redeemedTicketCount = zeroBigInt()
 
   return channel;

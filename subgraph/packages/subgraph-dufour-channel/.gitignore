@@ -43,6 +43,11 @@ typings/
 # Optional npm cache directory
 .npm
 
+# Test generated files
+.bin
+.latest.json
+.docker
+
 # Optional eslint cache
 .eslintcache
 
