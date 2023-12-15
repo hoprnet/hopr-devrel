@@ -1,10 +1,27 @@
 import { test, describe, assert, logStore } from "matchstick-as/assembly/index";
-import { createAddressAnnouncementEvent, createKeyBindingEvent } from "./announcement.utils";
-import { handleAddressAnnouncement, handleKeyBinding } from "../src/announcements";
+import { createAddressAnnouncementEvent, createKeyBindingEvent, createRevokeAnnouncementEvent } from "./announcement.utils";
+import { handleAddressAnnouncement, handleKeyBinding, handleRevokeAnnoucement } from "../src/announcements";
+import { getOrInitiateAccount } from "../src/library";
 
 
 describe("RevokeAnnouncement", () => {
-    test("", () => {
+    test("Revocations set hasAnnounced to false", () => {
+        let node = "0x89205a3a3b2a69de6dbf7f01ed13b2108b2c43e7"
+        let baseMultiaddr = "/ip4/"
+
+        let account = getOrInitiateAccount(node)
+        account.multiaddr = [baseMultiaddr]
+        account.hasAnnounced = true
+        account.save()
+
+        assert.entityCount("Account", 1)
+        assert.fieldEquals("Account", node, "hasAnnounced", "true")
+
+        let event = createRevokeAnnouncementEvent(node)
+        handleRevokeAnnoucement(event)
+
+        assert.entityCount("Account", 1)
+        assert.fieldEquals("Account", node, "hasAnnounced", "false")
 
     })
 })

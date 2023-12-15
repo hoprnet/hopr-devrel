@@ -3,9 +3,13 @@ import { AddressAnnouncement, KeyBinding, RevokeAnnouncement } from "../generate
 import { Address, Bytes, ethereum, log } from "@graphprotocol/graph-ts";
 
 
-export function createRevokeAnnouncementEvent(): RevokeAnnouncement {
+export function createRevokeAnnouncementEvent(node: string): RevokeAnnouncement {
     let event = changetype<RevokeAnnouncement>(newMockEvent())
     event.parameters = new Array()
+
+    let nodeParam = new ethereum.EventParam("node", ethereum.Value.fromAddress(Address.fromString(node)))
+
+    event.parameters.push(nodeParam)
 
     return event
 }
