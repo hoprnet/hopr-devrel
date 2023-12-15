@@ -1,7 +1,7 @@
-import { BigInt, log } from '@graphprotocol/graph-ts'
-import { ChannelBalanceDecreased, ChannelBalanceIncreased, ChannelClosed, ChannelOpened, OutgoingChannelClosureInitiated, TicketRedeemed, HoprChannels, RedeemTicketCall } from '../generated/HoprChannels/HoprChannels'
+import { log } from '@graphprotocol/graph-ts'
+import { ChannelBalanceDecreased, ChannelBalanceIncreased, ChannelClosed, ChannelOpened, OutgoingChannelClosureInitiated, TicketRedeemed } from '../generated/HoprChannels/HoprChannels'
 import { Channel, Ticket } from '../generated/schema'
-import { amountInTicketFromHash, convertEthToDecimal, convertStatusToEnum, getChannelId, getOrInitiateAccount, indexOffsetOffTicketFromHash, initiateChannel, initiateTicket, oneBigInt, ticketEpochFromHash, ticketIndexFromHash, ticketSecretFromHash, ticketSignatureFromHash, winProbOfTicketFromHash, zeroBD } from './library';
+import { amountInTicketFromHash, convertEthToDecimal, convertStatusToEnum, getChannelId, getOrInitiateAccount, indexOffsetFromHash, initiateChannel, initiateTicket, oneBigInt, ticketEpochFromHash, ticketSecretFromHash, ticketSignatureFromHash, winProbFromHash } from './library';
 
 export function handleChannelBalanceDecreased(event: ChannelBalanceDecreased): void {
     let channelId = event.params.channelId.toHex()
@@ -40,8 +40,22 @@ export function handleChannelClosed(event: ChannelClosed): void {
         return
     }
 
+    if (channel.status != convertStatusToEnum(2)) {
+        log.error("Closing non-pendingToClose channel", [])
+        return
+    }
+
+    let source = getOrInitiateAccount(channel.source)
+    source.fromChannelsCount = source.fromChannelsCount.minus(oneBigInt())
+    source.save()
+
+    let destination = getOrInitiateAccount(channel.destination)
+    destination.toChannelsCount = destination.toChannelsCount.minus(oneBigInt())
+    destination.save()
+
     channel.lastClosedAt = event.block.timestamp
     channel.lastUpdatedAt = event.block.timestamp
+    channel.status = convertStatusToEnum(0)
     channel.save()
 }
 
@@ -73,7 +87,7 @@ export function handleChannelOpened(event: ChannelOpened): void {
     destination.save()
     channel.save()
     // TODO: update channel.channelEpoch 
-} 
+}
 
 
 export function handleOutgoingChannelClosureInitiated(event: OutgoingChannelClosureInitiated): void {
@@ -82,6 +96,11 @@ export function handleOutgoingChannelClosureInitiated(event: OutgoingChannelClos
 
     if (channel == null) {
         log.error("Initiate outgoing channel closure for non-existing channel", [])
+        return
+    }
+
+    if (channel.status != convertStatusToEnum(1)) {
+        log.error("Initiate outgoing channel closure for non-open channel", [])
         return
     }
 
@@ -95,46 +114,30 @@ export function handleTicketRedeemed(event: TicketRedeemed): void {
     // get the channel epoch, which is not part of the event
     let channelId = event.params.channelId
 
-    // let ticketEpoch = event.params.ticketEpoch
-    let ticketIndex = event.params.newTicketIndex
-
-    // create new ticket
-    let ticketId = channelId.toHex() + "-" + ticketIndex.toString()
-
-    let ticket = Ticket.load(ticketId)
-
-    if (ticket == null) {
-        log.error("Redeem non-existing ticket", [])
-        return
-    }
-    
-    let hashString = event.transaction.input.toString()
-
-    event.transaction.input
-    let amount = amountInTicketFromHash(hashString)
-    let indexOffset = indexOffsetOffTicketFromHash(hashString)
-    let ticketEpoch = ticketEpochFromHash(hashString)
-    let winProb = winProbOfTicketFromHash(hashString)
-    let signature = ticketSignatureFromHash(hashString)
-    let secret = ticketSecretFromHash(hashString)
-    
-    ticket.amount = convertEthToDecimal(amount)
-    ticket.indexOffset = indexOffset
-    ticket.winProb = winProb // should be 1/winProb as 0xfffffffff is the denominator ?
-    ticket.ticketEpoch = ticketEpoch
-    ticket.ticketIndex = ticketIndex
-    ticket.proofOfRelaySecret = secret
-    ticket.signature = signature
-    ticket.redeemedAt = event.block.timestamp
-
-    ticket.save()
-
     // update channel
     let channel = Channel.load(channelId.toHex())
     if (channel == null) {
         log.error("Redeem a ticket for non-existing channel", [])
         return
     }
+
+    let ticketIndex = event.params.newTicketIndex
+
+    // create new ticket
+    let ticketId = channelId.toHex() + "-" + ticketIndex.toString()
+    let ticket = initiateTicket(ticketId, channelId.toHex())
+    let hashString = event.transaction.input.toHexString()
+
+    ticket.amount = convertEthToDecimal(amountInTicketFromHash(hashString))
+    ticket.indexOffset = indexOffsetFromHash(hashString)
+    ticket.winProb = winProbFromHash(hashString) // should be 1/winProb as 0xfffffffff is the denominator ?
+    ticket.ticketEpoch = ticketEpochFromHash(hashString)
+    ticket.ticketIndex = ticketIndex
+    ticket.proofOfRelaySecret = ticketSecretFromHash(hashString)
+    ticket.signature = ticketSignatureFromHash(hashString)
+    ticket.redeemedAt = event.block.timestamp
+
+    ticket.save()
 
     channel.redeemedTicketCount = channel.redeemedTicketCount.plus(oneBigInt())
     channel.ticketEpoch = ticket.ticketEpoch

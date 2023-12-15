@@ -8,7 +8,7 @@ export function createChannelBalanceDecreasedEvent(id: string, newBalance: i32):
     event.parameters = new Array()
 
     let idBytes = Bytes.fromHexString(id)
-    let channelIdParam = new ethereum.EventParam("channelId", ethereum.Value.fromAddress(idBytes))
+    let channelIdParam = new ethereum.EventParam("channelId", ethereum.Value.fromBytes(idBytes))
     let newBalanceParam = new ethereum.EventParam("newBalance", ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(newBalance)))
 
     event.parameters.push(channelIdParam)
@@ -18,12 +18,12 @@ export function createChannelBalanceDecreasedEvent(id: string, newBalance: i32):
 }
 
 
-export function createChannelBalanceIncreasedEvent(id: string, newBalance: i32):ChannelBalanceIncreased  {
+export function createChannelBalanceIncreasedEvent(id: string, newBalance: i32): ChannelBalanceIncreased {
     let event = changetype<ChannelBalanceIncreased>(newMockEvent())
     event.parameters = new Array()
 
     let idBytes = Bytes.fromHexString(id)
-    let channelIdParam = new ethereum.EventParam("channelId", ethereum.Value.fromAddress(idBytes))
+    let channelIdParam = new ethereum.EventParam("channelId", ethereum.Value.fromBytes(idBytes))
     let newBalanceParam = new ethereum.EventParam("newBalance", ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(newBalance)))
 
     event.parameters.push(channelIdParam)
@@ -38,7 +38,7 @@ export function createChannelClosedEvent(id: string): ChannelClosed {
     event.parameters = new Array()
 
     let idBytes = Bytes.fromHexString(id)
-    let channelIdParam = new ethereum.EventParam("channelId", ethereum.Value.fromAddress(idBytes))
+    let channelIdParam = new ethereum.EventParam("channelId", ethereum.Value.fromBytes(idBytes))
 
     event.parameters.push(channelIdParam)
 
@@ -49,7 +49,7 @@ export function createChannelClosedEvent(id: string): ChannelClosed {
 export function createChannelOpenedEvent(source: string, destination: string): ChannelOpened {
     let event = changetype<ChannelOpened>(newMockEvent())
     event.parameters = new Array()
-    
+
     let sourceParam = new ethereum.EventParam("source", ethereum.Value.fromAddress(Address.fromString(source)))
     let destinationParam = new ethereum.EventParam("destination", ethereum.Value.fromAddress(Address.fromString(destination)))
 
@@ -76,19 +76,18 @@ export function createOutgoingChannelClosureInitiatedEvent(id: string, closureTi
 
 
 
-export function createTicketRedeemedEvent(id: string, newTicketIndex: i32, input: Bytes): TicketRedeemed {
+export function createTicketRedeemedEvent(id: string, newTicketIndex: i32, input: string): TicketRedeemed {
     let event = changetype<TicketRedeemed>(newMockEvent())
     event.parameters = new Array()
 
     let idBytes = Bytes.fromHexString(id)
-    let channelIdParam = new ethereum.EventParam("channelId", ethereum.Value.fromAddress(idBytes))
+    let channelIdParam = new ethereum.EventParam("channelId", ethereum.Value.fromBytes(idBytes))
     let newTicketIndexParam = new ethereum.EventParam("newTicketIndex", ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(newTicketIndex)))
-    let transactionInputParam = new ethereum.EventParam("transactionInput", ethereum.Value.fromBytes(input))
 
     event.parameters.push(channelIdParam)
     event.parameters.push(newTicketIndexParam)
 
-    event.transaction.input = input
+    event.transaction.input = Bytes.fromHexString(input)
 
     return event
 }
