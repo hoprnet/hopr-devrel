@@ -7,7 +7,6 @@ export function handleChannelBalanceDecreased(event: ChannelBalanceDecreased): v
     let channelId = event.params.channelId.toHex()
     let channel = Channel.load(channelId)
 
-
     if (channel == null) {
         log.error("Decrease balance for non-existing channel", [])
         return
@@ -15,14 +14,12 @@ export function handleChannelBalanceDecreased(event: ChannelBalanceDecreased): v
 
     channel.balance = convertEthToDecimal(event.params.newBalance)
     channel.lastUpdatedAt = event.block.timestamp
-
     channel.save()
 }
 
 export function handleChannelBalanceIncreased(event: ChannelBalanceIncreased): void {
     let channelId = event.params.channelId.toHex()
     let channel = Channel.load(channelId)
-
 
     if (channel == null) {
         log.error("Increase balance for non-existing channel", [])
@@ -44,8 +41,7 @@ export function handleChannelClosed(event: ChannelClosed): void {
     }
 
     channel.lastClosedAt = event.block.timestamp
-    channel.status = convertStatusToEnum(2)
-    channel.balance = zeroBD()
+    channel.lastUpdatedAt = event.block.timestamp
     channel.save()
 }
 
@@ -59,16 +55,23 @@ export function handleChannelOpened(event: ChannelOpened): void {
 
     // channelId
     let channelId = getChannelId(event.params.source, event.params.destination).toHex()
-
-    source.fromChannelsCount = source.fromChannelsCount.plus(oneBigInt())
-    source.save()
-
-    destination.toChannelsCount = destination.toChannelsCount.plus(oneBigInt())
-    destination.save()
+    if (Channel.load(channelId) != null) {
+        log.error("Channel already exists between source and destination", [])
+        return
+    }
 
     let channel = initiateChannel(channelId, sourceId, destinationId)
     channel.lastOpenedAt = event.block.timestamp
-    
+    channel.lastUpdatedAt = event.block.timestamp
+    channel.status = convertStatusToEnum(1)
+
+    source.fromChannelsCount = source.fromChannelsCount.plus(oneBigInt())
+
+    destination.toChannelsCount = destination.toChannelsCount.plus(oneBigInt())
+
+    source.save()
+    destination.save()
+    channel.save()
     // TODO: update channel.channelEpoch 
 } 
 
@@ -83,6 +86,9 @@ export function handleOutgoingChannelClosureInitiated(event: OutgoingChannelClos
     }
 
     channel.status = convertStatusToEnum(2)
+    channel.lastUpdatedAt = event.block.timestamp
+    // TODO: do something with closure time ?
+    channel.save()
 }
 
 export function handleTicketRedeemed(event: TicketRedeemed): void {
@@ -104,6 +110,7 @@ export function handleTicketRedeemed(event: TicketRedeemed): void {
     
     let hashString = event.transaction.input.toString()
 
+    event.transaction.input
     let amount = amountInTicketFromHash(hashString)
     let indexOffset = indexOffsetOffTicketFromHash(hashString)
     let ticketEpoch = ticketEpochFromHash(hashString)
