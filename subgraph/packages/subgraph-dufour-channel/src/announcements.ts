@@ -11,16 +11,17 @@ export function handleRevokeAnnoucement(event: RevokeAnnouncement): void {
         log.error("Revoke announcement for non-existing account", [])
         return
     }
-
     account.hasAnnounced = false
     account.save()
 }
 
 export function handleKeyBinding(event: KeyBinding): void {
     let announcement = new Announcement(event.transaction.hash.toHex())
+
     announcement.ed25519_sig = [event.params.ed25519_sig_0, event.params.ed25519_sig_1]
     announcement.publicKey = event.params.ed25519_pub_key
     announcement.multiaddr = event.params.chain_key
+    announcement.hasAnnouced = false
 
     announcement.save()
 }
