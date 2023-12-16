@@ -1,6 +1,6 @@
 import { test, describe, assert, logStore } from "matchstick-as/assembly/index";
-import { createAddressAnnouncementEvent, createKeyBindingEvent, createRevokeAnnouncementEvent } from "./announcement.utils";
-import { handleAddressAnnouncement, handleKeyBinding, handleRevokeAnnoucement } from "../src/announcements";
+import { createAddressAnnouncementEvent, createKeyBindingEvent, createRevokeAnnouncementEvent } from "./announcements.utils";
+import { handleAddressAnnouncement, handleKeyBinding, handleRevokeAnnouncement } from "../src/announcements";
 import { getOrInitiateAccount } from "../src/library";
 
 
@@ -18,7 +18,7 @@ describe("RevokeAnnouncement", () => {
         assert.fieldEquals("Account", node, "hasAnnounced", "true")
 
         let event = createRevokeAnnouncementEvent(node)
-        handleRevokeAnnoucement(event)
+        handleRevokeAnnouncement(event)
 
         assert.entityCount("Account", 1)
         assert.fieldEquals("Account", node, "hasAnnounced", "false")

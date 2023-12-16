@@ -3,7 +3,7 @@ import { RevokeAnnouncement, KeyBinding, AddressAnnouncement } from '../generate
 import { Account, Announcement } from '../generated/schema'
 import { getOrInitiateAccount } from './library';
 
-export function handleRevokeAnnoucement(event: RevokeAnnouncement): void {
+export function handleRevokeAnnouncement(event: RevokeAnnouncement): void {
     let accountId = event.params.node.toHex()
     let account = Account.load(accountId)
 

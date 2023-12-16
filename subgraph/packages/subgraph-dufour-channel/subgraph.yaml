@@ -39,7 +39,6 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Announcement
         - Account
         - Ticket
         - Channel
@@ -55,10 +54,6 @@ dataSources:
           handler: handleChannelClosed
         - event: ChannelOpened(indexed address,indexed address)
           handler: handleChannelOpened
-        - event: DomainSeparatorUpdated(indexed bytes32)
-          handler: handleDomainSeparatorUpdated
-        - event: LedgerDomainSeparatorUpdated(indexed bytes32)
-          handler: handleLedgerDomainSeparatorUpdated
         - event: OutgoingChannelClosureInitiated(indexed bytes32,uint32)
           handler: handleOutgoingChannelClosureInitiated
         - event: TicketRedeemed(indexed bytes32,uint48)
