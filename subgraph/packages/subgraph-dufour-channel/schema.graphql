@@ -33,7 +33,7 @@ type Ticket @entity {
   indexOffset: BigInt!
   proofOfRelaySecret: Bytes!
   amount: BigDecimal!
-  winProb: BigInt!
+  winProb: BigDecimal!
   signature: Bytes!
   redeemedAt: BigInt!
 }

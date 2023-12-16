@@ -20,6 +20,10 @@ export function bigDecimalExp18(): BigDecimal {
   return BigDecimal.fromString('1000000000000000000')
 }
 
+export function hexExp14(): BigDecimal {
+  return BigDecimal.fromString('72057594037927936')
+}
+
 export function zeroBytes(): Bytes {
   return changetype<Bytes>(Bytes.fromHexString('0x0000000000000000000000000000000000000000000000000000000000000000'))
 }
@@ -109,7 +113,7 @@ export function initiateTicket(ticketId: string, channelId: string): Ticket {
   ticket.ticketIndex = zeroBigInt()
   ticket.proofOfRelaySecret = zeroBytes()
   ticket.amount = zeroBD()
-  ticket.winProb = zeroBigInt()
+  ticket.winProb = zeroBD()
   ticket.signature = zeroBytes()
   ticket.redeemedAt = zeroBigInt()
 
@@ -148,10 +152,12 @@ export function ticketEpochFromHash(hash: string): BigInt {
   return val
 }
 
-export function winProbFromHash(hash: string): BigInt {
+export function winProbFromHash(hash: string): BigDecimal {
   let index = 722
   let slice = hash.slice(index, index + 64)
-  let val = convertByteStringToBigInt(slice)
+
+  const val = convertByteStringToBigInt(slice).toBigDecimal().div(hexExp14()).truncate(8)
+
   log.info("winProbFromHash: {} -> {}", [slice, val.toString()])
   return val
 }

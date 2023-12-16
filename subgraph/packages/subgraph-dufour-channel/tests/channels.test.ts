@@ -1,7 +1,7 @@
 import { test, describe, assert, clearStore, beforeEach, afterEach } from "matchstick-as/assembly/index";
 import { handleChannelBalanceDecreased, handleChannelBalanceIncreased, handleChannelClosed, handleChannelOpened, handleOutgoingChannelClosureInitiated, handleTicketRedeemed } from "../src/channels";
 import { createChannelBalanceDecreasedEvent, createChannelBalanceIncreasedEvent, createChannelClosedEvent, createChannelOpenedEvent, createOutgoingChannelClosureInitiatedEvent, createTicketRedeemedEvent } from "./channels.utils";
-import { convertStatusToEnum, initiateChannel } from "../src/library";
+import { amountInTicketFromHash, convertEthToDecimal, convertStatusToEnum, indexOffsetFromHash, initiateChannel, ticketEpochFromHash, ticketSecretFromHash, ticketSignatureFromHash, winProbFromHash } from "../src/library";
 import { channelId } from "./utils";
 import { Channel } from "../generated/schema";
 
@@ -204,5 +204,16 @@ describe("TicketRedeemed", () => {
         assert.fieldEquals("Channel", id, "redeemedTicketCount", "1")
         assert.fieldEquals("Channel", id, "ticketEpoch", "3")
         assert.fieldEquals("Channel", id, "ticketIndex", ticketIndex.toString())
+    })
+
+    test("Decode", () => {
+        let input = "0x468721a7000000000000000000000000693bac5ce61c720ddc68533991ceb41199d8f8ae00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002440cd88d720000000000000000000000000cdf2b1dc32a1c663eae92b358d01cd01ea76c6c0e03f8d32c477f7dabd0fee44fde5bbf83070524258fdfe0713002bf824ed0da0000000000000000000000000000000000000000000000008c2a687ce772000000000000000000000000000000000000000000000000000000000000000005020000000000000000000000000000000000000000000000000000000000000085000000000000000000000000000000000000000000000000000000000000000300000000000000000000000000000000000000000000000000ffffffffffffff89b9b6427262b08853fd316c3b67e66da956df110156bd0fa049b31303a40a895ec884c6cdfec68dfddd2e6744e79c5263f4395cae33f8f38f948ff254a1cc805120b0f3ec1350771ca8f77a7dfe487d86fcc6afd5fd07fbb4af0f7b8fad2e4db0472eb8777580497d48f3a1f9ea1e780393aa853680e7c7d83d11c9272393d130f2a17b63e3a98a0469be623b899066bc8c633b1429735286aa1fb2f6aaf14bd7f72c92d8b5620104114e0f15a89deacda029c3f77f48d07aa12346099c13b2d09d444bd71a5c8a1f2e9281ea9e632f7c2b30b5d4a42e74d8750e7cafb6cde893e73dbb8a30c69bc2defa67ea16787e4f6f2dc646e94cb0369354729ad3618166d276ccd5cdaf1cd9fc7e5571a5792b7922aa8fb8162e35a86a629b2a18eb4d3ee727784d9cce660d6e0cebea1184c9d431223e3a1caa21fda4ab64b0afae240868cfe6e87f8fceda1286dd36ae1db715521061ff026dc0792e657ece0f610900000000000000000000000000000000000000000000000000000000"
+
+        let amount = convertEthToDecimal(amountInTicketFromHash(input))
+        let indexOffset = indexOffsetFromHash(input)
+        let winProb = winProbFromHash(input) // should be 1/winProb as 0xfffffffff is the denominator ?
+        let ticketEpoch = ticketEpochFromHash(input)
+        let proofOfRelaySecret = ticketSecretFromHash(input)
+        let signature = ticketSignatureFromHash(input)
     })
 })
