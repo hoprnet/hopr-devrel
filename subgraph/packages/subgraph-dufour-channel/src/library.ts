@@ -156,7 +156,7 @@ export function winProbFromHash(hash: string): BigDecimal {
   let index = 722
   let slice = hash.slice(index, index + 64)
 
-  const val = convertByteStringToBigInt(slice).toBigDecimal().div(hexExp14()).truncate(8)
+  const val = convertByteStringToBigInt(slice).toBigDecimal().div(convertByteStringToBigInt("0x00ffffffffffffff").toBigDecimal())
 
   log.info("winProbFromHash: {} -> {}", [slice, val.toString()])
   return val

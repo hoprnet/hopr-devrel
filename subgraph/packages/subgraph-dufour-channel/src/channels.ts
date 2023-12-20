@@ -1,10 +1,11 @@
-import { log } from '@graphprotocol/graph-ts'
+import { BigDecimal, log } from '@graphprotocol/graph-ts'
 import { ChannelBalanceDecreased, ChannelBalanceIncreased, ChannelClosed, ChannelOpened, OutgoingChannelClosureInitiated, TicketRedeemed } from '../generated/HoprChannels/HoprChannels'
 import { Channel, Ticket } from '../generated/schema'
 import { amountInTicketFromHash, convertEthToDecimal, convertStatusToEnum, getChannelId, getOrInitiateAccount, indexOffsetFromHash, initiateChannel, initiateTicket, oneBigInt, ticketEpochFromHash, ticketSecretFromHash, ticketSignatureFromHash, winProbFromHash } from './library';
 
 export function handleChannelBalanceDecreased(event: ChannelBalanceDecreased): void {
     let channelId = event.params.channelId.toHex()
+    let new_balance = convertEthToDecimal(event.params.newBalance)
     let channel = Channel.load(channelId)
 
     if (channel == null) {
@@ -12,19 +13,40 @@ export function handleChannelBalanceDecreased(event: ChannelBalanceDecreased): v
         return
     }
 
+    if (new_balance > channel.balance) {
+        log.error("Decrease balance for channel above current balance", [])
+        return
+    }
+    let diff = channel.balance.minus(new_balance)
+
     channel.balance = convertEthToDecimal(event.params.newBalance)
     channel.lastUpdatedAt = event.block.timestamp
     channel.save()
+
+    let account = getOrInitiateAccount(channel.source)
+    account.balance = account.balance.minus(diff)
+    account.save()
 }
 
 export function handleChannelBalanceIncreased(event: ChannelBalanceIncreased): void {
     let channelId = event.params.channelId.toHex()
+    let new_balance = convertEthToDecimal(event.params.newBalance)
     let channel = Channel.load(channelId)
 
     if (channel == null) {
         log.error("Increase balance for non-existing channel", [])
         return
     }
+
+    if (new_balance < channel.balance) {
+        log.error("Increase balance for channel below current balance", [])
+        return
+    }
+
+    let diff = new_balance.minus(channel.balance)
+    let account = getOrInitiateAccount(channel.source)
+    account.balance = account.balance.plus(diff)
+    account.save()
 
     channel.balance = convertEthToDecimal(event.params.newBalance)
     channel.lastUpdatedAt = event.block.timestamp
@@ -47,6 +69,7 @@ export function handleChannelClosed(event: ChannelClosed): void {
 
     let source = getOrInitiateAccount(channel.source)
     source.fromChannelsCount = source.fromChannelsCount.minus(oneBigInt())
+    source.balance = source.balance.minus(channel.balance)
     source.save()
 
     let destination = getOrInitiateAccount(channel.destination)
@@ -56,6 +79,7 @@ export function handleChannelClosed(event: ChannelClosed): void {
     channel.lastClosedAt = event.block.timestamp
     channel.lastUpdatedAt = event.block.timestamp
     channel.status = convertStatusToEnum(0)
+    channel.balance = BigDecimal.fromString("0")
     channel.save()
 }
 
