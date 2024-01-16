@@ -1,0 +1,23 @@
+{
+  "name": "hopr-dufour-channels",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --debug --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ hoprnet/hopr-dufour-channels",
+    "test": "graph test -d"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "latest",
+    "@graphprotocol/graph-ts": "latest",
+    "matchstick-as": "^0.6.0",
+    "mustache": "^4.2.0"
+  },
+  "devDependencies": {
+    "@hoprnet/hopr-ethereum": "latest",
+    "@types/node": "^18.0.0",
+    "matchstick-as": "^0.6.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  }
+}

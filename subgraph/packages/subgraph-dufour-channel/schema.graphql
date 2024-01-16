@@ -1,0 +1,68 @@
+type Account @entity {
+  "account's address"
+  id: ID!
+  "account's public key"
+  publicKey: Bytes
+  multiaddr: [String!]!
+  "channels where the Account is the source"
+  fromChannels: [Channel!]! @derivedFrom(field: "source")
+  "channels where the Account is the destination"
+  toChannels: [Channel!]! @derivedFrom(field: "destination")
+  "number of outgoing channels"
+  fromChannelsCount: BigInt!
+  "number of incoming channels"
+  toChannelsCount: BigInt!
+  "has the Account set a multiaddr?"
+  hasAnnounced: Boolean!
+  "sum of the channel balances where the account is the source"
+  balance: BigDecimal!
+}
+
+enum ChannelStatus {
+  CLOSED
+  OPEN
+  PENDING_TO_CLOSE
+}
+
+type Ticket @entity {
+  "channel epoch - ticket epoch - ticket index"
+  id: ID!
+  channel: Channel!
+  ticketEpoch: BigInt!
+  ticketIndex: BigInt!
+  indexOffset: BigInt!
+  proofOfRelaySecret: Bytes!
+  amount: BigDecimal!
+  winProb: BigDecimal!
+  signature: Bytes!
+  redeemedAt: BigInt!
+}
+
+type Channel @entity {
+  "the channel id, this should be computed like: https://github.com/hoprnet/hoprnet/blob/26abb110bc5d18b84786066676b379bbc00a331c/packages/utils/src/types/channelEntry.ts#L14"
+  id: ID!
+  source: Account!
+  destination: Account!
+  balance: BigDecimal!
+  channelEpoch: BigInt!
+  ticketEpoch: BigInt!
+  ticketIndex: BigInt!
+  status: ChannelStatus!
+  "timestamp when it was opened last time"
+  lastOpenedAt: BigInt!
+  "timestamp when it was closed last time"
+  lastClosedAt: BigInt!
+  "timestamp when it was updated last time"
+  lastUpdatedAt: BigInt!
+  tickets: [Ticket!]! @derivedFrom(field: "channel")
+  "number of redeemed tickes"
+  redeemedTicketCount: BigInt!
+}
+
+type Announcement @entity {
+  id: ID!
+  publicKey: Bytes!
+  multiaddr: Bytes!
+  ed25519_sig: [Bytes!]!
+  hasAnnouced: Boolean!
+}
