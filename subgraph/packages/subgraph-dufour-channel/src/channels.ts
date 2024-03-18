@@ -168,4 +168,10 @@ export function handleTicketRedeemed(event: TicketRedeemed): void {
     channel.ticketIndex = ticket.ticketIndex
 
     channel.save()
+
+    // update account redeemedValue
+    let account = getOrInitiateAccount(channel.destination)
+    account.redeemedValue = account.redeemedValue.plus(ticket.amount)
+
+    account.save()
 }
