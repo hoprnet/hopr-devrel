@@ -16,6 +16,8 @@ type Account @entity {
   hasAnnounced: Boolean!
   "sum of the channel balances where the account is the source"
   balance: BigDecimal!
+  "total value of the tickets redeemed by the account"
+  redeemedValue: BigDecimal!
 }
 
 enum ChannelStatus {

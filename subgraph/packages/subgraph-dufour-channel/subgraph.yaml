@@ -8,7 +8,7 @@ dataSources:
     source:
       abi: HoprAnnouncements
       address: "0x619eabE23FD0E2291B50a507719aa633fE6069b8"
-      startBlock: 31000000
+      startBlock: 29706820
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -33,7 +33,7 @@ dataSources:
     source:
       abi: HoprChannels
       address: "0x693Bac5ce61c720dDC68533991Ceb41199D8F8ae"
-      startBlock: 31000000
+      startBlock: 29706820
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7

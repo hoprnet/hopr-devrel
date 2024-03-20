@@ -84,6 +84,7 @@ export function getOrInitiateAccount(accountId: string): Account {
     account.publicKey = null
     account.fromChannelsCount = zeroBigInt()
     account.toChannelsCount = zeroBigInt()
+    account.redeemedValue = zeroBD()
   }
 
   return account as Account;
