@@ -1,0 +1,7 @@
+type Transaction @entity{
+  id: ID!
+  txHash: String!
+  from: String!
+  to: String!
+  amount: BigDecimal!
+}

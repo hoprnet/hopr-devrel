@@ -1,0 +1,24 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: wxHoprToken
+    network: gnosis
+    source:
+      abi: ERC20Token
+      address: "0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1"
+      startBlock: 29472596
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Transaction
+      abis:
+        - name: ERC20Token
+          file: ./abis/ERC20Token.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleWXHoprTokenTransfer
+      file: ./src/tokens.ts
