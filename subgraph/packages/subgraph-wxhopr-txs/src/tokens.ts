@@ -25,6 +25,5 @@ export function handleWXHoprTokenTransfer(event: WXHoprTransfer): void {
   transaction.from = event.params.from.toHexString()
   transaction.to = event.params.to.toHexString()
   transaction.amount = event.params.value.divDecimal(decimalBase)
-
   transaction.save()
 }
