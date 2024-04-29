@@ -1,13 +1,11 @@
 import { DergisteredNodeSafe, DomainSeparatorUpdated, RegisteredNodeSafe } from "../generated/HoprNodeSafeRegistry/HoprNodeSafeRegistry";
 import { Event } from "../generated/schema";
+import { fillEvent } from "./utils"
 
 
 export function handleDergisteredNodeSafe(event: DergisteredNodeSafe): void {
     let item = new Event(event.transaction.hash.toHex() + event.logIndex.toString())
-
-    item.block_number = event.block.number.toString()
-    item.evt_index = event.transaction.toString()
-    item.tx_hash = event.transaction.hash.toHex()
+    item = fillEvent(item, event)
     item.evt_name = "DergisteredNodeSafe"
 
     item.save()
@@ -15,10 +13,7 @@ export function handleDergisteredNodeSafe(event: DergisteredNodeSafe): void {
 
 export function handleDomainSeparatorUpdated(event: DomainSeparatorUpdated): void {
     let item = new Event(event.transaction.hash.toHex() + event.logIndex.toString())
-
-    item.block_number = event.block.number.toString()
-    item.evt_index = event.transaction.toString()
-    item.tx_hash = event.transaction.hash.toHex()
+    item = fillEvent(item, event)
     item.evt_name = "DomainSeparatorUpdatedSafeRegistry"
 
     item.save()
@@ -26,10 +21,7 @@ export function handleDomainSeparatorUpdated(event: DomainSeparatorUpdated): voi
 
 export function handleRegisteredNodeSafe(event: RegisteredNodeSafe): void {
     let item = new Event(event.transaction.hash.toHex() + event.logIndex.toString())
-
-    item.block_number = event.block.number.toString()
-    item.evt_index = event.transaction.toString()
-    item.tx_hash = event.transaction.hash.toHex()
+    item = fillEvent(item, event)
     item.evt_name = "RegisteredNodeSafe"
 
     item.save()

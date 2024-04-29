@@ -1,24 +1,18 @@
 import { Transfer, Approval } from "../generated/wxHoprToken/ERC20Token";
 import { Event } from "../generated/schema";
+import { fillEvent } from "./utils"
 
-
-export function handleWXHoprTokenTransfer(event: Transfer): void {
+export function handleTokenTransfer(event: Transfer): void {
   let item = new Event(event.transaction.hash.toHex() + event.logIndex.toString())
-
-  item.block_number = event.block.number.toString()
-  item.evt_index = event.transaction.toString()
-  item.tx_hash = event.transaction.hash.toHex()
+  item = fillEvent(item, event)
   item.evt_name = "Transfer"
 
   item.save()
 }
 
-export function handleWXHoprTokenApproval(event: Approval): void {
+export function handleTokenApproval(event: Approval): void {
   let item = new Event(event.transaction.hash.toHex() + event.logIndex.toString())
-
-  item.block_number = event.block.number.toString()
-  item.evt_index = event.transaction.toString()
-  item.tx_hash = event.transaction.hash.toHex()
+  item = fillEvent(item, event)
   item.evt_name = "Approval"
 
   item.save()
