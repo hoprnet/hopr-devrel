@@ -1,11 +1,9 @@
 import { TicketPriceUpdated } from "../generated/HoprTicketPriceOracle/HoprTicketPriceOracle";
-import { Event } from "../generated/schema";
-import { fillEvent } from "./utils"
+import { newEvent } from "./utils"
 
 
 export function handleTicketPriceUpdated(event: TicketPriceUpdated): void {
-    let item = new Event(event.transaction.hash.toHex() + event.logIndex.toString())
-    item = fillEvent(item, event)
+    let item = newEvent(event)
     item.evt_name = "TicketPriceUpdated"
 
     item.save()

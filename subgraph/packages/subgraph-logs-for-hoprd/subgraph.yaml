@@ -8,7 +8,7 @@ dataSources:
     source:
       abi: HoprChannels
       address: "0x693Bac5ce61c720dDC68533991Ceb41199D8F8ae"
-      startBlock: 29521261
+      startBlock: 29706814
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -43,7 +43,7 @@ dataSources:
     source:
       abi: ERC20Token
       address: "0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1"
-      startBlock: 29521261
+      startBlock: 29706814
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -66,7 +66,7 @@ dataSources:
     source:
       abi: HoprNetworkRegistry
       address: "0x582b4b586168621dAf83bEb2AeADb5fb20F8d50d"
-      startBlock: 29521261
+      startBlock: 29706814
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -99,7 +99,7 @@ dataSources:
     source:
       abi: HoprAnnouncements
       address: "0x619eabE23FD0E2291B50a507719aa633fE6069b8"
-      startBlock: 29521261
+      startBlock: 29706814
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -124,7 +124,7 @@ dataSources:
     source:
       abi: HoprNodeSafeRegistry
       address: "0xe15C24a0910311c83aC78B5930d771089E93077b"
-      startBlock: 29521261
+      startBlock: 29706814
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -149,7 +149,7 @@ dataSources:
     source:
       abi: HoprTicketPriceOracle
       address: "0xcA5656Fe6F2d847ACA32cf5f38E51D2054cA1273"
-      startBlock: 29521261
+      startBlock: 29706814
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
