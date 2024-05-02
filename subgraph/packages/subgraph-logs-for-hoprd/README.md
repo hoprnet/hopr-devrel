@@ -1,6 +1,7 @@
-# Subgraph for all wxHOPR transactions
+# Subgraph for TODO
 
-This subgraph lists all wxHOPR transactions visible on-chain. Available parameters for query are: `amount`, sender (`from`), recipient (`to`), and transaction hash (`txHash`).
+TODO
+
 
 ## Installation
 
