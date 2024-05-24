@@ -1,0 +1,20 @@
+type Schedule @entity {
+  id: ID!
+  durations: [BigInt!]!
+  percents: [BigInt!]!
+}
+
+type Allocation @entity(immutable: true) {
+  id: ID!
+  account: Account!
+  claimed: BigInt!
+  amount: BigInt!
+  schedule: Schedule!
+}
+
+type Account @entity(immutable: true) {
+  id: ID!
+  allocatedAmount: BigInt!
+  claimedAmount: BigInt!
+  allocations: [Allocation!]!
+}
