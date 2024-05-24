@@ -1,0 +1,278 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "contract HoprNodeSafeRegistry",
+                "name": "safeRegistry",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [],
+        "name": "AlreadyInitialized",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "ContractNotResponsible",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "InvalidSafeAddress",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "MultiSigUninitialized",
+        "type": "error"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "node",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "baseMultiaddr",
+                "type": "string"
+            }
+        ],
+        "name": "AddressAnnouncement",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "bytes32",
+                "name": "ed25519_sig_0",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes32",
+                "name": "ed25519_sig_1",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "internalType": "bytes32",
+                "name": "ed25519_pub_key",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "chain_key",
+                "type": "address"
+            }
+        ],
+        "name": "KeyBinding",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "node",
+                "type": "address"
+            }
+        ],
+        "name": "RevokeAnnouncement",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "baseMultiaddr",
+                "type": "string"
+            }
+        ],
+        "name": "announce",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "self",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "baseMultiaddr",
+                "type": "string"
+            }
+        ],
+        "name": "announceSafe",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ed25519_sig_0",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "ed25519_sig_1",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "ed25519_pub_key",
+                "type": "bytes32"
+            }
+        ],
+        "name": "bindKeys",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "ed25519_sig_0",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "ed25519_sig_1",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "ed25519_pub_key",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "string",
+                "name": "baseMultiaddr",
+                "type": "string"
+            }
+        ],
+        "name": "bindKeysAnnounce",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "self",
+                "type": "address"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "ed25519_sig_0",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "ed25519_sig_1",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "ed25519_pub_key",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "string",
+                "name": "baseMultiaddr",
+                "type": "string"
+            }
+        ],
+        "name": "bindKeysAnnounceSafe",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "self",
+                "type": "address"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "ed25519_sig_0",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "ed25519_sig_1",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "ed25519_pub_key",
+                "type": "bytes32"
+            }
+        ],
+        "name": "bindKeysSafe",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes[]",
+                "name": "data",
+                "type": "bytes[]"
+            }
+        ],
+        "name": "multicall",
+        "outputs": [
+            {
+                "internalType": "bytes[]",
+                "name": "results",
+                "type": "bytes[]"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "revoke",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "self",
+                "type": "address"
+            }
+        ],
+        "name": "revokeSafe",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]

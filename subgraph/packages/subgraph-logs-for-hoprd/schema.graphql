@@ -1,0 +1,8 @@
+type Event @entity {
+  id: ID!
+  block_number: String!
+  log_index: String!
+  tx_index: String!
+  tx_hash: String!
+  evt_name: String!
+}

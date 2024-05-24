@@ -1,0 +1,165 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: HoprChannels
+    network: gnosis
+    source:
+      abi: HoprChannels
+      address: "0x693Bac5ce61c720dDC68533991Ceb41199D8F8ae"
+      startBlock: 29706814
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Event
+      abis:
+        - name: HoprChannels
+          file: ./abis/HoprChannels.json
+      eventHandlers:
+        - event: ChannelBalanceDecreased(indexed bytes32,uint96)
+          handler: handleChannelBalanceDecreased
+        - event: ChannelBalanceIncreased(indexed bytes32,uint96)
+          handler: handleChannelBalanceIncreased
+        - event: ChannelClosed(indexed bytes32)
+          handler: handleChannelClosed
+        - event: ChannelOpened(indexed address,indexed address)
+          handler: handleChannelOpened
+        - event: OutgoingChannelClosureInitiated(indexed bytes32,uint32)
+          handler: handleOutgoingChannelClosureInitiated
+        - event: TicketRedeemed(indexed bytes32,uint48)
+          handler: handleTicketRedeemed
+        - event: DomainSeparatorUpdated(indexed bytes32)
+          handler: handleDomainSeparatorUpdated
+        - event: LedgerDomainSeparatorUpdated(indexed bytes32)
+          handler: handleLedgerDomainSeparatorUpdated
+      file: ./src/channels.ts
+
+  - kind: ethereum
+    name: wxHoprToken
+    network: gnosis
+    source:
+      abi: ERC20Token
+      address: "0xD4fdec44DB9D44B8f2b6d529620f9C0C7066A2c1"
+      startBlock: 29706814
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Event
+      abis:
+        - name: ERC20Token
+          file: ./abis/ERC20Token.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTokenTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleTokenApproval
+      file: ./src/tokens.ts
+
+  - kind: ethereum
+    name: HoprNetworkRegistry
+    network: gnosis
+    source:
+      abi: HoprNetworkRegistry
+      address: "0x582b4b586168621dAf83bEb2AeADb5fb20F8d50d"
+      startBlock: 29706814
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Event
+      abis:
+        - name: HoprNetworkRegistry
+          file: ./abis/HoprNetworkRegistry.json
+      eventHandlers:
+        - event: Deregistered(indexed address,indexed address)
+          handler: handleDergistered
+        - event: DeregisteredByManager(indexed address,indexed address)
+          handler: handleDeregisteredByManager
+        - event: EligibilityUpdated(indexed address,indexed bool)
+          handler: handleEligibilityUpdated
+        - event: NetworkRegistryStatusUpdated(indexed bool)
+          handler: handleNetworkRegistryStatusUpdated
+        - event: Registered(indexed address,indexed address)
+          handler: handleRegistered
+        - event: RegisteredByManager(indexed address,indexed address)
+          handler: handleRegisteredByManager
+        - event: RequirementUpdated(indexed address)
+          handler: handleRequirementUpdated
+      file: ./src/networkregistry.ts
+
+  - kind: ethereum
+    name: HoprAnnouncements
+    network: gnosis
+    source:
+      abi: HoprAnnouncements
+      address: "0x619eabE23FD0E2291B50a507719aa633fE6069b8"
+      startBlock: 29706814
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Event
+      abis:
+        - name: HoprAnnouncements
+          file: ./abis/HoprAnnouncements.json
+      eventHandlers:
+        - event: AddressAnnouncement(address,string)
+          handler: handleAddressAnnouncement
+        - event: KeyBinding(bytes32,bytes32,bytes32,address)
+          handler: handleKeyBinding
+        - event: RevokeAnnouncement(address)
+          handler: handleRevokeAnnouncement
+      file: ./src/announcements.ts
+
+  - kind: ethereum
+    name: HoprNodeSafeRegistry
+    network: gnosis
+    source:
+      abi: HoprNodeSafeRegistry
+      address: "0xe15C24a0910311c83aC78B5930d771089E93077b"
+      startBlock: 29706814
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Event
+      abis:
+        - name: HoprNodeSafeRegistry
+          file: ./abis/HoprNodeSafeRegistry.json
+      eventHandlers:
+        - event: DergisteredNodeSafe(indexed address,indexed address)
+          handler: handleDergisteredNodeSafe
+        - event: DomainSeparatorUpdated(indexed bytes32)
+          handler: handleDomainSeparatorUpdated
+        - event: RegisteredNodeSafe(indexed address,indexed address)
+          handler: handleRegisteredNodeSafe
+      file: ./src/saferegistry.ts
+
+  - kind: ethereum
+    name: HoprTicketPriceOracle
+    network: gnosis
+    source:
+      abi: HoprTicketPriceOracle
+      address: "0xcA5656Fe6F2d847ACA32cf5f38E51D2054cA1273"
+      startBlock: 29706814
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Event
+      abis:
+        - name: HoprTicketPriceOracle
+          file: ./abis/HoprTicketPriceOracle.json
+      eventHandlers:
+        - event: TicketPriceUpdated(uint256,uint256)
+          handler: handleTicketPriceUpdated
+      file: ./src/ticketpriceoracle.ts
