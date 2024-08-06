@@ -16,7 +16,7 @@ export function loadOrNewAccount(id: string): Account {
 
 export function handleAllocationAdded(event: AllocationAdded): void {
     let schedule = Schedule.load(event.params.scheduleName)
-    if (!schedule == null) { return }
+    if (schedule == null) { return }
 
 
     let allocation = new Allocation(event.params.account.toHexString().concat(event.params.scheduleName))
@@ -47,7 +47,12 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
     destAccount.allocatedAmount = destAccount.allocatedAmount.plus(srcAccount.allocatedAmount)
     destAccount.claimedAmount = destAccount.claimedAmount.plus(srcAccount.claimedAmount)
 
-    srcAccount.allocations.forEach(allocation => { destAccount.allocations.push(allocation) })
+    destAccount.allocations = new Array<string>(0)
+    for (let idx = 0; idx < srcAccount.allocations.length; idx++) {
+        var element = srcAccount.allocations[idx];
+        destAccount.allocations.push(element)
+    }
+
 
     srcAccount.allocatedAmount = BigInt.fromI32(0)
     srcAccount.claimedAmount = BigInt.fromI32(0)
@@ -58,9 +63,15 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
 }
 
 export function handleScheduleAdded(event: ScheduleAdded): void {
+    let startTime = BigInt.fromI32(1630065600)
     let schedule = new Schedule(event.params.name)
+    schedule.timestamps = new Array<BigInt>(0)
 
-    schedule.durations = event.params.durations
+    for (let idx = 0; idx < event.params.durations.length; idx++) {
+        var element = event.params.durations[idx];
+        schedule.timestamps.push(element.plus(startTime));
+    }
+
     schedule.percents = event.params.percents
     schedule.save()
 }

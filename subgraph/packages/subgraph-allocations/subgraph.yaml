@@ -4,7 +4,7 @@ schema:
 dataSources:
   - kind: ethereum
     name: HoprDistributor
-    network: ethereum
+    network: mainnet
     source:
       abi: HoprDistributor
       address: "0xB413a589ec21Cc1FEc27d1175105a47628676552"
