@@ -23,8 +23,9 @@ dataSources:
           handler: handleAllocationAdded
         - event: Claimed(indexed address,uint128,string)
           handler: handleClaimed
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
         - event: ScheduleAdded(uint128[],uint128[],string)
           handler: handleScheduleAdded
+      callHandlers:
+        - function: revokeAccount(address,string)
+          handler: handleRevokeAccount
       file: ./src/distributor.ts
