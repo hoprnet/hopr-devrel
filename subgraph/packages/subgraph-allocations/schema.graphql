@@ -10,11 +10,12 @@ type Allocation @entity {
   claimed: BigInt!
   amount: BigInt!
   schedule: Schedule!
+  isRevoked: Boolean!
 }
 
 type Account @entity {
   id: ID!
   allocatedAmount: BigInt!
   claimedAmount: BigInt!
-  allocations: [Allocation!]!
+  allocations: [Allocation!]! @derivedFrom(field: "account")
 }
