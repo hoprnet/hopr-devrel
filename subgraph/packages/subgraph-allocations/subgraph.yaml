@@ -1,0 +1,31 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: HoprDistributor
+    network: mainnet
+    source:
+      abi: HoprDistributor
+      address: "0xB413a589ec21Cc1FEc27d1175105a47628676552"
+      startBlock: 13102591
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Event
+      abis:
+        - name: HoprDistributor
+          file: ./abis/HoprDistributor.json
+      eventHandlers:
+        - event: AllocationAdded(indexed address,uint128,string)
+          handler: handleAllocationAdded
+        - event: Claimed(indexed address,uint128,string)
+          handler: handleClaimed
+        - event: ScheduleAdded(uint128[],uint128[],string)
+          handler: handleScheduleAdded
+      callHandlers:
+        - function: revokeAccount(address,string)
+          handler: handleRevokeAccount
+      file: ./src/distributor.ts
