@@ -1,0 +1,21 @@
+type Schedule @entity {
+  id: ID!
+  timestamps: [BigInt!]!
+  percents: [BigInt!]!
+}
+
+type Allocation @entity {
+  id: ID!
+  account: Account!
+  claimed: BigInt!
+  amount: BigInt!
+  schedule: Schedule!
+  isRevoked: Boolean!
+}
+
+type Account @entity {
+  id: ID!
+  allocatedAmount: BigInt!
+  claimedAmount: BigInt!
+  allocations: [Allocation!]! @derivedFrom(field: "account")
+}
