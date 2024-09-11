@@ -1,0 +1,24 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: HoprToken
+    network: mainnet
+    source:
+      address: "0xF5581dFeFD8Fb0e4aeC526bE659CFaB1f8c781dA"
+      startBlock: 13102591
+      abi: HoprToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Account
+      abis:
+        - name: HoprToken
+          file: ./abis/HoprToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleHoprTransfer
+      file: ./src/mapping.ts
