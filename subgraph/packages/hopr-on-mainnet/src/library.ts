@@ -68,7 +68,8 @@ export const initializeAccount = (accountId: Bytes): Account => {
   let entity = new Account(accountId)
   entity.blockNumber = zeroBigInt()
   entity.blockTimestamp = zeroBigInt()
-  entity.HoprBalance = zeroBigInt()
+  entity.totalBalance = zeroBigInt()
+  entity.hoprBalance = zeroBigInt()
   return entity;
 }
 
@@ -78,7 +79,8 @@ export const updateHoprAccount = (accountId: Bytes, val: BigInt, isPos: boolean,
   if (account == null) {
     account = initializeAccount(accountId)
   }
-  account.HoprBalance = isPos ? account.HoprBalance.plus(val) : account.HoprBalance.minus(val)
+  account.hoprBalance = isPos ? account.hoprBalance.plus(val) : account.hoprBalance.minus(val)
+  account.totalBalance = isPos ? account.totalBalance.plus(val) : account.totalBalance.minus(val)
   account.blockNumber = blkNum
   account.blockTimestamp = blkTimeStamp
   account.save()
