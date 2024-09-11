@@ -1,0 +1,7 @@
+type Account @entity {
+  id: Bytes! # address
+  hoprBalance: BigInt! # uint256
+  totalBalance: BigInt! # uint256
+  blockTimestamp: BigInt!
+  blockNumber: BigInt!
+}
