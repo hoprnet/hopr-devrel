@@ -1,13 +1,13 @@
 {
-  "name": "hopr-on-mainnet",
+  "name": "hopr---mainnet",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ hopr-on-mainnet",
-    "create-local": "graph create --node http://localhost:8020/ hopr-on-mainnet",
-    "remove-local": "graph remove --node http://localhost:8020/ hopr-on-mainnet",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 hopr-on-mainnet",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ hopr---mainnet",
+    "create-local": "graph create --node http://localhost:8020/ hopr---mainnet",
+    "remove-local": "graph remove --node http://localhost:8020/ hopr---mainnet",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 hopr---mainnet",
     "test": "graph test"
   },
   "dependencies": {
