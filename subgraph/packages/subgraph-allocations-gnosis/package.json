@@ -1,13 +1,13 @@
 {
-  "name": "hopr-allocations-on-gnosis",
+  "name": "hopr-allocations---gnosis",
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/hopr-allocations-on-gnosis",
-    "create-local": "graph create --node http://localhost:8020/hopr-allocations-on-gnosis",
-    "remove-local": "graph remove --node http://localhost:8020/hopr-allocations-on-gnosis",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 hopr-allocations-on-gnosis",
+    "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/hopr-allocations---gnosis",
+    "create-local": "graph create --node http://localhost:8020/hopr-allocations---gnosis",
+    "remove-local": "graph remove --node http://localhost:8020/hopr-allocations---gnosis",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 hopr-allocations---gnosis",
     "test": "graph test"
   },
   "dependencies": {

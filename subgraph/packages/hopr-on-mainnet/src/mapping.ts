@@ -4,7 +4,7 @@ import {
 import { ADDRESS_ZERO, updateHoprAccount } from "./library"
 
 
-export function handleHoprTransfer(event: HoprTransferEvent): void {
+export function handleTransfert(event: HoprTransferEvent): void {
   let addrFrom = event.params.from
   let addrTo = event.params.to
   let blkNum = event.block.number
@@ -17,4 +17,3 @@ export function handleHoprTransfer(event: HoprTransferEvent): void {
     updateHoprAccount(addrTo, event.params.value, true, blkNum, blkTimeStamp)
   }
 }
-
