@@ -20,5 +20,5 @@ dataSources:
           file: ./abis/HoprToken.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleHoprTransfer
+          handler: handleTransfert
       file: ./src/mapping.ts
