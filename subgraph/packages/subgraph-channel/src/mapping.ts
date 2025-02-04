@@ -99,6 +99,7 @@ export function handleTicketRedeemed(event: TicketRedeemed): void {
     ticket.amount = convertEthToDecimal(event.params.amount)
     ticket.winProb = event.params.winProb
     ticket.signature = event.params.signature
+    ticket.timestamp = event.block.timestamp
     // update channel
     let channel = Channel.load(channelId.toHex())
     if (channel == null) {
