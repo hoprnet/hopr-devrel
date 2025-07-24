@@ -1,4 +1,4 @@
-type Account @entity {
+type Account @entity(immutable: false) {
   id: Bytes! # address
   xHoprBalance: BigInt! # uint256
   wxHoprBalance: BigInt! # uint256
